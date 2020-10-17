@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintHome"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.HomeFragment">
+
+    <include layout="@layout/bottom_navigation" android:id="@+id/bottomNav" />
+
+    <FrameLayout
+        android:id="@+id/containerBottomNav"
+        android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="74dp"
+        android:layout_marginBottom="56dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:focusable="true" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:elevation="7dp"
+        app:cardElevation="7dp"
+        app:cardMaxElevation="7dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvOla"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="60dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/roboto"
+            android:text="@string/ola"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/tvNameHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="112dp"
+            android:layout_marginBottom="9dp"
+            android:fontFamily="@font/montserrat"
+            android:text="Fulano"
+            android:textColor="#DF0000"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/tvEndHome"
+            android:layout_width="170dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="15dp"
+            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@string/add_end"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/bag"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/bag"
+            android:clickable="true"
+            android:focusable="true" />
+        <!--            android:layout_marginTop="24dp"-->
+
+    </androidx.cardview.widget.CardView>
+
+    <include layout="@layout/home_motion" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

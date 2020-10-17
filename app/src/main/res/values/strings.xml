@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Tacos e Nachos</string>
+
+    <string name="ola">Hola,</string>
+    <string name="secretKeyCliWeb">rFc7i6bcPLchHx5Z4D7UQ0bV</string>
+    <string name="facebook_app_id">3071621929602769</string>
+    <string name="fb_login_protocol_scheme">fb3071621929602769</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="LoremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="cadastre_se">Cadastre-se</string>
+    <string name="e_mail">E-mail</string>
+    <string name="nome">Nome</string>
+    <string name="senha">Senha</string>
+    <string name="title_activity_adress">Map</string>
+    <string name="home">Home</string>
+    <string name="cardapio">Cardápio</string>
+    <string name="pedidos">Pedidos</string>
+    <string name="celular">Celular</string>
+    <string name="sobrenome">Sobrenome</string>
+    <string name="add_end">Adicione um endereço</string>
+    <string name="cpf">CPF</string>
+
+</resources>

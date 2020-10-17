@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="home"
+        android:shortcutShortLabel="@string/home"
+        android:icon="@drawable/ic_baseline_home_24">
+
+        <intent
+            android:targetClass="com.samir.TCCApp.activities.SliderIntroActivity"
+            android:targetPackage="com.samir.TCCApp"
+            android:action="com.samir.TCCApp.SHORT_HOME"
+            />
+
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="cardapio"
+        android:shortcutShortLabel="@string/cardapio"
+        android:icon="@drawable/cardapio_ic">
+
+        <intent
+            android:targetClass="com.samir.TCCApp.activities.SliderIntroActivity"
+            android:targetPackage="com.samir.TCCApp"
+            android:action="com.samir.TCCApp.SHORT_CARDAPIO"
+            />
+
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="pedidos"
+        android:shortcutShortLabel="@string/pedidos"
+        android:icon="@drawable/sino2">
+
+        <intent
+            android:targetClass="com.samir.TCCApp.activities.SliderIntroActivity"
+            android:targetPackage="com.samir.TCCApp"
+            android:action="com.samir.TCCApp.SHORT_PEDIDOS"
+            />
+
+    </shortcut>
+
+</shortcuts>

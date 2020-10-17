@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "716579320270",
+    "firebase_url": "https://tccapp-adb28.firebaseio.com",
+    "project_id": "tccapp-adb28",
+    "storage_bucket": "tccapp-adb28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:716579320270:android:fc7cd74412cb0cc1f77b9f",
+        "android_client_info": {
+          "package_name": "com.samir.TCCApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "716579320270-mhhe9g9ehk10s5eancikolanqmdp9i9i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMPASM4G0w2aOK83cbd7W3iyR-ox39jmA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "716579320270-mhhe9g9ehk10s5eancikolanqmdp9i9i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
