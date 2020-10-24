@@ -51,7 +51,7 @@ public class SliderIntroActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = "AQUI";
     public static CustomViewPager viewPager;
-    private int[] layouts = {R.layout.slider_1, R.layout.slider_2, R.layout.slider_3, R.layout.slider_cadlogin};
+    private int[] layouts = {R.layout.slider_1, R.layout.slider_2, R.layout.slider_3, R.layout.slider_4, R.layout.slider_cadlogin};
     private LinearLayout linearLayout;
     private int indCount;
     private ImageView[] indicators;
@@ -138,12 +138,12 @@ public class SliderIntroActivity extends AppCompatActivity {
 
         viewPager.addOnPageChangeListener(viewListener);
 
-        if (viewPager.getCurrentItem() == 3) {
+        /*if (viewPager.getCurrentItem() == 5) {
             viewPager.setScrollContainer(false);
-            layouts = new int[]{R.layout.slider_cadlogin};
+//            layouts = new int[]{R.layout.slider_cadlogin};
             Log.i("ARRAY", "" + layouts.length);
             linearLayout.setVisibility(View.INVISIBLE);
-        }
+        }*/
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
@@ -291,7 +291,7 @@ public class SliderIntroActivity extends AppCompatActivity {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            if (viewPager.getCurrentItem() == 3) {
+            if (viewPager.getCurrentItem() == 4) {
                 linearLayout.setVisibility(View.INVISIBLE);
                 viewPager.setPagingEnabled(false);
             }
