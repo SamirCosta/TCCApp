@@ -1,41 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    >
-<!--    android:background="#ADFF0000"-->
+    android:background="@android:color/black">
+    <!--    android:background="#ADFF0000"-->
 
     <ImageView
+        android:id="@+id/imageView5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/img_slider3"
-        android:scaleType="centerCrop"
         android:alpha="0.3"
-        />
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_slider3" />
 
     <TextView
+        android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="220dp"
         android:fontFamily="@font/poppins"
         android:text="Agende seu pedido"
         android:textColor="#EFEFEF"
-        android:textSize="30sp" />
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/textView17"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/LoremIpsum"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="32dp"
+        android:justificationMode="inter_word"
+        android:text="@string/agende_slider"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        android:justificationMode="inter_word"
-        android:layout_gravity="center"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="20dp"
-        />
+        app:layout_constraintBottom_toTopOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

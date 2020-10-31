@@ -5,8 +5,6 @@
     <string name="secretKeyCliWeb">rFc7i6bcPLchHx5Z4D7UQ0bV</string>
     <string name="facebook_app_id">3071621929602769</string>
     <string name="fb_login_protocol_scheme">fb3071621929602769</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="LoremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="cadastre_se">Cadastre-se</string>
     <string name="e_mail">E-mail</string>
@@ -21,5 +19,8 @@
     <string name="add_end">Adicione um endereço</string>
     <string name="cpf">CPF</string>
     <string name="bemvindo">Hola, seja bem-vindo(a) ao App do mejor restaurante de São Paulo. Sí, isso mesmo, o melhor hahaha. ¿No cree? Pois bem, a Tacos&amp;Nachos mostrará algo nuevo, desejado por muitos restaurantes, porém é conquistado por poucos, ou no caso, por nós. Siga em frente e mostraremos nuestro serviço!</string>
+    <string name="delivery_slider">Sabe quando bate aquela preguiça ou então aquela famosa frase: sem tempo irmão? Não se preocupe, acá você poderá pedir a sua comida e receber onde estiver. ¡su casa és mi casa!</string>
+    <string name="agende_slider">Nesta opção, você poderá agendar sua vinda e já escolher o prato que deseja comer, com isso, não perderá tempo na fila de espera aguardando algum lugar, uma maneira pratica de fazer sua reserva e ainda fazer seu pedido.</string>
+    <string name="pecaaqui_slider">Está aqui? Ótimo, nesta área você poderá de forma rápida fazer seu pedido e em alguns minutos se deliciar com ele sem precisar pedir ao garçom! Prático, não acha?</string>
 
 </resources>

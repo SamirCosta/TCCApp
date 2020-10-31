@@ -24,6 +24,7 @@ public class ScannerActivity extends AppCompatActivity {
     CodeScanner codeScanner;
     CodeScannerView codeScannerView;
     TextView textView;
+    String resu = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,20 +33,20 @@ public class ScannerActivity extends AppCompatActivity {
         codeScannerView = findViewById(R.id.scanner_view);
         codeScanner = new CodeScanner(this, codeScannerView);
 
-        for (int i = 1; i <= 30; i++){
+        for (int i = 1; i <= 30; i++) {
             mesas.add("Mesa " + i);
         }
 
         codeScanner.setDecodeCallback(result -> {
             runOnUiThread(() -> {
-                String resu = result.getText();
+                resu = result.getText();
 
-                for(int i = 0; i < mesas.size(); i++){
-                    if (resu.equals(mesas.get(i))){
+                for (int i = 0; i < mesas.size(); i++) {
+                    if (resu.equals(mesas.get(i))) {
                         Intent intent = new Intent(this, PaymentActivity.class);
                         intent.putExtra("mesa", resu);
                         startActivity(intent);
-                    }else{
+                    } else {
                         textView = findViewById(R.id.tvMesa);
                         textView.setText("Código inválido");
                     }
@@ -55,8 +56,10 @@ public class ScannerActivity extends AppCompatActivity {
         });
 
         codeScannerView.setOnClickListener(c -> {
-            codeScanner.startPreview();
-            textView.setText("");
+            if (resu != null) {
+                codeScanner.startPreview();
+                textView.setText("");
+            }
         });
 
     }
