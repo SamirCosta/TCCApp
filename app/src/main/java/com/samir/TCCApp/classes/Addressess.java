@@ -3,7 +3,7 @@ package com.samir.TCCApp.classes;
 public class Addressess {
 
     String address;
-    int CEP;
+    String CEP;
     String logra;
     String bairro;
     String cidade;
@@ -18,11 +18,11 @@ public class Addressess {
         this.address = address;
     }
 
-    public int getCEP() {
+    public String getCEP() {
         return CEP;
     }
 
-    public void setCEP(int CEP) {
+    public void setCEP(String CEP) {
         this.CEP = CEP;
     }
 

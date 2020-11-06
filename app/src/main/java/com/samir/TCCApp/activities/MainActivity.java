@@ -1,14 +1,19 @@
 package com.samir.TCCApp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
@@ -20,33 +25,39 @@ import com.samir.TCCApp.R;
 import com.samir.TCCApp.fragments.HomeFragment;
 import com.samir.TCCApp.utils.Helper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     private CardView btHome, btData, btCupons, btAbout;
     private TextView tvHome, tvData, tvCupons, tvAbout, tvName;
     private DrawerLayout drawerLayout;
     public static int page;
 
+    private final String[] PERMISSIONS = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ref();
-
-        new Helper().permission(Manifest.permission.CAMERA, this);
-        new Helper().permission(Manifest.permission.ACCESS_FINE_LOCATION, this);
+        checkPermissions();
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             page = bundle.getInt("shortcut");
         }
 
         GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-        if (signInAccount != null){
+        if (signInAccount != null) {
             tvName.setText(signInAccount.getGivenName());
         }
 
         FirebaseUser userFace = FirebaseAuth.getInstance().getCurrentUser();
-        if (userFace != null){
+        if (userFace != null) {
             String name = userFace.getDisplayName();
             String[] array = name.split(" ");
             tvName.setText(array[0]);
@@ -97,6 +108,21 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void checkPermissions() {
+        List<String> perm = new ArrayList<>();
+        for (String p : PERMISSIONS) {
+            if (ActivityCompat.checkSelfPermission(getApplicationContext(), p) != PackageManager.PERMISSION_GRANTED) {
+                perm.add(p);
+            }
+        }
+
+        if (!perm.isEmpty()) {
+            ActivityCompat.requestPermissions(this,
+                    perm.toArray(new String[perm.size()]), 1);
+        }
+
+    }
+
     private void ref() {
         btHome = findViewById(R.id.itemHome);
         btData = findViewById(R.id.itemData);
@@ -112,9 +138,9 @@ public class MainActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tvNameMenu);
     }
 
-    private void colorItem(TextView tv){
+    private void colorItem(TextView tv) {
 
-        switch (tv.getId()){
+        switch (tv.getId()) {
             case R.id.tvHome:
                 clearColors();
                 tv.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
@@ -131,11 +157,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void clearColors(){
+    private void clearColors() {
         tvHome.setTextColor(getResources().getColor(android.R.color.black));
         tvData.setTextColor(getResources().getColor(android.R.color.black));
         tvAbout.setTextColor(getResources().getColor(android.R.color.black));
         tvCupons.setTextColor(getResources().getColor(android.R.color.black));
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for (int p : grantResults) {
+            if (p == PackageManager.PERMISSION_DENIED) finish();
+        }
+    }
 }

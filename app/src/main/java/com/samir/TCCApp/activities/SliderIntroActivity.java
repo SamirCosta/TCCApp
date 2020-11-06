@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -35,6 +37,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -65,6 +68,7 @@ public class SliderIntroActivity extends AppCompatActivity {
     private final String KEY_HOME = "com.samir.TCCApp.SHORT_HOME";
     private final String KEY_CARDAPIO = "com.samir.TCCApp.SHORT_CARDAPIO";
     private final String KEY_PEDIDOS = "com.samir.TCCApp.SHORT_PEDIDOS";
+    SliderPagerAdapter sliderPagerAdapter;
 
     @Override
     protected void onStart() {
@@ -91,6 +95,7 @@ public class SliderIntroActivity extends AppCompatActivity {
 
         LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         viewLogin = layoutInflater.inflate(R.layout.slider_cadlogin, viewPager);
+
         loginButton = viewLogin.findViewById(R.id.login_button);
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
@@ -117,7 +122,7 @@ public class SliderIntroActivity extends AppCompatActivity {
         accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                if (currentAccessToken == null){
+                if (currentAccessToken == null) {
 
                 }
             }
@@ -128,7 +133,7 @@ public class SliderIntroActivity extends AppCompatActivity {
         animationDrawable.setExitFadeDuration(2000);
         animationDrawable.start();
 
-        SliderPagerAdapter sliderPagerAdapter = new SliderPagerAdapter(layouts, this);
+        sliderPagerAdapter = new SliderPagerAdapter(layouts, this);
         viewPager.setAdapter(sliderPagerAdapter);
 
         indCount = sliderPagerAdapter.getCount();
@@ -146,7 +151,7 @@ public class SliderIntroActivity extends AppCompatActivity {
         }*/
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             int page = bundle.getInt("page");
             viewPager.setCurrentItem(page);
         }
@@ -161,15 +166,15 @@ public class SliderIntroActivity extends AppCompatActivity {
     }
 
     private void findShortcut() {
-        if(getIntent().getAction() == KEY_HOME){
+        if (getIntent().getAction() == KEY_HOME) {
             openMainWhithShortcuts(0);
         }
 
-        if(getIntent().getAction() == KEY_CARDAPIO){
+        if (getIntent().getAction() == KEY_CARDAPIO) {
             openMainWhithShortcuts(1);
         }
 
-        if(getIntent().getAction() == KEY_PEDIDOS){
+        if (getIntent().getAction() == KEY_PEDIDOS) {
             openMainWhithShortcuts(2);
         }
     }
@@ -193,15 +198,6 @@ public class SliderIntroActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public void login(View view) {
-
-        LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view2 = layoutInflater.inflate(R.layout.slider_cadlogin, viewPager);
-
-        openMain();
-
     }
 
     private void createRequest() {
@@ -234,7 +230,7 @@ public class SliderIntroActivity extends AppCompatActivity {
                 Log.w(TAG, "Google sign in failed", e);
                 Toast.makeText(this, "Falha ao fazer login", Toast.LENGTH_SHORT).show();
             }
-        }else{
+        } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -315,7 +311,7 @@ public class SliderIntroActivity extends AppCompatActivity {
         finish();
     }
 
-    public void register(View view){
+    public void register(View view) {
         startActivity(new Intent(this, RegisterActivity.class));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
     }

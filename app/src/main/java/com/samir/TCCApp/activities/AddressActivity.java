@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -47,7 +48,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class AddressActivity extends FragmentActivity implements OnMapReadyCallback {
-
+    private String ENTER = "\n";
     private GoogleMap mMap;
     private AutoCompleteTextView autoCompleteTextView;
     private SupportMapFragment mapFragment;
@@ -63,6 +64,7 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adress);
         ref();
+        addressess = new Addressess();
 
         markerPin.setVisibility(View.GONE);
         clearButton.setVisibility(View.GONE);
@@ -119,11 +121,16 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
                 builder.setCancelable(false);
                 builder.setTitle("Confirmar endereço");
                 builder.setMessage("Tem certeza que deseja utilizar este endereço?\n\n"
-                        + adr);
+                        + adr + ENTER
+                        + addressess.getLogra() + ENTER
+                        + addressess.getCEP() + ENTER
+                        + addressess.getBairro() + ENTER
+                        + addressess.getCidade() + ENTER
+                        + addressess.getEstado());
                 builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        addressess = new Addressess();
+//                        addressess = new Addressess();
                         addressess.setAddress(adr);
                         finish();
                     }
@@ -145,7 +152,7 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (addressess != null) {
+        if (addressess != null && addressess.getAddress() != null) {
             autoCompleteTextView.setText(addressess.getAddress());
             searchOnMap();
         } else {
@@ -164,6 +171,7 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
                     marker.remove();
                     marker = mMap.addMarker(markerOptions.position(pos));
                     autoCompleteTextView.setText(getAddress(pos.latitude, pos.longitude));
+//                    searchOnMap();
                 }
             }
         });
@@ -214,6 +222,7 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
             addresses = geocoder.getFromLocation(latitude, longitude, 1);
             address = addresses.get(0).getAddressLine(0);
             //Resgatar bairro cidade etc
+            setAddressObject(addresses.get(0));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -233,6 +242,8 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
                     Address address = addressList.get(0);
 //                    address.getThoroughfare(); retorna rua
                     //Resgatar bairro cidade etc
+                    setAddressObject(address);
+
                     LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                     if (marker != null) marker.remove();
                     marker = mMap.addMarker(markerOptions.position(latLng).title(location));
@@ -247,6 +258,19 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
                 e.printStackTrace();
             }
         }
+    }
+
+    private void setAddressObject(Address address) {
+        addressess.setCEP(address.getPostalCode());
+        addressess.setLogra(address.getThoroughfare());
+        addressess.setBairro(address.getSubLocality());
+        String city = address.getLocality();
+        if (city == null) {
+            addressess.setCidade(address.getSubAdminArea());
+        } else {
+            addressess.setCidade(city);
+        }
+        addressess.setEstado(address.getAdminArea());
     }
 
     @Override

@@ -1,7 +1,11 @@
 package com.samir.TCCApp.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +13,17 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.samir.TCCApp.R;
+import com.samir.TCCApp.activities.MainActivity;
 import com.samir.TCCApp.activities.SliderIntroActivity;
+
+import java.util.Arrays;
 
 public class SliderPagerAdapter extends PagerAdapter {
     private int[] layouts;
@@ -21,7 +31,7 @@ public class SliderPagerAdapter extends PagerAdapter {
     private Context context;
     public static View view;
 
-    public SliderPagerAdapter(int[] layouts, Context context){
+    public SliderPagerAdapter(int[] layouts, Context context) {
         this.layouts = layouts;
         this.context = context;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -43,6 +53,28 @@ public class SliderPagerAdapter extends PagerAdapter {
 
         view = layoutInflater.inflate(layouts[position], container, false);
 
+//        Log.i("AQ", "" + position);
+        if (position > 2) {
+            Button btn = view.findViewById(R.id.btnLoginSlider);
+            TextInputLayout editUser, editPassword;
+            editUser = view.findViewById(R.id.editEmailLoginSlider);
+            editPassword = view.findViewById(R.id.editPasswordLogin);
+
+            if (btn != null && editUser != null && editPassword != null) {
+                btn.setOnClickListener(c -> {
+                    if (editUser.getEditText().getText().toString().isEmpty()) {
+                        editUser.setError("Campo obrigatório");
+                    }
+                    if (editPassword.getEditText().getText().toString().isEmpty()) {
+                        editPassword.setError("Campo obrigatório");
+                    }
+
+                    if (!verify(editUser, editPassword)) {
+                        openMain();
+                    }
+                });
+            }
+        }
 
         container.addView(view);
 
@@ -57,4 +89,16 @@ public class SliderPagerAdapter extends PagerAdapter {
         container.removeView(view);
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private static boolean verify(TextInputLayout... editTexts) {
+        return Arrays.stream(editTexts).anyMatch(e -> e.getEditText().getText().toString().isEmpty());
+    }
+
+    private void openMain() {
+        context.startActivity(new Intent(context, MainActivity.class));
+        ((Activity) context).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+        ((Activity) context).finish();
+    }
+
 }

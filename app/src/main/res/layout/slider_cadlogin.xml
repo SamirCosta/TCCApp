@@ -44,7 +44,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin">
+        app:layout_constraintTop_toBottomOf="@+id/btnLoginSlider">
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,12 +64,11 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnLoginSlider"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginTop="28dp"
         android:background="@drawable/btnlogin_shape"
-        android:onClick="login"
         android:text="Entrar"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
@@ -95,8 +94,9 @@
         app:layout_constraintTop_toBottomOf="@+id/cardViewFace" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editEmailLogin"
+        android:id="@+id/editEmailLoginSlider"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:errorTextAppearance="@style/error_appearance"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -113,6 +113,7 @@
 <!--        app:boxStrokeColor="#41C10000"-->
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meditUserLogin"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="@string/e_mail"
@@ -125,6 +126,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editPasswordLogin"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:errorTextAppearance="@style/error_appearance"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:boxCollapsedPaddingTop="100dp"
@@ -138,9 +140,10 @@
         android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEmailLogin">
+        app:layout_constraintTop_toBottomOf="@+id/editEmailLoginSlider">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/meditPasswordLogin"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:paddingStart="30dp"
