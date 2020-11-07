@@ -20,13 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.adapters.AdapterCardapio;
-import com.samir.TCCApp.classes.ItemCardapio;
+import com.samir.TCCApp.classes.Product;
 
 import java.util.ArrayList;
 
 public class CardapioFragment extends Fragment{
     private RecyclerView recyclerViewCardapio;
-    private ArrayList<ItemCardapio> arrayListItens = new ArrayList<>();
+    private ArrayList<Product> arrayListItens = new ArrayList<>();
     private MotionLayout motionLayout;
     private CardView filtros, order;
 
@@ -43,15 +43,15 @@ public class CardapioFragment extends Fragment{
 
 //        Bitmap image = BitmapFactory.decodeResource(getResources(),R.drawable.taco);
 
-        ItemCardapio itemCardapio = new ItemCardapio("Name " + 1, R.drawable.taco);
-        arrayListItens.add(itemCardapio);
+        Product product = new Product("Name " + 1, R.drawable.taco);
+        arrayListItens.add(product);
 
-        ItemCardapio itemCardapio1 = new ItemCardapio("Name " + 2, R.drawable.guacamole);
-        arrayListItens.add(itemCardapio1);
+        Product product1 = new Product("Name " + 2, R.drawable.guacamole);
+        arrayListItens.add(product1);
 
         for (int i = 3; i < 40; i++){
-            ItemCardapio itemCardapio2 = new ItemCardapio("Name " + i, R.drawable.nachos);
-            arrayListItens.add(itemCardapio2);
+            Product product2 = new Product("Name " + i, R.drawable.nachos);
+            arrayListItens.add(product2);
         }
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());

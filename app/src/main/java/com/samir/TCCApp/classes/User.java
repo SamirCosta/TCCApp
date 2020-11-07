@@ -5,7 +5,7 @@ public class User {
     public int idUsu;
     public String userName;
     public String password;
-    public float acessType;
+    public String acessType;
 
     public int getIdUsu() {
         return idUsu;
@@ -31,11 +31,11 @@ public class User {
         this.password = password;
     }
 
-    public float getAcessType() {
+    public String getAcessType() {
         return acessType;
     }
 
-    public void setAcessType(float acessType) {
+    public void setAcessType(String acessType) {
         this.acessType = acessType;
     }
 }

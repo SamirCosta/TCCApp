@@ -28,7 +28,7 @@ import com.samir.TCCApp.activities.AddressActivity;
 import com.samir.TCCApp.activities.MainActivity;
 import com.samir.TCCApp.activities.PaymentActivity;
 import com.samir.TCCApp.adapters.BagAdapter;
-import com.samir.TCCApp.classes.ItemCardapio;
+import com.samir.TCCApp.classes.Product;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     private View view;
     private RecyclerView.LayoutManager layoutManager;
     private TextView tvEmpty, end;
-    public static ArrayList<ItemCardapio> arrayListItem = new ArrayList<>();
+    public static ArrayList<Product> arrayListItem = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,8 +97,8 @@ public class HomeFragment extends Fragment {
     private void configRecycler() {
 
         for(int i = 0; i < 11; i++){
-            ItemCardapio itemCardapio = new ItemCardapio("Name " + i, R.drawable.taco);
-            arrayListItem.add(itemCardapio);
+            Product product = new Product("Name " + i, R.drawable.taco);
+            arrayListItem.add(product);
         }
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerBag);

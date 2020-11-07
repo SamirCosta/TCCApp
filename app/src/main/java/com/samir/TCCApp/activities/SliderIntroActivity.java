@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
@@ -38,6 +39,7 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
@@ -315,5 +317,49 @@ public class SliderIntroActivity extends AppCompatActivity {
         startActivity(new Intent(this, RegisterActivity.class));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
     }
+
+    /*public void login(View view){
+
+//        LayoutInflater.from(viewPager.getContext()).inflate(R.layout.slider_cadlogin, viewPager, false);
+
+        *//*LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view1 = layoutInflater.inflate(R.layout.slider_cadlogin, null, false);*//*
+
+        View view1 = (View) sliderPagerAdapter.instantiateItem(viewPager, 4);
+
+        TextInputLayout editUser, editPassword;
+        editUser = view1.findViewById(R.id.editEmailLoginSlider);
+        editPassword = view1.findViewById(R.id.editPasswordLogin);
+
+//        editUser.getEditText().setText("JHVJKVKJGVKJGCVKGCVHGCH");
+
+        if (editUser != null && editPassword != null) {
+
+//            Log.i("MHV", "KJVKJ");
+
+                if (editUser.getEditText().getText().toString().isEmpty()) {
+//                    Log.i("MHV", "KJVKJ");
+                    editUser.setError("Campo obrigatório");
+                }
+                if (editPassword.getEditText().getText().toString().isEmpty()) {
+                    Log.i("MHV", "KJVKJ");
+                    editPassword.setError("Campo obrigatório");
+                }
+
+                if (!verify(editUser, editPassword)) {
+//                    Log.i("MHV", "KJVKJ");
+                    openMain();
+                }
+
+        }
+
+        *//*ConstraintLayout constraintLayout = findViewById(R.id.constraintLayoutSlider);
+        constraintLayout.addView(view1, 0);*//*
+    }*/
+
+    /*@RequiresApi(api = Build.VERSION_CODES.N)
+    private static boolean verify(TextInputLayout... editTexts) {
+        return Arrays.stream(editTexts).anyMatch(e -> e.getEditText().getText().toString().isEmpty());
+    }*/
 
 }

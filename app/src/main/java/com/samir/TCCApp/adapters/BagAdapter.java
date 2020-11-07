@@ -11,14 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.samir.TCCApp.R;
-import com.samir.TCCApp.classes.ItemCardapio;
+import com.samir.TCCApp.classes.Product;
 
 import java.util.ArrayList;
 
 public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
-    private ArrayList<ItemCardapio> arrayList;
+    private ArrayList<Product> arrayList;
 
-    public BagAdapter(ArrayList<ItemCardapio> arrayList) {
+    public BagAdapter(ArrayList<Product> arrayList) {
         this.arrayList = arrayList;
     }
 
@@ -33,21 +33,21 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.item.setText("Item " + position);
         holder.imageView.setImageResource(R.drawable.taco);
-        ItemCardapio itemCardapio = arrayList.get(position);
-        holder.qtd.setText(String.valueOf(itemCardapio.getQtd()));
+        Product product = arrayList.get(position);
+        holder.qtd.setText(String.valueOf(product.getQtd()));
 
         holder.less.setOnClickListener(c -> {
             int newQtd = Integer.parseInt(holder.qtd.getText().toString()) - 1;
             Log.i("QTD", ""+newQtd);
             if (newQtd > 0)
-                itemCardapio.setQtd(newQtd);
-                holder.qtd.setText(String.valueOf(itemCardapio.getQtd()));
+                product.setQtd(newQtd);
+                holder.qtd.setText(String.valueOf(product.getQtd()));
             notifyDataSetChanged();
         });
 
         holder.more.setOnClickListener(a -> {
-            itemCardapio.setQtd(Integer.parseInt(holder.qtd.getText().toString()) + 1);
-            holder.qtd.setText(String.valueOf(itemCardapio.getQtd()));
+            product.setQtd(Integer.parseInt(holder.qtd.getText().toString()) + 1);
+            holder.qtd.setText(String.valueOf(product.getQtd()));
             notifyDataSetChanged();
         });
 

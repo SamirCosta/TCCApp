@@ -17,15 +17,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.DetailsActivity;
-import com.samir.TCCApp.classes.ItemCardapio;
+import com.samir.TCCApp.classes.Product;
 
 import java.util.ArrayList;
 
 public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYViewHolder> {
-    private ArrayList<ItemCardapio> arrayList;
+    private ArrayList<Product> arrayList;
     private Context context;
 
-    public AdapterCardapio(ArrayList<ItemCardapio> arrayList, Context context){
+    public AdapterCardapio(ArrayList<Product> arrayList, Context context){
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -40,13 +40,13 @@ public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYView
     @Override
     public void onBindViewHolder(@NonNull MYViewHolder holder, int position) {
 
-        ItemCardapio itemCardapio = arrayList.get(position);
-        holder.name.setText(itemCardapio.getName());
-        holder.imgItem.setImageResource(itemCardapio.getImage());
+        Product product = arrayList.get(position);
+        holder.name.setText(product.getName());
+        holder.imgItem.setImageResource(product.getImage());
 
         holder.item.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailsActivity.class);
-            intent.putExtra("item", itemCardapio);
+            intent.putExtra("item", product);
             ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                     (Activity) context,
                     holder.imgItem,

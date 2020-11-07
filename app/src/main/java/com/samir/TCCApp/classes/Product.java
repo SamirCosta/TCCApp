@@ -2,13 +2,13 @@ package com.samir.TCCApp.classes;
 
 import java.io.Serializable;
 
-public class ItemCardapio implements Serializable {
+public class Product implements Serializable {
 
     public String name;
     public int image;
     public int qtd = 1;
 
-    public ItemCardapio(String name, int image) {
+    public Product(String name, int image) {
         this.name = name;
         this.image = image;
     }

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.adapters.BagAdapter;
-import com.samir.TCCApp.classes.ItemCardapio;
 import com.samir.TCCApp.fragments.HomeFragment;
 
 import org.json.JSONArray;
@@ -25,14 +24,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class PaymentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-//    private ArrayList<ItemCardapio> arrayListItem = new ArrayList<>();
+//    private ArrayList<Product> arrayListItem = new ArrayList<>();
     public TextView tvDuration, tvEnd;
 
     @Override
@@ -65,7 +61,7 @@ public class PaymentActivity extends AppCompatActivity {
         });
 
         /*for (int i = 0; i < 11; i++) {
-            ItemCardapio itemCardapio = new ItemCardapio("Name " + i, R.drawable.taco);
+            Product itemCardapio = new Product("Name " + i, R.drawable.taco);
             arrayListItem.add(itemCardapio);
         }*/
 

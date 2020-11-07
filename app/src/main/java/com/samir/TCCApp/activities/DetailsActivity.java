@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.samir.TCCApp.R;
-import com.samir.TCCApp.classes.ItemCardapio;
+import com.samir.TCCApp.classes.Product;
 
 public class DetailsActivity extends AppCompatActivity {
     private MotionLayout motionLayout;
@@ -20,8 +20,8 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         ref();
 
-        ItemCardapio itemCardapio = (ItemCardapio) getIntent().getExtras().getSerializable("item");
-        imageView.setImageResource(itemCardapio.getImage());
+        Product product = (Product) getIntent().getExtras().getSerializable("item");
+        imageView.setImageResource(product.getImage());
 
         motionLayout.addTransitionListener(new MotionLayout.TransitionListener() {
             @Override
