@@ -46,7 +46,7 @@ public class ClientDAO {
         read = db.getReadableDatabase();
     }
 
-    public void insertCli(Client client){
+    public void insertCli(Client client) {
         ContentValues contentValues = new ContentValues();
 //        contentValues.put(COL_IDCLI, client.getIdCli());
         contentValues.put(COL_IDUSU, returnId());
@@ -77,7 +77,7 @@ public class ClientDAO {
         call.enqueue(new Callback<Client>() {
             @Override
             public void onResponse(Call<Client> call, Response<Client> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     Client client1 = response.body();
                     Log.i("API", "Cod: " + response.code() + "ID: " + client1.getNameCli());
                 }
@@ -91,19 +91,58 @@ public class ClientDAO {
 
     }
 
-    private int returnId(){
+    private int returnId() {
         int id = 0;
 
-        Cursor res = read.rawQuery( "select idUsu from tbusuario ORDER BY idUsu DESC LIMIT 1", null );
+        Cursor res = read.rawQuery("select idUsu from tbusuario ORDER BY idUsu DESC LIMIT 1", null);
 //        res.moveToFirst();
         res.moveToLast();
 
 //        while(!res.isAfterLast()){
-            id = Integer.parseInt(res.getString(res.getColumnIndex("idUsu")));
+        id = Integer.parseInt(res.getString(res.getColumnIndex("idUsu")));
 //            res.moveToNext();
 //        }
 
         return id;
+    }
+
+    public boolean validateRegister(String user, String email) {
+        Cursor res = read.rawQuery("select userName from tbusuario", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()) {
+            if (res.getString(res.getColumnIndex("userName")).equals(user)) {
+                return false;
+            }
+            res.moveToNext();
+        }
+
+        Cursor cursor = read.rawQuery("select emailCli from tbcliente", null);
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            if (cursor.getString(cursor.getColumnIndex("emailCli")).equals(email)) {
+                return false;
+            }
+            cursor.moveToNext();
+        }
+
+        return true;
+    }
+
+    public boolean validateLogin(String user, String pass){
+        Cursor cursor = read.rawQuery("select userName, password from tbusuario", null);
+        cursor.moveToFirst();
+
+        while (!cursor.isAfterLast()) {
+            if (cursor.getString(cursor.getColumnIndex("userName")).equals(user)
+            && cursor.getString(cursor.getColumnIndex("password")).equals(pass)) {
+                return true;
+            }
+            cursor.moveToNext();
+        }
+
+        return false;
     }
 
 }

@@ -38,11 +38,16 @@ public class HomeFragment extends Fragment {
     private View view;
     private RecyclerView.LayoutManager layoutManager;
     private TextView tvEmpty, end;
-    public static ArrayList<Product> arrayListItem = new ArrayList<>();
+    public static ArrayList<Product> arrayListItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        arrayListItem = new ArrayList<>();
+        for(int i = 0; i < 11; i++){
+            Product product = new Product("Name " + i, R.drawable.taco);
+            arrayListItem.add(product);
+        }
     }
 
     @Override
@@ -95,11 +100,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void configRecycler() {
-
-        for(int i = 0; i < 11; i++){
-            Product product = new Product("Name " + i, R.drawable.taco);
-            arrayListItem.add(product);
-        }
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerBag);
         layoutManager = new LinearLayoutManager(getActivity());

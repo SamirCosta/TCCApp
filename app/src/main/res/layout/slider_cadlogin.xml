@@ -117,7 +117,7 @@
             android:id="@+id/meditUserLogin"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:hint="@string/e_mail"
+            android:hint="Usuário"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:paddingStart="30dp"

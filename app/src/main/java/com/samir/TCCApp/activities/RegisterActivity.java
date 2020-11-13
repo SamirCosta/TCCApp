@@ -10,6 +10,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.samir.TCCApp.DAO.ClientDAO;
@@ -72,16 +73,16 @@ public class RegisterActivity extends AppCompatActivity {
         if (nome.isEmpty()) {
             editNome.setError("Campo obrigatório");
         }
-        if (sobrenome.isEmpty()){
+        if (sobrenome.isEmpty()) {
             editSobrenome.setError("Campo obrigatório");
         }
-        if (userName.isEmpty()){
+        if (userName.isEmpty()) {
             editUserName.setError("Campo obrigatório");
         }
-        if (password.isEmpty()){
+        if (password.isEmpty()) {
             editPassword.setError("Campo obrigatório");
         }
-        if (confirmPass.isEmpty()){
+        if (confirmPass.isEmpty()) {
             editConfirmPass.setError("Campo obrigatório");
         }
 
@@ -89,13 +90,12 @@ public class RegisterActivity extends AppCompatActivity {
         validaCel();
 
         if (!verify(nome, sobrenome, email, cel, userName, password, confirmPass)
-        && validaEmail() && validaCel()){
+                && validaEmail() && validaCel()) {
             User user = new User();
             UserDAO userDAO = new UserDAO(getApplicationContext());
-            user.setUserName(editUserName.getEditText().getText().toString());
-            user.setPassword(editPassword.getEditText().getText().toString());
+            user.setUserName(userName);
+            user.setPassword(password);
             user.setAcessType("1");
-            userDAO.insertUser(user);
 
             Client client = new Client();
             ClientDAO clientDAO = new ClientDAO(getApplicationContext());
@@ -103,43 +103,51 @@ public class RegisterActivity extends AppCompatActivity {
             client.setEmailCli(email);
             client.setCelCli(Long.parseLong(cel.replace("(", "").replace(")", "")
                     .replace("-", "").replace(" ", "")));
-            clientDAO.insertCli(client);
 
-            startActivity(new Intent(this, MainActivity.class));
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
-            finish();
+            if (clientDAO.validateRegister(userName, email)) {
+                userDAO.insertUser(user);
+                clientDAO.insertCli(client);
+
+                startActivity(new Intent(this, MainActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+                finish();
+            }else{
+//                Toast.makeText(this, "Usuário já cadastrado", Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, "Usuário já cadastrado", Snackbar.LENGTH_LONG).show();
+            }
+
         }
     }
 
     private boolean validaCel() {
-        if (cel.isEmpty()){
+        if (cel.isEmpty()) {
             editLayoutCelular.setError("Campo obrigatório");
             return false;
-        }else if (!Patterns.PHONE.matcher(cel).matches() || cel.length() < 15){
+        } else if (!Patterns.PHONE.matcher(cel).matches() || cel.length() < 15) {
             editLayoutCelular.setError("Insira um número válido");
 //            Log.i("RETURN", "AQUI");
             return false;
-        }else{
+        } else {
             editLayoutCelular.setError(null);
             return true;
         }
     }
 
     private boolean validaEmail() {
-        if (email.isEmpty()){
+        if (email.isEmpty()) {
             editEmail.setError("Campo obrigatório");
             return false;
-        }else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             editEmail.setError("Insira um email válido");
             return false;
-        }else{
+        } else {
             editEmail.setError(null);
             return true;
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static boolean verify(String... data){
+    public static boolean verify(String... data) {
         return Arrays.stream(data).anyMatch(String::isEmpty);
 //        return Arrays.stream(data).anyMatch(e -> e.getEditText().getText().toString().isEmpty());
     }

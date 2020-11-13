@@ -8,7 +8,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "database";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 4);
+        super(context, DATABASE_NAME, null, 5);
     }
 
     @Override
@@ -21,14 +21,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "acessType text default 1)"
         );
 
-        db.execSQL("create table tbendereco" +
+       /* db.execSQL("create table tbendereco" +
                 "(CEP text primary key," +
                 "Logra text not null," +
                 "Bairro text not null," +
                 "Cidade text not null," +
                 "Estado text not null," +
                 "UF text not null)"
-        );
+        );*/
 
         db.execSQL("create table tbcliente " +
                 "(idCli INTEGER primary key autoincrement, " +
@@ -44,6 +44,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "imagem text," +
                 "FOREIGN KEY ( idUsu  ) REFERENCES tbusuario ( idUsu  )," +
                 "FOREIGN KEY ( CEP  ) REFERENCES tbendereco ( CEP  ))"
+        );
+        
+        db.execSQL("create table tbproduto" +
+                "(IdProd integer primary key, " +
+                "NomeProd text," +
+                "DescProd text, " +
+                "ValorProd float," +
+                "Observacao text," +
+                "TipoProd text," +
+                "CategoriaProd text)"
         );
 
     }

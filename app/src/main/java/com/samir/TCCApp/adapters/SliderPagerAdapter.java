@@ -17,8 +17,10 @@ import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.MainActivity;
 import com.samir.TCCApp.activities.SliderIntroActivity;
@@ -70,7 +72,12 @@ public class SliderPagerAdapter extends PagerAdapter {
                     }
 
                     if (!verify(editUser, editPassword)) {
-                        openMain();
+                        ClientDAO clientDAO = new ClientDAO(context);
+                        if (clientDAO.validateLogin(editUser.getEditText().getText().toString(), editPassword.getEditText().getText().toString())) {
+                            openMain();
+                        }else {
+                            Snackbar.make(view, "Usuário ou senha inválidos", Snackbar.LENGTH_LONG).show();
+                        }
                     }
                 });
             }

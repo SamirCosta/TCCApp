@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.samir.TCCApp.classes.Client;
 import com.samir.TCCApp.classes.DatabaseHelper;
 import com.samir.TCCApp.classes.User;
 

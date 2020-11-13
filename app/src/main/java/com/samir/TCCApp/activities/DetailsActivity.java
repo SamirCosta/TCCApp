@@ -36,7 +36,7 @@ public class DetailsActivity extends AppCompatActivity {
 
             @Override
             public void onTransitionCompleted(MotionLayout motionLayout, int i) {
-
+                arrow.setVisibility(View.GONE);
             }
 
             @Override
