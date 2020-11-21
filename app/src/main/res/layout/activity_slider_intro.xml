@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layoutSliderIntro"
     tools:context="com.samir.TCCApp.activities.SliderIntroActivity">
 
     <com.samir.TCCApp.utils.CustomViewPager
