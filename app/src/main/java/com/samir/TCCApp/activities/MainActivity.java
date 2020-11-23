@@ -22,6 +22,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.samir.TCCApp.R;
+import com.samir.TCCApp.classes.Addressess;
 import com.samir.TCCApp.fragments.HomeFragment;
 import com.samir.TCCApp.utils.Helper;
 
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ref();
         checkPermissions();
+
+        AddressActivity.addressess = new Addressess();
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

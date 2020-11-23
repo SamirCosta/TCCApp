@@ -28,4 +28,13 @@
         android:gravity="center"
         android:orientation="horizontal"/>
 
+    <ProgressBar
+        android:id="@+id/progressBarLogin"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        tools:visibility="visible" />
+
 </RelativeLayout>

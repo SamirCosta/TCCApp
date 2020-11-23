@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_baseline_home_24">
 
         <intent
-            android:targetClass="com.samir.TCCApp.activities.SliderIntroActivity"
+            android:targetClass="com.samir.TCCApp.activities.SplashActivity"
             android:targetPackage="com.samir.TCCApp"
             android:action="com.samir.TCCApp.SHORT_HOME"
             />
@@ -20,7 +20,7 @@
         android:icon="@drawable/cardapio_ic">
 
         <intent
-            android:targetClass="com.samir.TCCApp.activities.SliderIntroActivity"
+            android:targetClass="com.samir.TCCApp.activities.SplashActivity"
             android:targetPackage="com.samir.TCCApp"
             android:action="com.samir.TCCApp.SHORT_CARDAPIO"
             />
@@ -33,7 +33,7 @@
         android:icon="@drawable/sino2">
 
         <intent
-            android:targetClass="com.samir.TCCApp.activities.SliderIntroActivity"
+            android:targetClass="com.samir.TCCApp.activities.SplashActivity"
             android:targetPackage="com.samir.TCCApp"
             android:action="com.samir.TCCApp.SHORT_PEDIDOS"
             />

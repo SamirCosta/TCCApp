@@ -1,23 +1,30 @@
 package com.samir.TCCApp.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.motion.widget.MotionLayout;
-
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.MotionLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.samir.TCCApp.R;
 
 public class SplashActivity extends AppCompatActivity {
     public MotionLayout motionLayout;
+    private Handler handler;
+    private Runnable runnable;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+
+    private final String KEY_HOME = "com.samir.TCCApp.SHORT_HOME";
+    private final String KEY_CARDAPIO = "com.samir.TCCApp.SHORT_CARDAPIO";
+    private final String KEY_PEDIDOS = "com.samir.TCCApp.SHORT_PEDIDOS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,26 +33,75 @@ public class SplashActivity extends AppCompatActivity {
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         motionLayout = findViewById(R.id.motion_splash_layout);
-//        new Load().execute();
+        new Load().execute();
 
         new Handler().postDelayed(() -> motionLayout.transitionToEnd(), 500);
 
-        new Handler().postDelayed(() -> {
-            startActivity(new Intent(SplashActivity.this, SliderIntroActivity.class));
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
-            finish();
-        }, 1500);
+        runnable = () -> {
 
+            if (user != null) {
+                if (findShortcut()){
+                    open(SplashActivity.this, MainActivity.class);
+                }
+            }else {
+                open(SplashActivity.this, SliderIntroActivity.class);
+            }
+        };
+
+        handler = new Handler();
+        handler.postDelayed(runnable, 1500);
+
+    }
+
+    private void open(Context context, Class activity) {
+        Intent intent = new Intent(context, activity);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeCustomAnimation(
+                getApplicationContext(), R.anim.fade_in, R.anim.fade_out);
+        ActivityCompat.startActivity(SplashActivity.this, intent, optionsCompat.toBundle());
+        finish();
+    }
+
+    private boolean findShortcut() {
+        String KEY = getIntent().getAction();
+        switch (KEY){
+            case KEY_HOME:
+                openMainWhithShortcuts(0);
+                return false;
+            case KEY_CARDAPIO:
+                openMainWhithShortcuts(1);
+                return false;
+            case KEY_PEDIDOS:
+                openMainWhithShortcuts(2);
+                return false;
+        }
+        return true;
+    }
+
+    private void openMainWhithShortcuts(int i) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("shortcut", i);
+        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeCustomAnimation(
+                getApplicationContext(), R.anim.fade_in, R.anim.fade_out);
+        ActivityCompat.startActivity(SplashActivity.this, intent, optionsCompat.toBundle());
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (handler != null && runnable != null)
+            handler.removeCallbacks(runnable);
     }
 
     private class Load extends AsyncTask<Void, Void, Void> {
 
-        @Override
-        protected void onPreExecute() {super.onPreExecute();}
+        /*@Override
+        protected void onPreExecute() {super.onPreExecute();}*/
 
         @Override
         protected Void doInBackground(Void... arg0) {
-
+            mAuth = FirebaseAuth.getInstance();
+            user = mAuth.getCurrentUser();
             return null;
         }
 

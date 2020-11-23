@@ -66,12 +66,9 @@ public class SliderIntroActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private LoginButton loginButton;
     private View viewLogin;
-    private FirebaseAuth.AuthStateListener authStateListener;
-    private AccessTokenTracker accessTokenTracker;
-    private final String KEY_HOME = "com.samir.TCCApp.SHORT_HOME";
-    private final String KEY_CARDAPIO = "com.samir.TCCApp.SHORT_CARDAPIO";
-    private final String KEY_PEDIDOS = "com.samir.TCCApp.SHORT_PEDIDOS";
     SliderPagerAdapter sliderPagerAdapter;
+    /*private FirebaseAuth.AuthStateListener authStateListener;
+    private AccessTokenTracker accessTokenTracker;*/
 
     @Override
     protected void onStart() {
@@ -109,6 +106,7 @@ public class SliderIntroActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.i("SUCESS", "FOI");
+                findViewById(R.id.progressBarLogin).setVisibility(View.VISIBLE);
                 handleFacebookToken(loginResult.getAccessToken());
             }
 
@@ -123,7 +121,7 @@ public class SliderIntroActivity extends AppCompatActivity {
             }
         });
 
-        authStateListener = firebaseAuth -> mAuth.signOut();
+        /*authStateListener = firebaseAuth -> mAuth.signOut();
 
         accessTokenTracker = new AccessTokenTracker() {
             @Override
@@ -132,7 +130,7 @@ public class SliderIntroActivity extends AppCompatActivity {
 
                 }
             }
-        };
+        };*/
 
         AnimationDrawable animationDrawable = (AnimationDrawable) viewPager.getBackground();
         animationDrawable.setEnterFadeDuration(1000);
@@ -149,47 +147,12 @@ public class SliderIntroActivity extends AppCompatActivity {
 
         viewPager.addOnPageChangeListener(viewListener);
 
-        /*if (viewPager.getCurrentItem() == 5) {
-            viewPager.setScrollContainer(false);
-//            layouts = new int[]{R.layout.slider_cadlogin};
-            Log.i("ARRAY", "" + layouts.length);
-            linearLayout.setVisibility(View.INVISIBLE);
-        }*/
-
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             int page = bundle.getInt("page");
             viewPager.setCurrentItem(page);
         }
 
-        FirebaseUser user = mAuth.getCurrentUser();
-        if (user != null) {
-            findShortcut();
-        }/*else{
-            viewPager.setCurrentItem(4);
-        }*/
-
-    }
-
-    private void findShortcut() {
-        if (getIntent().getAction() == KEY_HOME) {
-            openMainWhithShortcuts(0);
-        }
-
-        if (getIntent().getAction() == KEY_CARDAPIO) {
-            openMainWhithShortcuts(1);
-        }
-
-        if (getIntent().getAction() == KEY_PEDIDOS) {
-            openMainWhithShortcuts(2);
-        }
-    }
-
-    private void openMainWhithShortcuts(int i) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("shortcut", i);
-        startActivity(intent);
-        finish();
     }
 
     private void handleFacebookToken(AccessToken accessToken) {
@@ -215,11 +178,6 @@ public class SliderIntroActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-    }
-
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     @Override
@@ -255,7 +213,8 @@ public class SliderIntroActivity extends AppCompatActivity {
 //                            updateUI(user);
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            Toast.makeText(SliderIntroActivity.this, "DEU RUIM NO FIREBASEWITHGOOGLE", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SliderIntroActivity.this, "ERRO", Toast.LENGTH_SHORT).show();
+                            findViewById(R.id.progressBarLogin).setVisibility(View.GONE);
 //                            updateUI(null);
                         }
 
@@ -286,7 +245,9 @@ public class SliderIntroActivity extends AppCompatActivity {
     }
 
     public void clickbtn(View view) {
-        signIn();
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+        findViewById(R.id.progressBarLogin).setVisibility(View.VISIBLE);
     }
 
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {
@@ -321,49 +282,5 @@ public class SliderIntroActivity extends AppCompatActivity {
         startActivity(new Intent(this, RegisterActivity.class));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
     }
-
-    /*public void login(View view){
-
-//        LayoutInflater.from(viewPager.getContext()).inflate(R.layout.slider_cadlogin, viewPager, false);
-
-        *//*LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view1 = layoutInflater.inflate(R.layout.slider_cadlogin, null, false);*//*
-
-        View view1 = (View) sliderPagerAdapter.instantiateItem(viewPager, 4);
-
-        TextInputLayout editUser, editPassword;
-        editUser = view1.findViewById(R.id.editEmailLoginSlider);
-        editPassword = view1.findViewById(R.id.editPasswordLogin);
-
-//        editUser.getEditText().setText("JHVJKVKJGVKJGCVKGCVHGCH");
-
-        if (editUser != null && editPassword != null) {
-
-//            Log.i("MHV", "KJVKJ");
-
-                if (editUser.getEditText().getText().toString().isEmpty()) {
-//                    Log.i("MHV", "KJVKJ");
-                    editUser.setError("Campo obrigatório");
-                }
-                if (editPassword.getEditText().getText().toString().isEmpty()) {
-                    Log.i("MHV", "KJVKJ");
-                    editPassword.setError("Campo obrigatório");
-                }
-
-                if (!verify(editUser, editPassword)) {
-//                    Log.i("MHV", "KJVKJ");
-                    openMain();
-                }
-
-        }
-
-        *//*ConstraintLayout constraintLayout = findViewById(R.id.constraintLayoutSlider);
-        constraintLayout.addView(view1, 0);*//*
-    }*/
-
-    /*@RequiresApi(api = Build.VERSION_CODES.N)
-    private static boolean verify(TextInputLayout... editTexts) {
-        return Arrays.stream(editTexts).anyMatch(e -> e.getEditText().getText().toString().isEmpty());
-    }*/
 
 }

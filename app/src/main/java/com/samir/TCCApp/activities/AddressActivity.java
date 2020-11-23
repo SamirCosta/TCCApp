@@ -64,7 +64,6 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adress);
         ref();
-        addressess = new Addressess();
 
         markerPin.setVisibility(View.GONE);
         clearButton.setVisibility(View.GONE);
@@ -121,12 +120,12 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
                 builder.setCancelable(false);
                 builder.setTitle("Confirmar endereço");
                 builder.setMessage("Tem certeza que deseja utilizar este endereço?\n\n"
-                        + adr + ENTER
+                        + adr/* + ENTER
                         + addressess.getLogra() + ENTER
                         + addressess.getCEP() + ENTER
                         + addressess.getBairro() + ENTER
                         + addressess.getCidade() + ENTER
-                        + addressess.getEstado());
+                        + addressess.getEstado()*/);
                 builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -265,11 +264,8 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
         addressess.setLogra(address.getThoroughfare());
         addressess.setBairro(address.getSubLocality());
         String city = address.getLocality();
-        if (city == null) {
-            addressess.setCidade(address.getSubAdminArea());
-        } else {
-            addressess.setCidade(city);
-        }
+        if (city == null) addressess.setCidade(address.getSubAdminArea());
+        else addressess.setCidade(city);
         addressess.setEstado(address.getAdminArea());
     }
 
