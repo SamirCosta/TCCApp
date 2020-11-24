@@ -9,11 +9,10 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
@@ -23,9 +22,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Addressess;
-import com.samir.TCCApp.fragments.HomeFragment;
-import com.samir.TCCApp.utils.Helper;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
         ref();
         checkPermissions();
 
-        AddressActivity.addressess = new Addressess();
+        Addressess addressess = getInternalAddressess();
+        if (addressess != null) AddressActivity.addressess = addressess;
+        else AddressActivity.addressess = new Addressess();
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -71,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.viewLogOut).setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             LoginManager.getInstance().logOut();
+
+            String ARQUIVO_LOGIN = "ArqLogin";
+            SharedPreferences pref = getSharedPreferences(ARQUIVO_LOGIN, 0);
+            SharedPreferences.Editor editor = pref.edit();
+            editor.clear();
+            editor.apply();
+
             Intent intent = new Intent(this, SliderIntroActivity.class);
             intent.putExtra("page", 4);
             startActivity(intent);
@@ -174,4 +183,20 @@ public class MainActivity extends AppCompatActivity {
             if (p == PackageManager.PERMISSION_DENIED) finish();
         }
     }
+
+    private Addressess getInternalAddressess() {
+        Addressess addressess = null;
+        try {
+            FileInputStream fis = new FileInputStream(getFileStreamPath("addressess"));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            addressess = (Addressess) ois.readObject();
+
+            ois.close();
+            fis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return addressess;
+    }
+
 }

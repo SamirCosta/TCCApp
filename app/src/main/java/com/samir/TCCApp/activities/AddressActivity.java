@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -24,7 +23,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationCallback;
@@ -41,9 +39,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.adapters.PlaceAutoSuggest;
 import com.samir.TCCApp.classes.Addressess;
-import com.samir.TCCApp.utils.Helper;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Locale;
 
@@ -131,6 +130,7 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
                     public void onClick(DialogInterface dialog, int which) {
 //                        addressess = new Addressess();
                         addressess.setAddress(adr);
+                        save();
                         finish();
                     }
                 }).setNegativeButton("Não", new DialogInterface.OnClickListener() {
@@ -267,6 +267,19 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
         if (city == null) addressess.setCidade(address.getSubAdminArea());
         else addressess.setCidade(city);
         addressess.setEstado(address.getAdminArea());
+    }
+
+    private void save() {
+        try {
+            FileOutputStream fos = new FileOutputStream(this.getFileStreamPath("addressess"));
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(addressess);
+            oos.close();
+            fos.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

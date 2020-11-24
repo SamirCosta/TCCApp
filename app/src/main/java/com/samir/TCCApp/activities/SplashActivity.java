@@ -2,6 +2,7 @@ package com.samir.TCCApp.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,8 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable runnable;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+    private SharedPreferences pref;
+    private boolean sharedUser = false;
 
     private final String KEY_HOME = "com.samir.TCCApp.SHORT_HOME";
     private final String KEY_CARDAPIO = "com.samir.TCCApp.SHORT_CARDAPIO";
@@ -38,8 +41,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> motionLayout.transitionToEnd(), 500);
 
         runnable = () -> {
-
-            if (user != null) {
+            if (user != null || sharedUser) {
                 if (findShortcut()){
                     open(SplashActivity.this, MainActivity.class);
                 }
@@ -102,6 +104,11 @@ public class SplashActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             mAuth = FirebaseAuth.getInstance();
             user = mAuth.getCurrentUser();
+            String ARQUIVO_LOGIN = "ArqLogin";
+            pref = getSharedPreferences(ARQUIVO_LOGIN, 0);
+            if (pref.contains("id")) {
+                sharedUser = true;
+            }
             return null;
         }
 

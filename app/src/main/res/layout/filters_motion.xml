@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/motionFilter"
-    android:visibility="gone"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:visibility="gone"
     app:layoutDescription="@xml/filters_motion_scene">
 
     <!--<androidx.recyclerview.widget.RecyclerView
@@ -161,10 +162,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="FILTROS"
             android:layout_gravity="center"
-            android:textSize="25sp"
-            />
+            android:text="FILTROS"
+            android:textSize="25sp" />
 
         <!--<ScrollView
             android:layout_width="match_parent"
@@ -180,7 +180,6 @@
         </ScrollView>-->
 
     </androidx.cardview.widget.CardView>
-
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

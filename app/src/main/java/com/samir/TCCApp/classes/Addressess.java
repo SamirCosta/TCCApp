@@ -1,6 +1,8 @@
 package com.samir.TCCApp.classes;
 
-public class Addressess {
+import java.io.Serializable;
+
+public class Addressess implements Serializable {
 
     String address;
     String CEP;

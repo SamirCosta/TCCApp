@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "acessType text default 1)"
         );
 
-       /* db.execSQL("create table tbendereco" +
+        /*db.execSQL("create table tbendereco" +
                 "(CEP text primary key," +
                 "Logra text not null," +
                 "Bairro text not null," +

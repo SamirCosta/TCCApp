@@ -64,6 +64,7 @@ public class SliderPagerAdapter extends PagerAdapter {
 
             if (btn != null && editUser != null && editPassword != null) {
                 btn.setOnClickListener(c -> {
+
                     if (editUser.getEditText().getText().toString().isEmpty()) {
                         editUser.setError("Campo obrigatório");
                     }
@@ -79,6 +80,7 @@ public class SliderPagerAdapter extends PagerAdapter {
                             Snackbar.make(view, "Usuário ou senha inválidos", Snackbar.LENGTH_LONG).show();
                         }
                     }
+
                 });
             }
         }

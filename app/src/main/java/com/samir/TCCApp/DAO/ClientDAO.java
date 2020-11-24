@@ -2,6 +2,7 @@ package com.samir.TCCApp.DAO;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -40,10 +41,13 @@ public class ClientDAO {
     private final String COL_QTDPONT = "qtdPonto";
     private final String COL_IMG = "imagem";
 
+    private Context context;
+
     public ClientDAO(Context context) {
         DatabaseHelper db = new DatabaseHelper(context);
         write = db.getWritableDatabase();
         read = db.getReadableDatabase();
+        this.context = context;
     }
 
     public void insertCli(Client client) {
@@ -131,12 +135,19 @@ public class ClientDAO {
     }
 
     public boolean validateLogin(String user, String pass){
-        Cursor cursor = read.rawQuery("select userName, password from tbusuario", null);
+        Cursor cursor = read.rawQuery("select idUsu, userName, password from tbusuario", null);
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
             if (cursor.getString(cursor.getColumnIndex("userName")).equals(user)
             && cursor.getString(cursor.getColumnIndex("password")).equals(pass)) {
+                String ARQUIVO_LOGIN = "ArqLogin";
+                SharedPreferences pref;
+                SharedPreferences.Editor editor;
+                pref = context.getSharedPreferences(ARQUIVO_LOGIN, 0);
+                editor = pref.edit();
+                editor.putInt("id", cursor.getColumnIndex("idCli"));
+                editor.apply();
                 return true;
             }
             cursor.moveToNext();

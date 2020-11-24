@@ -109,8 +109,6 @@ public class CardapioFragment extends Fragment{
 
         });
 
-
-
         return view;
     }
 

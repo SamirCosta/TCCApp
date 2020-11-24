@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.DetailsActivity;
 import com.samir.TCCApp.classes.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYView
         Product product = arrayList.get(position);
         holder.name.setText(product.getName());
         holder.imgItem.setImageResource(product.getImage());
+//        Picasso.get().load("https://i.postimg.cc/R0S148dv/AQTzbaG.jpg").into(holder.imgItem);
 
         holder.item.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailsActivity.class);
@@ -53,7 +55,6 @@ public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYView
                     ViewCompat.getTransitionName(holder.imgItem));
             context.startActivity(intent, activityOptionsCompat.toBundle());
         });
-
 
     }
 

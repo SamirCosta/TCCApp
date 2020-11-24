@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.samir.TCCApp.classes.DatabaseHelper;
+import com.samir.TCCApp.classes.Product;
 
 import retrofit2.Retrofit;
 
@@ -29,17 +30,16 @@ public class ProductDAO {
         read = db.getReadableDatabase();
     }
 
-    /*public void insertProd(){
+    public void insertProd(Product product){
         ContentValues contentValues = new ContentValues();
-//        contentValues.put(COL_IDCLI, client.getIdCli());
-        contentValues.put(COL_IDPROD, returnId());
-        contentValues.put(COL_NOMEPROD, );
-        contentValues.put(COL_DESCPROD, client.getCPF());
-        contentValues.put(COL_VALPROD, client.getNameCli());
-        contentValues.put(COL_OBSPROD, client.getEmailCli());
-        contentValues.put(COL_TIPOPROD, client.getCelCli());
-        contentValues.put(COL_CATPROD, client.getComp());
+        contentValues.put(COL_IDPROD, product.getIdProd());
+        contentValues.put(COL_NOMEPROD, product.getName());
+        contentValues.put(COL_DESCPROD, product.getDescProd());
+        contentValues.put(COL_VALPROD, product.getValorProd());
+        contentValues.put(COL_OBSPROD, product.getObservacao());
+        contentValues.put(COL_TIPOPROD, product.getTipoProd());
+        contentValues.put(COL_CATPROD, product.getCategoriaProd());
         write.insert(TABLE, null, contentValues);
-    }*/
+    }
 
 }
