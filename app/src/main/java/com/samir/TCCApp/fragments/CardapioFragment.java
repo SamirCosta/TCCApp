@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.adapters.AdapterCardapio;
 import com.samir.TCCApp.classes.Product;
@@ -26,9 +27,11 @@ import java.util.ArrayList;
 
 public class CardapioFragment extends Fragment{
     private RecyclerView recyclerViewCardapio;
-    private ArrayList<Product> arrayListItens = new ArrayList<>();
+//    private ArrayList<Product> arrayListItens = new ArrayList<>();
     private MotionLayout motionLayout;
     private CardView filtros, order;
+    public static ProductDAO productDAO;
+    public static ArrayList<Product> productArrayList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class CardapioFragment extends Fragment{
 
 //        Bitmap image = BitmapFactory.decodeResource(getResources(),R.drawable.taco);
 
-        Product product = new Product("Name " + 1, R.drawable.taco);
+        /*Product product = new Product("Name " + 1, R.drawable.taco);
         arrayListItens.add(product);
 
         Product product1 = new Product("Name " + 2, R.drawable.guacamole);
@@ -52,11 +55,11 @@ public class CardapioFragment extends Fragment{
         for (int i = 3; i < 40; i++){
             Product product2 = new Product("Name " + i, R.drawable.nachos);
             arrayListItens.add(product2);
-        }
+        }*/
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewCardapio.setLayoutManager(layoutManager);
-        AdapterCardapio adapterCardapio = new AdapterCardapio(arrayListItens, getActivity());
+        AdapterCardapio adapterCardapio = new AdapterCardapio(productArrayList, getActivity());
         recyclerViewCardapio.setAdapter(adapterCardapio);
 
         filtros.setOnClickListener(c -> {

@@ -5,10 +5,10 @@ import java.io.Serializable;
 public class Product implements Serializable {
 
 //            NomeProd;
-    private String name;
+    private int IdProd;
+    private String NomeProd;
     private int image;
     private int qtd = 1;
-    private int IdProd;
     private String DescProd;
     private float ValorProd;
     private String Observacao;
@@ -16,7 +16,19 @@ public class Product implements Serializable {
     private String CategoriaProd;
 
     public Product(String name, int image) {
-        this.name = name;
+        this.NomeProd = name;
+        this.image = image;
+    }
+
+    public Product(){
+
+    }
+
+    public void setName(String name) {
+        this.NomeProd = name;
+    }
+
+    public void setImage(int image) {
         this.image = image;
     }
 
@@ -29,7 +41,7 @@ public class Product implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return NomeProd;
     }
 
     public int getImage() {

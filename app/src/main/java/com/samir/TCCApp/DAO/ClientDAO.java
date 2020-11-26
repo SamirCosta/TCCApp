@@ -65,12 +65,12 @@ public class ClientDAO {
         contentValues.put(COL_IMG, client.getImagem());
         write.insert(TABLE, null, contentValues);
 
-        requestApi(client);
+//        requestApi(client);
     }
 
     private void requestApi(Client client) {
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://localhost:44310/")
+                .baseUrl("https://webapitccapp.azurewebsites.net/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 //        192.168.10.1

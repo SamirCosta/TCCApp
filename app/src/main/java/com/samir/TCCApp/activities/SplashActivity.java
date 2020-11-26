@@ -14,7 +14,11 @@ import androidx.core.app.ActivityOptionsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
+import com.samir.TCCApp.fragments.CardapioFragment;
+
+import static com.samir.TCCApp.fragments.CardapioFragment.productDAO;
 
 public class SplashActivity extends AppCompatActivity {
     public MotionLayout motionLayout;
@@ -24,6 +28,7 @@ public class SplashActivity extends AppCompatActivity {
     private FirebaseUser user;
     private SharedPreferences pref;
     private boolean sharedUser = false;
+    boolean go = false;
 
     private final String KEY_HOME = "com.samir.TCCApp.SHORT_HOME";
     private final String KEY_CARDAPIO = "com.samir.TCCApp.SHORT_CARDAPIO";
@@ -38,14 +43,38 @@ public class SplashActivity extends AppCompatActivity {
         motionLayout = findViewById(R.id.motion_splash_layout);
         new Load().execute();
 
-        new Handler().postDelayed(() -> motionLayout.transitionToEnd(), 500);
+        new Handler().postDelayed(() -> {
+            motionLayout.transitionToEnd();
+        }, 500);
+
+        motionLayout.addTransitionListener(new MotionLayout.TransitionListener() {
+            @Override
+            public void onTransitionStarted(MotionLayout motionLayout, int i, int i1) {
+
+            }
+
+            @Override
+            public void onTransitionChange(MotionLayout motionLayout, int i, int i1, float v) {
+
+            }
+
+            @Override
+            public void onTransitionCompleted(MotionLayout motionLayout, int i) {
+                motionLayout.transitionToStart();
+            }
+
+            @Override
+            public void onTransitionTrigger(MotionLayout motionLayout, int i, boolean b, float v) {
+
+            }
+        });
 
         runnable = () -> {
-            if (user != null || sharedUser) {
+            if ((user != null || sharedUser) && go) {
                 if (findShortcut()){
                     open(SplashActivity.this, MainActivity.class);
                 }
-            }else {
+            }else if (go){
                 open(SplashActivity.this, SliderIntroActivity.class);
             }
         };
@@ -109,13 +138,15 @@ public class SplashActivity extends AppCompatActivity {
             if (pref.contains("id")) {
                 sharedUser = true;
             }
+            productDAO = new ProductDAO(SplashActivity.this);
+            CardapioFragment.productArrayList = productDAO.getProducts();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
+            go = true;
         }
     }
 

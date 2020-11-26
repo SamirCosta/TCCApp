@@ -43,7 +43,9 @@ public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYView
 
         Product product = arrayList.get(position);
         holder.name.setText(product.getName());
-        holder.imgItem.setImageResource(product.getImage());
+        holder.desc.setText(product.getDescProd());
+        holder.imgItem.setImageResource(R.drawable.nachos);
+//        holder.imgItem.setImageResource(product.getImage());
 //        Picasso.get().load("https://i.postimg.cc/R0S148dv/AQTzbaG.jpg").into(holder.imgItem);
 
         holder.item.setOnClickListener(v -> {
@@ -65,7 +67,7 @@ public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYView
 
     public class MYViewHolder extends RecyclerView.ViewHolder{
         ImageView imgItem;
-        TextView name;
+        TextView name, desc;
         CardView item;
 
         public MYViewHolder(@NonNull View itemView) {
@@ -73,6 +75,7 @@ public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYView
             imgItem = itemView.findViewById(R.id.imageViewItemImg);
             name = itemView.findViewById(R.id.tvItemName);
             item = itemView.findViewById(R.id.itemCardapio);
+            desc = itemView.findViewById(R.id.tvDescAdapter);
         }
     }
 

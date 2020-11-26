@@ -39,7 +39,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tvProdName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -65,7 +65,7 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/tvProdName" />
 
         <TextView
             android:id="@+id/tvDescrText"
@@ -81,7 +81,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvDescr" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/tvValProd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -127,7 +127,7 @@
             android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7">
+            app:layout_constraintTop_toBottomOf="@+id/tvValProd">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
