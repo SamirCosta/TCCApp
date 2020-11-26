@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/motionHome"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    app:layoutDescription="@xml/home_motion_scene"
+    android:focusable="true"
     android:visibility="gone"
-    android:focusable="true">
+    app:layoutDescription="@xml/home_motion_scene"
+    tools:visibility="visible">
 
     <View
         android:id="@+id/viewBackHome"
@@ -31,11 +33,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="50dp"
             android:text="SACOLA VAZIA"
+            android:fontFamily="@font/poppins_semibold"
             android:textColor="@color/colorAccent"
             android:textSize="20sp"
-            android:layout_marginBottom="30dp"
-            />
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/imgBagEmpty"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_marginBottom="60dp"
+            android:src="@drawable/empty_bag"
+            android:layout_gravity="center"
+        />
 
         <TextView
             android:id="@+id/bagTitle"
@@ -49,7 +62,7 @@
             android:textColor="@color/colorAccent"
             android:textSize="19sp" />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/tvTotalBag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,7 +72,7 @@
             android:fontFamily="@font/poppins"
             android:text="Total:"
             android:textColor="@color/colorAccent"
-            android:textSize="18sp" />
+            android:textSize="18sp" />-->
 
         <TextView
             android:id="@+id/tvTotalNumBag"
@@ -77,13 +90,12 @@
             android:id="@+id/btnPay"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginBottom="56dp"
             android:layout_gravity="bottom"
-            android:text="Finalizar compra"
-            android:textSize="16sp"
-            android:textColor="@android:color/white"
+            android:layout_marginBottom="56dp"
             android:background="#FF4242"
-            />
+            android:text="Finalizar compra"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerBag"
@@ -91,10 +103,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="53dp"
             android:layout_marginBottom="112dp"
-            app:fastScrollEnabled="false"
             android:nestedScrollingEnabled="true"
             android:overScrollMode="ifContentScrolls"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            app:fastScrollEnabled="false" />
 
     </androidx.cardview.widget.CardView>
 

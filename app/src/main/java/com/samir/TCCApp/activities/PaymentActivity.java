@@ -67,7 +67,7 @@ public class PaymentActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerItemPay);
         recyclerView.setHasFixedSize(true);
-        BagAdapter bagAdapter = new BagAdapter(HomeFragment.arrayListItem);
+        BagAdapter bagAdapter = new BagAdapter(HomeFragment.bagArrayListItem);
         recyclerView.setAdapter(bagAdapter);
 
     }

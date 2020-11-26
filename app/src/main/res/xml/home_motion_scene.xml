@@ -42,8 +42,13 @@
         </KeyFrameSet>
 
         <OnSwipe
-            app:touchRegionId="@id/recyclerBag"
+            app:touchRegionId="@id/cardViewBag"
             app:touchAnchorId="@id/cardViewBag"
+            app:moveWhenScrollAtTop="true"
+            app:dragDirection="dragDown"
+            app:nestedScrollFlags="none"
+            app:touchAnchorSide="middle"
+            app:onTouchUp="decelerateAndComplete"
             />
 <!--            app:moveWhenScrollAtTop="true"-->
 <!--        recyclerBag-->

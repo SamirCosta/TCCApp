@@ -16,9 +16,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
-import com.samir.TCCApp.fragments.CardapioFragment;
 
-import static com.samir.TCCApp.fragments.CardapioFragment.productDAO;
+import static com.samir.TCCApp.activities.MainActivity.productDAO;
 
 public class SplashActivity extends AppCompatActivity {
     public MotionLayout motionLayout;
@@ -139,7 +138,6 @@ public class SplashActivity extends AppCompatActivity {
                 sharedUser = true;
             }
             productDAO = new ProductDAO(SplashActivity.this);
-            CardapioFragment.productArrayList = productDAO.getProducts();
             return null;
         }
 

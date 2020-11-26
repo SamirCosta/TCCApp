@@ -1,5 +1,12 @@
 package com.samir.TCCApp.activities;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -8,18 +15,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.widget.TextView;
-
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Addressess;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvHome, tvData, tvCupons, tvAbout, tvName;
     private DrawerLayout drawerLayout;
     public static int page;
+    public static ProductDAO productDAO;
 
     private final String[] PERMISSIONS = {
             Manifest.permission.CAMERA,

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
@@ -36,18 +37,21 @@ public class HomeFragment extends Fragment {
     public static BottomNavigationViewEx bottomNavigationViewEx;
     private MotionLayout motionLayout;
     private View view;
+    private Button btn;
     private RecyclerView.LayoutManager layoutManager;
-    private TextView tvEmpty, end;
-    public static ArrayList<Product> arrayListItem;
+    public static TextView tvEmpty, end, tvTotalVal;
+    public static ImageView emptyBag;
+    public static ArrayList<Product> bagArrayListItem;
+    public static RecyclerView recyclerViewBag;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        arrayListItem = new ArrayList<>();
-        for(int i = 0; i < 11; i++){
+        bagArrayListItem = new ArrayList<>();
+        /*for(int i = 0; i < 11; i++){
             Product product = new Product("Name " + i, R.drawable.taco);
             arrayListItem.add(product);
-        }
+        }*/
     }
 
     @Override
@@ -57,33 +61,35 @@ public class HomeFragment extends Fragment {
             if (AddressActivity.addressess.getAddress() != null)
             end.setText(AddressActivity.addressess.getAddress());
         }
+        recyclerViewBag.getAdapter().notifyDataSetChanged();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        end = view.findViewById(R.id.tvEndHome);
+        ref(view);
+        configRecycler();
+        motionConfig();
+        setName();
+        bottomConfig();
 
         end.setOnClickListener(c -> {
             startActivity(new Intent(getActivity(), AddressActivity.class));
 //            getActivity().overridePendingTransition(R.anim.slide_in_down, R.anim.slide_in_up);
         });
 
-        Button btn = view.findViewById(R.id.btnPay);
         btn.setOnClickListener(a -> {
             startActivity(new Intent(getActivity(), PaymentActivity.class));
         });
 
-        motionConfig();
-        setName();
-        bottomConfig();
-        configRecycler();
+        if (bagArrayListItem.isEmpty()) {
+            tvEmpty.setVisibility(View.VISIBLE);
+            emptyBag.setVisibility(View.VISIBLE);
+            tvTotalVal.setVisibility(View.GONE);
+        }
 
         bottomNavigationViewEx.setCurrentItem(MainActivity.page);
-
-        tvEmpty = view.findViewById(R.id.tvBagEmpty);
-        tvEmpty.setVisibility(View.GONE);
 
         getActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
@@ -101,12 +107,12 @@ public class HomeFragment extends Fragment {
 
     private void configRecycler() {
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerBag);
+        recyclerViewBag = view.findViewById(R.id.recyclerBag);
         layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        BagAdapter bagAdapter = new BagAdapter(arrayListItem);
-        recyclerView.setAdapter(bagAdapter);
+        recyclerViewBag.setLayoutManager(layoutManager);
+        recyclerViewBag.setHasFixedSize(true);
+        BagAdapter bagAdapter = new BagAdapter(bagArrayListItem);
+        recyclerViewBag.setAdapter(bagAdapter);
 
         ItemTouchHelper.Callback itemTouch = new ItemTouchHelper.Callback() {
             @Override
@@ -125,25 +131,31 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                arrayListItem.remove(viewHolder.getAdapterPosition());
-                recyclerView.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
+                bagArrayListItem.remove(viewHolder.getAdapterPosition());
+//                recyclerViewBag.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
+                recyclerViewBag.getAdapter().notifyDataSetChanged();
+                if (bagArrayListItem.isEmpty()) {
+                    tvEmpty.setVisibility(View.VISIBLE);
+                    emptyBag.setVisibility(View.VISIBLE);
+                    tvTotalVal.setVisibility(View.GONE);
+                }
             }
         };
 
-        new ItemTouchHelper(itemTouch).attachToRecyclerView(recyclerView);
+        new ItemTouchHelper(itemTouch).attachToRecyclerView(recyclerViewBag);
 
-        recyclerView.setOnFlingListener(new RecyclerView.OnFlingListener() {
+        recyclerViewBag.setOnFlingListener(new RecyclerView.OnFlingListener() {
             @Override
             public boolean onFling(int velocityX, int velocityY) {
                 if (Math.abs(velocityY) > 4000) {
                     velocityY = (int) (4000 * Math.signum((double)velocityY));
-                    recyclerView.fling(velocityX, velocityY);
+                    recyclerViewBag.fling(velocityX, velocityY);
                     return true;
                 }
 
-                if (Math.abs(velocityY) > 2000 && recyclerView.computeVerticalScrollOffset() < 600) {
+                if (Math.abs(velocityY) > 2000 && recyclerViewBag.computeVerticalScrollOffset() < 600) {
                     velocityY = (int) (2000 * Math.signum((double)velocityY));
-                    recyclerView.fling(velocityX, velocityY);
+                    recyclerViewBag.fling(velocityX, velocityY);
                     return true;
                 }
 
@@ -213,7 +225,6 @@ public class HomeFragment extends Fragment {
     }
 
     private void motionConfig() {
-        motionLayout = view.findViewById(R.id.motionHome);
 
         view.findViewById(R.id.bag).setOnClickListener(v -> {
             motionLayout.setVisibility(View.VISIBLE);
@@ -257,6 +268,15 @@ public class HomeFragment extends Fragment {
         for (int i=0; i <= bottomNavigationViewEx.getItemCount(); i++){
             bottomNavigationViewEx.setIconTintList(i, ColorStateList.valueOf(getResources().getColor(R.color.grey)));
         }
+    }
+
+    private void ref(View view) {
+        end = view.findViewById(R.id.tvEndHome);
+        btn = view.findViewById(R.id.btnPay);
+        tvEmpty = view.findViewById(R.id.tvBagEmpty);
+        tvTotalVal = view.findViewById(R.id.tvTotalNumBag);
+        motionLayout = view.findViewById(R.id.motionHome);
+        emptyBag = view.findViewById(R.id.imgBagEmpty);
     }
 
 }

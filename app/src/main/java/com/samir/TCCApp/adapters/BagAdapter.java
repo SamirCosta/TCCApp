@@ -12,8 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Product;
+import com.samir.TCCApp.fragments.HomeFragment;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import static com.samir.TCCApp.fragments.HomeFragment.emptyBag;
+import static com.samir.TCCApp.fragments.HomeFragment.tvEmpty;
+import static com.samir.TCCApp.fragments.HomeFragment.tvTotalVal;
 
 public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
     private ArrayList<Product> arrayList;
@@ -31,17 +37,18 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.item.setText("Item " + position);
-        holder.imageView.setImageResource(R.drawable.taco);
         Product product = arrayList.get(position);
+        holder.item.setText(product.getName());
+        holder.imageView.setImageResource(R.drawable.nachos);
         holder.qtd.setText(String.valueOf(product.getQtd()));
+        holder.val.setText("R$" + product.getValorProd());
 
         holder.less.setOnClickListener(c -> {
             int newQtd = Integer.parseInt(holder.qtd.getText().toString()) - 1;
-            Log.i("QTD", ""+newQtd);
+            Log.i("QTD", "" + newQtd);
             if (newQtd > 0)
                 product.setQtd(newQtd);
-                holder.qtd.setText(String.valueOf(product.getQtd()));
+            holder.qtd.setText(String.valueOf(product.getQtd()));
             notifyDataSetChanged();
         });
 
@@ -51,7 +58,17 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
             notifyDataSetChanged();
         });
 
+        float sum = 0;
+        if (!arrayList.isEmpty()) {
+            tvEmpty.setVisibility(View.GONE);
+            emptyBag.setVisibility(View.GONE);
+            tvTotalVal.setVisibility(View.VISIBLE);
 
+            for (Product prod : arrayList) {
+                sum += prod.getValorProd();
+            }
+            tvTotalVal.setText("Total: R$" + new DecimalFormat("0.00").format(sum));
+        }
 
     }
 
@@ -60,9 +77,9 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
         return arrayList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView, less, more;
-        TextView item, qtd;
+        TextView item, qtd, val;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +88,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
             less = itemView.findViewById(R.id.btnQtdLess);
             more = itemView.findViewById(R.id.btnQtdMore);
             qtd = itemView.findViewById(R.id.qtdNum);
+            val = itemView.findViewById(R.id.tvItemBagPrice);
         }
     }
 
