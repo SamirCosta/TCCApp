@@ -19,16 +19,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ProductDAO {
+import static com.samir.TCCApp.classes.Helper.*;
 
-    private final String TABLE = "tbproduto";
-    private final String COL_IDPROD = "IdProd";
-    private final String COL_NOMEPROD = "NomeProd";
-    private final String COL_DESCPROD = "DescProd";
-    private final String COL_VALPROD = "ValorProd";
-    private final String COL_OBSPROD = "Observacao";
-    private final String COL_TIPOPROD = "TipoProd";
-    private final String COL_CATPROD = "CategoriaProd";
+public class ProductDAO {
 
     private SQLiteDatabase write;
     private SQLiteDatabase read;
@@ -44,7 +37,7 @@ public class ProductDAO {
     }
 
     public Integer deleteAll () {
-        return write.delete(TABLE,
+        return write.delete(TABLE_PROD,
                 null,
                 null);
     }
@@ -87,14 +80,13 @@ public class ProductDAO {
             contentValues.put(COL_OBSPROD, product.getObservacao());
             contentValues.put(COL_TIPOPROD, product.getTipoProd());
             contentValues.put(COL_CATPROD, product.getCategoriaProd());
-            write.insert(TABLE, null, contentValues);
+            write.insert(TABLE_PROD, null, contentValues);
         }
     }
 
-//    https://webapitccapp.azurewebsites.net/api/Product/getAll
     public void requestProducts(){
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://webapitccapp.azurewebsites.net")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -124,7 +116,7 @@ public class ProductDAO {
     public ArrayList<Integer> getIds() {
         ArrayList<Integer> array_list = new ArrayList<>();
 
-        Cursor res =  read.rawQuery( String.format("select %s from %s", COL_IDPROD, TABLE), null );
+        Cursor res =  read.rawQuery( String.format("select %s from %s", COL_IDPROD, TABLE_PROD), null );
         res.moveToFirst();
 
         while(!res.isAfterLast()){

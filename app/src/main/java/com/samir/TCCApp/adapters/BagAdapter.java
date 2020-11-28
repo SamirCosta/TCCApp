@@ -1,4 +1,4 @@
-package com.samir.TCCApp.adapters;
+    package com.samir.TCCApp.adapters;
 
 import android.util.Log;
 import android.view.LayoutInflater;

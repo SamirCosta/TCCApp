@@ -8,7 +8,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "database";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 5);
+        super(context, DATABASE_NAME, null, 6);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "(idCli INTEGER primary key autoincrement, " +
                 "idUsu INTEGER," +
                 "CEP text," +
-                "CPF int, " +
+                "CPF text, " +
                 "nameCli text, " +
                 "emailCli text, " +
                 "celCli int, " +
@@ -62,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS tbcliente");
         db.execSQL("DROP TABLE IF EXISTS tbusuario");
-        db.execSQL("DROP TABLE IF EXISTS tbendereco");
+        db.execSQL("DROP TABLE IF EXISTS tbproduto");
         onCreate(db);
     }
 

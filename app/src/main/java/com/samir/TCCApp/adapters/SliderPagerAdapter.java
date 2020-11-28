@@ -3,27 +3,20 @@ package com.samir.TCCApp.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.MainActivity;
-import com.samir.TCCApp.activities.SliderIntroActivity;
 
 import java.util.Arrays;
 
@@ -72,14 +65,14 @@ public class SliderPagerAdapter extends PagerAdapter {
                         editPassword.setError("Campo obrigatório");
                     }
 
-                    if (!verify(editUser, editPassword)) {
-                        ClientDAO clientDAO = new ClientDAO(context);
+                    /*if (!verify(editUser, editPassword)) {
+                        UserDAO userDAO = new UserDAO(context);
                         if (clientDAO.validateLogin(editUser.getEditText().getText().toString(), editPassword.getEditText().getText().toString())) {
                             openMain();
                         }else {
                             Snackbar.make(view, "Usuário ou senha inválidos", Snackbar.LENGTH_LONG).show();
                         }
-                    }
+                    }*/
 
                 });
             }

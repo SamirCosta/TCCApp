@@ -1,103 +1,103 @@
 package com.samir.TCCApp.classes;
 
 public class Client {
-    public int idCli;
-    public int CPF;
-    public Addressess addressess;
-    public String nameCli;
-    public String emailCli;
-    public long celCli;
-    public String comp;
-    public int numEdif;
-    public User user;
-    public float qtdPonto;
-    public String imagem;
+    public int IdCli;
+    public String CPF;
+    public String NomeCli;
+    public String EmailCli;
+    public long CelCli;
+    public String Comp;
+    public int NumEdif;
+    public float QtdPontos;
+    public String Imagem;
+    public Addressess Endereco;
+    public User User;
 
-    public int getIdCli() {
-        return idCli;
-    }
-
-    public void setIdCli(int idCli) {
-        idCli = idCli;
-    }
-
-    public int getCPF() {
+    public String getCPF() {
         return CPF;
     }
 
-    public void setCPF(int CPF) {
+    public void setCPF(String CPF) {
         this.CPF = CPF;
     }
 
+    public int getIdCli() {
+        return IdCli;
+    }
+
+    public void setIdCli(int IdCli) {
+        this.IdCli = IdCli;
+    }
+
     public Addressess getAddressess() {
-        return addressess;
+        return Endereco;
     }
 
     public void setAddressess(Addressess addressess) {
-        this.addressess = addressess;
+        this.Endereco = addressess;
     }
 
     public String getNameCli() {
-        return nameCli;
+        return NomeCli;
     }
 
     public void setNameCli(String nameCli) {
-        this.nameCli = nameCli;
+        this.NomeCli = nameCli;
     }
 
     public String getEmailCli() {
-        return emailCli;
+        return EmailCli;
     }
 
     public void setEmailCli(String emailCli) {
-        this.emailCli = emailCli;
+        this.EmailCli = emailCli;
     }
 
     public long getCelCli() {
-        return celCli;
+        return CelCli;
     }
 
     public void setCelCli(long celCli) {
-        this.celCli = celCli;
+        this.CelCli = celCli;
     }
 
     public String getComp() {
-        return comp;
+        return Comp;
     }
 
     public void setComp(String comp) {
-        this.comp = comp;
+        this.Comp = comp;
     }
 
     public int getNumEdif() {
-        return numEdif;
+        return NumEdif;
     }
 
     public void setNumEdif(int numEdif) {
-        this.numEdif = numEdif;
+        this.NumEdif = numEdif;
     }
 
     public User getUser() {
-        return user;
+        return User;
     }
 
     public void setUser(User user) {
-        this.user = user;
+        this.User = user;
     }
 
     public float getQtdPonto() {
-        return qtdPonto;
+        return QtdPontos;
     }
 
     public void setQtdPonto(float qtdPonto) {
-        this.qtdPonto = qtdPonto;
+        this.QtdPontos = qtdPonto;
     }
 
     public String getImagem() {
-        return imagem;
+        return Imagem;
     }
 
     public void setImagem(String imagem) {
-        this.imagem = imagem;
+        this.Imagem = imagem;
     }
 }

@@ -18,6 +18,7 @@ import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
 
 import static com.samir.TCCApp.activities.MainActivity.productDAO;
+import static com.samir.TCCApp.classes.Helper.ARQUIVO_LOGIN;
 
 public class SplashActivity extends AppCompatActivity {
     public MotionLayout motionLayout;
@@ -132,7 +133,6 @@ public class SplashActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             mAuth = FirebaseAuth.getInstance();
             user = mAuth.getCurrentUser();
-            String ARQUIVO_LOGIN = "ArqLogin";
             pref = getSharedPreferences(ARQUIVO_LOGIN, 0);
             if (pref.contains("id")) {
                 sharedUser = true;
