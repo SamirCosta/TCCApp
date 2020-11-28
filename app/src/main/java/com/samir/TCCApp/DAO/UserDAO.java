@@ -61,7 +61,7 @@ public class UserDAO {
                 SharedPreferences.Editor editor;
                 pref = context.getSharedPreferences(ARQUIVO_LOGIN, 0);
                 editor = pref.edit();
-                editor.putInt("id", cursor.getColumnIndex("idCli"));
+                editor.putInt("id", cursor.getColumnIndex(COL_IDCLI));
                 editor.apply();
                 return true;
             }
@@ -72,3 +72,4 @@ public class UserDAO {
     }
 
 }
+

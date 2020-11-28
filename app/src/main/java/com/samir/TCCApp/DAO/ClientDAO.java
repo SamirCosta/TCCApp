@@ -8,10 +8,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.samir.TCCApp.api.ClientService;
+import com.samir.TCCApp.api.ProductService;
 import com.samir.TCCApp.classes.Addressess;
 import com.samir.TCCApp.classes.Client;
 import com.samir.TCCApp.classes.DatabaseHelper;
+import com.samir.TCCApp.classes.Product;
 import com.samir.TCCApp.classes.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,12 +30,6 @@ public class ClientDAO {
     private SQLiteDatabase write;
     private SQLiteDatabase read;
     private Retrofit retrofit;
-
-    /*private final String TABLE = "tbusuario";
-    private final String COL_IDUSU = "idUsu";
-    private final String COL_USER = "userName";
-    private final String COL_PASS = "password";
-    private final String COL_ACESS = "acessType";*/
 
     private Context context;
 
@@ -113,6 +112,52 @@ public class ClientDAO {
         }
 
         return true;
+    }
+
+    /*public ArrayList<Client> getClients(){
+        ArrayList<Client> clientArrayList = new ArrayList<>();
+        Cursor res =  read.rawQuery( "select * from tbcliente" , null );
+        res.moveToFirst();
+
+        while(!res.isAfterLast()){
+            Client client = new Client();
+            client.setIdProd(res.getInt(res.getColumnIndex(COL_IDPROD)));
+            client.setName(res.getString(res.getColumnIndex(COL_NOMEPROD)));
+
+            clientArrayList.add(client);
+            res.moveToNext();
+        }
+
+        return clientArrayList;
+    }*/
+
+    public void requestClients(){
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ClientService clientService = retrofit.create(ClientService.class);
+        Call<List<Client>> call = clientService.getAllClients();
+
+        call.enqueue(new Callback<List<Client>>() {
+            @Override
+            public void onResponse(Call<List<Client>> call, Response<List<Client>> response) {
+                if (response.isSuccessful()){
+                    List<Client> clients = response.body();
+                    for (Client client: clients){
+//                        Log.i("PRODUCT", "" + product.getName() + "  " + product.getIdProd());
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Client>> call, Throwable t) {
+
+            }
+        });
+
     }
 
 }

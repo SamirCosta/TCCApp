@@ -26,7 +26,7 @@ public class ProductDAO {
     private SQLiteDatabase write;
     private SQLiteDatabase read;
     private Retrofit retrofit;
-    private List<Product> products = new ArrayList<>();
+//    private List<Product> products = new ArrayList<>();
 
     public ProductDAO(Context context) {
         DatabaseHelper db = new DatabaseHelper(context);
@@ -97,7 +97,7 @@ public class ProductDAO {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()){
-                    products = response.body();
+                    List<Product> products = response.body();
                     for (Product product: products){
                         Log.i("PRODUCT", "" + product.getName() + "  " + product.getIdProd());
                         insertProd(product);

@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.MainActivity;
+import com.samir.TCCApp.DAO.UserDAO;
 
 import java.util.Arrays;
 
@@ -65,14 +66,14 @@ public class SliderPagerAdapter extends PagerAdapter {
                         editPassword.setError("Campo obrigatório");
                     }
 
-                    /*if (!verify(editUser, editPassword)) {
+                    if (!verify(editUser, editPassword)) {
                         UserDAO userDAO = new UserDAO(context);
-                        if (clientDAO.validateLogin(editUser.getEditText().getText().toString(), editPassword.getEditText().getText().toString())) {
+                        if (userDAO.validateLogin(editUser.getEditText().getText().toString(), editPassword.getEditText().getText().toString())) {
                             openMain();
                         }else {
                             Snackbar.make(view, "Usuário ou senha inválidos", Snackbar.LENGTH_LONG).show();
                         }
-                    }*/
+                    }
 
                 });
             }
