@@ -266,7 +266,6 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
         String city = address.getLocality();
         if (city == null) addressess.setCidade(address.getSubAdminArea());
         else addressess.setCidade(city);
-        addressess.setEstado(address.getAdminArea());
     }
 
     private void save() {

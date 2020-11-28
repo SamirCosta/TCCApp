@@ -30,7 +30,6 @@ public class AddressessDAO {
         contentValues.put(COL_LOGRA, addressess.getLogra());
         contentValues.put(COL_BAIRRO, addressess.getBairro());
         contentValues.put(COL_CIDADE, addressess.getCidade());
-        contentValues.put(COL_ESTADO, addressess.getEstado());
         write.insert(TABLE, null, contentValues);
 
     }

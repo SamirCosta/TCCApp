@@ -1,4 +1,4 @@
-package com.samir.TCCApp.classes;
+package com.samir.TCCApp.utils;
 
 public class Helper {
 

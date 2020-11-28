@@ -66,14 +66,14 @@ public class SliderPagerAdapter extends PagerAdapter {
                         editPassword.setError("Campo obrigatório");
                     }
 
-                    if (!verify(editUser, editPassword)) {
+                    /*if (!verify(editUser, editPassword)) {
                         UserDAO userDAO = new UserDAO(context);
                         if (userDAO.validateLogin(editUser.getEditText().getText().toString(), editPassword.getEditText().getText().toString())) {
                             openMain();
                         }else {
                             Snackbar.make(view, "Usuário ou senha inválidos", Snackbar.LENGTH_LONG).show();
                         }
-                    }
+                    }*/
 
                 });
             }

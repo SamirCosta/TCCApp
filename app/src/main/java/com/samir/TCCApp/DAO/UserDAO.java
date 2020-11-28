@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.samir.TCCApp.classes.DatabaseHelper;
 import com.samir.TCCApp.classes.User;
 
-import static com.samir.TCCApp.classes.Helper.*;
+import static com.samir.TCCApp.utils.Helper.*;
 
 public class UserDAO {
 
@@ -24,16 +24,19 @@ public class UserDAO {
         this.context = context;
     }
 
-    public void insertUser(User user){
+    /*public void insertUser(User user){
         ContentValues contentValues = new ContentValues();
 //        contentValues.put(COL_IDUSU, user.getIdUsu());
         contentValues.put(COL_USERNAME, user.getUserName());
         contentValues.put(COL_PASS, user.getPassword());
         contentValues.put(COL_ACESS, user.getAcessType());
         write.insert(TABLE_USU, null, contentValues);
-    }
 
-    public User returnUserAdded() {
+        *//*Cursor res = read.rawQuery("select idUsu from tbusuario", null);
+        res.moveToLast();*//*
+    }*/
+
+    /*public User returnUserAdded() {
         User user = new User();
 
         Cursor res = read.rawQuery("select * from tbusuario ORDER BY idUsu DESC LIMIT 1", null);
@@ -48,28 +51,30 @@ public class UserDAO {
 //        }
 
         return user;
-    }
+    }*/
 
-    public boolean validateLogin(String user, String pass){
+    /*public boolean validateLogin(String user, String pass){
         Cursor cursor = read.rawQuery("select idUsu, userName, password from tbusuario", null);
         cursor.moveToFirst();
 
         while (!cursor.isAfterLast()) {
             if (cursor.getString(cursor.getColumnIndex(COL_USERNAME)).equals(user)
                     && cursor.getString(cursor.getColumnIndex(COL_PASS)).equals(pass)) {
+
                 SharedPreferences pref;
                 SharedPreferences.Editor editor;
                 pref = context.getSharedPreferences(ARQUIVO_LOGIN, 0);
                 editor = pref.edit();
-                editor.putInt("id", cursor.getColumnIndex(COL_IDCLI));
+                editor.putInt("id", cursor.getInt(cursor.getColumnIndex(COL_IDUSU)));
                 editor.apply();
+
                 return true;
             }
             cursor.moveToNext();
         }
 
         return false;
-    }
+    }*/
 
 }
 

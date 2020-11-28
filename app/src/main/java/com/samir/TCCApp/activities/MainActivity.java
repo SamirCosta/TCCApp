@@ -30,6 +30,9 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.samir.TCCApp.DAO.ClientDAO.addressessArrayList;
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_LOGIN;
+
 public class MainActivity extends AppCompatActivity {
     private CardView btHome, btData, btCupons, btAbout;
     private TextView tvHome, tvData, tvCupons, tvAbout, tvName;
@@ -49,9 +52,20 @@ public class MainActivity extends AppCompatActivity {
         ref();
         checkPermissions();
 
+        boolean contains = true;
+        for (Addressess address: addressessArrayList){
+            SharedPreferences sharedPreferences = this.getSharedPreferences(ARQUIVO_LOGIN,0);
+            int id = sharedPreferences.getInt("id", 0);
+            if (id == address.getIdCli()){
+                AddressActivity.addressess = address;
+                contains = false;
+            }
+
+        }
+
         Addressess addressess = getInternalAddressess();
-        if (addressess != null) AddressActivity.addressess = addressess;
-        else AddressActivity.addressess = new Addressess();
+        if (addressess != null && contains) AddressActivity.addressess = addressess;
+        else if(contains) AddressActivity.addressess = new Addressess();
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

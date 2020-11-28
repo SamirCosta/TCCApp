@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.samir.TCCApp.api.ProductService;
 import com.samir.TCCApp.classes.DatabaseHelper;
@@ -19,7 +18,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.samir.TCCApp.classes.Helper.*;
+import static com.samir.TCCApp.utils.Helper.*;
 
 public class ProductDAO {
 
@@ -36,11 +35,11 @@ public class ProductDAO {
 //        deleteAll();
     }
 
-    public Integer deleteAll () {
+    /*public Integer deleteAll () {
         return write.delete(TABLE_PROD,
                 null,
                 null);
-    }
+    }*/
 
     public ArrayList<Product> getProducts(){
         ArrayList<Product> productArrayList = new ArrayList<>();
@@ -99,7 +98,7 @@ public class ProductDAO {
                 if (response.isSuccessful()){
                     List<Product> products = response.body();
                     for (Product product: products){
-                        Log.i("PRODUCT", "" + product.getName() + "  " + product.getIdProd());
+//                        Log.i("PRODUCT", "" + product.getName() + "  " + product.getIdProd());
                         insertProd(product);
                     }
                 }

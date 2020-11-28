@@ -1,6 +1,7 @@
 package com.samir.TCCApp.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -17,10 +18,12 @@ import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.DAO.UserDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Client;
-import com.samir.TCCApp.classes.MaskEditUtil;
+import com.samir.TCCApp.utils.MaskEditUtil;
 import com.samir.TCCApp.classes.User;
 
 import java.util.Arrays;
+
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_LOGIN;
 
 public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout editNome, editSobrenome, editEmail, editLayoutCelular, editUserName, editPassword, editConfirmPass;
@@ -105,8 +108,15 @@ public class RegisterActivity extends AppCompatActivity {
                     .replace("-", "").replace(" ", "")));
 
             if (clientDAO.validateRegister(userName, email)) {
-                userDAO.insertUser(user);
-                clientDAO.insertCli(client);
+                /*userDAO.insertUser(user);
+                clientDAO.insertCli(client);*/
+
+                SharedPreferences pref;
+                SharedPreferences.Editor editor;
+                pref = this.getSharedPreferences(ARQUIVO_LOGIN, 0);
+                editor = pref.edit();
+//                editor.putInt("id", userDAO.returnUserAdded().getIdUsu());
+                editor.apply();
 
                 startActivity(new Intent(this, MainActivity.class));
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);

@@ -14,11 +14,12 @@ import androidx.core.app.ActivityOptionsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
 
 import static com.samir.TCCApp.activities.MainActivity.productDAO;
-import static com.samir.TCCApp.classes.Helper.ARQUIVO_LOGIN;
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_LOGIN;
 
 public class SplashActivity extends AppCompatActivity {
     public MotionLayout motionLayout;
@@ -138,6 +139,7 @@ public class SplashActivity extends AppCompatActivity {
                 sharedUser = true;
             }
             productDAO = new ProductDAO(SplashActivity.this);
+            new ClientDAO(SplashActivity.this);
             return null;
         }
 

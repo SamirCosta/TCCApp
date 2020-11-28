@@ -4,13 +4,20 @@ import java.io.Serializable;
 
 public class Addressess implements Serializable {
 
+    int idCli;
     String address;
     String CEP;
-    String logra;
-    String bairro;
-    String cidade;
-    String estado;
-    String UF;
+    String Logra;
+    String Bairro;
+    String Cidade;
+
+    public int getIdCli() {
+        return idCli;
+    }
+
+    public void setIdCli(int idCli) {
+        this.idCli = idCli;
+    }
 
     public String getAddress() {
         return address;
@@ -29,42 +36,26 @@ public class Addressess implements Serializable {
     }
 
     public String getLogra() {
-        return logra;
+        return Logra;
     }
 
     public void setLogra(String logra) {
-        this.logra = logra;
+        this.Logra = logra;
     }
 
     public String getBairro() {
-        return bairro;
+        return Bairro;
     }
 
     public void setBairro(String bairro) {
-        this.bairro = bairro;
+        this.Bairro = bairro;
     }
 
     public String getCidade() {
-        return cidade;
+        return Cidade;
     }
 
     public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public String getUF() {
-        return UF;
-    }
-
-    public void setUF(String UF) {
-        this.UF = UF;
+        this.Cidade = cidade;
     }
 }
