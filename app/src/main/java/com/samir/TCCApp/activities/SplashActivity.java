@@ -2,7 +2,6 @@ package com.samir.TCCApp.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,9 +16,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
+import com.samir.TCCApp.classes.Client;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import static com.samir.TCCApp.activities.MainActivity.productDAO;
-import static com.samir.TCCApp.utils.Helper.ARQUIVO_LOGIN;
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_CLIENT;
 
 public class SplashActivity extends AppCompatActivity {
     public MotionLayout motionLayout;
@@ -27,8 +31,8 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable runnable;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    private SharedPreferences pref;
-    private boolean sharedUser = false;
+//    private SharedPreferences pref;
+    private boolean internalClient = false;
     boolean go = false;
 
     private final String KEY_HOME = "com.samir.TCCApp.SHORT_HOME";
@@ -61,7 +65,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onTransitionCompleted(MotionLayout motionLayout, int i) {
-                motionLayout.transitionToStart();
+//                motionLayout.transitionToStart();
             }
 
             @Override
@@ -71,7 +75,7 @@ public class SplashActivity extends AppCompatActivity {
         });
 
         runnable = () -> {
-            if ((user != null || sharedUser) && go) {
+            if ((user != null || internalClient) && go) {
                 if (findShortcut()){
                     open(SplashActivity.this, MainActivity.class);
                 }
@@ -134,12 +138,18 @@ public class SplashActivity extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {
             mAuth = FirebaseAuth.getInstance();
             user = mAuth.getCurrentUser();
-            pref = getSharedPreferences(ARQUIVO_LOGIN, 0);
+
+            /*pref = getSharedPreferences(ARQUIVO_LOGIN, 0);
             if (pref.contains("id")) {
                 sharedUser = true;
+            }*/
+
+            if (getInternalClients() != null) {
+                ClientDAO.client = getInternalClients();
+                internalClient = true;
             }
+
             productDAO = new ProductDAO(SplashActivity.this);
-            new ClientDAO(SplashActivity.this);
             return null;
         }
 
@@ -148,6 +158,21 @@ public class SplashActivity extends AppCompatActivity {
             super.onPostExecute(result);
             go = true;
         }
+    }
+
+    private Client getInternalClients() {
+        Client client = null;
+        try {
+            FileInputStream fis = new FileInputStream(getFileStreamPath(ARQUIVO_CLIENT));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            client = (Client) ois.readObject();
+
+            ois.close();
+            fis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return client;
     }
 
 }

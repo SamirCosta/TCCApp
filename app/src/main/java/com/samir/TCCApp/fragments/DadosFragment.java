@@ -16,11 +16,14 @@ import android.widget.TextView;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.textfield.TextInputEditText;
+import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.AddressActivity;
 
+import static com.samir.TCCApp.DAO.ClientDAO.client;
+
 public class DadosFragment extends Fragment {
-    private TextInputEditText editName, editEmail, editFamilyName;
+    private TextInputEditText editName, editEmail, editFamilyName, editCPF, editCel, editSenha;
     private TextView tvEnd;
 
     @Override
@@ -44,6 +47,9 @@ public class DadosFragment extends Fragment {
         editEmail = view.findViewById(R.id.editEmailLogin);
         editFamilyName = view.findViewById(R.id.editFamilyName);
         tvEnd = view.findViewById(R.id.tvEndData);
+        editCPF = view.findViewById(R.id.editCPF);
+        editCel = view.findViewById(R.id.editCel);
+        editSenha = view.findViewById(R.id.editPassw);
 
         tvEnd.setOnClickListener(c -> {
             startActivity(new Intent(getActivity(), AddressActivity.class));
@@ -54,14 +60,29 @@ public class DadosFragment extends Fragment {
             editName.setText(signInAccount.getGivenName());
             editEmail.setText(signInAccount.getEmail());
             editFamilyName.setText(signInAccount.getFamilyName());
-        }
+        } else {
+            String name = client.getNameCli();
+            String[] array = name.split(" ");
 
+            editName.setText(array[0]);
+            editEmail.setText(client.getEmailCli());
+            editCPF.setText(client.getCPF());
+            editCel.setText("" + client.getCelCli());
+            editSenha.setText(client.getUser().getPassword());
+
+            StringBuilder nam = new StringBuilder();
+            for (int i = 1; i < array.length; i++){
+                nam.append(" " + array[i]);
+            }
+                editFamilyName.setText(nam.toString());
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
         if (AddressActivity.addressess != null) {
+            if (AddressActivity.addressess.getAddress() != null)
             tvEnd.setText(AddressActivity.addressess.getAddress());
         }
     }

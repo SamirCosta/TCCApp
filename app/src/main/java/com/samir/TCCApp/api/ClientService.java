@@ -9,13 +9,15 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ClientService {
 
     @POST("/api/Client/Post")
     Call<Client> insertClientAPI(@Body Client client);
 
-    @GET("/api/Client/getAll")
-    Call<List<Client>> getAllClients();
-
+    @GET("api/Client/validateLogin")
+    Call<Client> validateLogin(@Query("user") String user, @Query("pass") String pass);
+//?user={user}&pass={pass}
 }

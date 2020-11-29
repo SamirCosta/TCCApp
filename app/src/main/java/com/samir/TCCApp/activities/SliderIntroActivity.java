@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -67,6 +68,7 @@ public class SliderIntroActivity extends AppCompatActivity {
     private LoginButton loginButton;
     private View viewLogin;
     SliderPagerAdapter sliderPagerAdapter;
+    public static ProgressBar progressBar;
     /*private FirebaseAuth.AuthStateListener authStateListener;
     private AccessTokenTracker accessTokenTracker;*/
 
@@ -91,6 +93,7 @@ public class SliderIntroActivity extends AppCompatActivity {
         layout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);*/
         viewPager = findViewById(R.id.viewPagerSlider);
         linearLayout = findViewById(R.id.indicatorLayout);
+        progressBar = findViewById(R.id.progressBarLogin);
 
         createRequest();
         mAuth = FirebaseAuth.getInstance();
@@ -214,7 +217,7 @@ public class SliderIntroActivity extends AppCompatActivity {
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Toast.makeText(SliderIntroActivity.this, "ERRO", Toast.LENGTH_SHORT).show();
-                            findViewById(R.id.progressBarLogin).setVisibility(View.GONE);
+                            progressBar.setVisibility(View.GONE);
 //                            updateUI(null);
                         }
 
@@ -247,7 +250,7 @@ public class SliderIntroActivity extends AppCompatActivity {
     public void clickbtn(View view) {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
-        findViewById(R.id.progressBarLogin).setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     ViewPager.OnPageChangeListener viewListener = new ViewPager.OnPageChangeListener() {

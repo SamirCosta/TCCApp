@@ -3,7 +3,8 @@ package com.samir.TCCApp.utils;
 public class Helper {
 
     public static String BASE_URL = "https://webapitccapp.azurewebsites.net";
-    public static String ARQUIVO_LOGIN = "ArqLogin";
+    public static String ARQUIVO_CLIENT = "client";
+    public static String ARQUIVO_ADDRESS = "addressess";
 
     public static String TABLE_CLI = "tbcliente";
     public static String COL_IDCLI = "idCli";

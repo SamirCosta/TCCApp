@@ -1,6 +1,8 @@
 package com.samir.TCCApp.classes;
 
-public class Client {
+import java.io.Serializable;
+
+public class Client implements Serializable {
     public int IdCli;
     public String CPF;
     public String NomeCli;

@@ -18,12 +18,10 @@ import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.DAO.UserDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Client;
-import com.samir.TCCApp.utils.MaskEditUtil;
 import com.samir.TCCApp.classes.User;
+import com.samir.TCCApp.utils.MaskEditUtil;
 
 import java.util.Arrays;
-
-import static com.samir.TCCApp.utils.Helper.ARQUIVO_LOGIN;
 
 public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout editNome, editSobrenome, editEmail, editLayoutCelular, editUserName, editPassword, editConfirmPass;
@@ -111,12 +109,12 @@ public class RegisterActivity extends AppCompatActivity {
                 /*userDAO.insertUser(user);
                 clientDAO.insertCli(client);*/
 
-                SharedPreferences pref;
+                /*SharedPreferences pref;
                 SharedPreferences.Editor editor;
                 pref = this.getSharedPreferences(ARQUIVO_LOGIN, 0);
                 editor = pref.edit();
 //                editor.putInt("id", userDAO.returnUserAdded().getIdUsu());
-                editor.apply();
+                editor.apply();*/
 
                 startActivity(new Intent(this, MainActivity.class));
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);

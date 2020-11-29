@@ -1,18 +1,29 @@
 package com.samir.TCCApp.DAO;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.view.View;
 
+import com.google.android.material.snackbar.Snackbar;
+import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.AddressActivity;
+import com.samir.TCCApp.activities.MainActivity;
 import com.samir.TCCApp.api.ClientService;
 import com.samir.TCCApp.classes.Addressess;
 import com.samir.TCCApp.classes.Client;
 import com.samir.TCCApp.classes.DatabaseHelper;
 import com.samir.TCCApp.classes.User;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +33,14 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.samir.TCCApp.activities.SliderIntroActivity.progressBar;
 import static com.samir.TCCApp.utils.Helper.*;
 
 public class ClientDAO {
     private SQLiteDatabase write;
     private SQLiteDatabase read;
     private Retrofit retrofit;
-    public static ArrayList<Addressess> addressessArrayList = new ArrayList<>();
+    public static Client client;
 
     private Context context;
 
@@ -37,53 +49,7 @@ public class ClientDAO {
         write = db.getWritableDatabase();
         read = db.getReadableDatabase();
         this.context = context;
-        requestClients();
     }
-
-    /*public void insertCli(Client client) {
-        int idUsu = 0;
-        String cep = null;
-        UserDAO userDAO = new UserDAO(context);
-
-        if (client.getUser() == null) {
-            User user = userDAO.returnUserAdded();
-            idUsu = user.getIdUsu();
-
-            client.setUser(user);
-            client.setAddressess(new Addressess());
-
-            postClient(client);
-        } else {
-            idUsu = client.getUser().getIdUsu();
-            userDAO.insertUser(client.getUser());
-            if (client.getAddressess() != null) {
-                Addressess addressess = client.getAddressess();
-                addressess.setIdCli(client.getIdCli());
-                cep = addressess.getCEP();
-                String vir = ",";
-                addressess.setAddress(addressess.getLogra() + vir + client.getNumEdif() + vir +
-                        addressess.getBairro() + vir + addressess.getCidade() + vir + addressess.getCEP());
-                addressessArrayList.add(addressess);
-            } else {
-                client.setAddressess(new Addressess());
-            }
-        }
-
-        ContentValues contentValues = new ContentValues();
-//        contentValues.put(COL_IDCLI, client.getIdCli());
-        contentValues.put(COL_IDUSU, idUsu);
-        contentValues.put(COL_CEP, cep);
-        contentValues.put(COL_CPF, client.getCPF());
-        contentValues.put(COL_NAMECLI, client.getNameCli());
-        contentValues.put(COL_EMAILCLI, client.getEmailCli());
-        contentValues.put(COL_CELCLI, client.getCelCli());
-        contentValues.put(COL_COMP, client.getComp());
-        contentValues.put(COL_NUMEDIF, client.getNumEdif());
-        contentValues.put(COL_QTDPONT, client.getQtdPonto());
-        contentValues.put(COL_IMG, client.getImagem());
-        write.insert(TABLE_CLI, null, contentValues);
-
-    }*/
 
     public void postClient(Client client) {
         retrofit = new Retrofit.Builder()
@@ -111,7 +77,7 @@ public class ClientDAO {
 
     }
 
-    public boolean validateRegister(String user, String email) {
+    /*public boolean validateRegister(String user, String email) {
         Cursor res = read.rawQuery("select userName from tbusuario", null);
         res.moveToFirst();
 
@@ -133,52 +99,76 @@ public class ClientDAO {
         }
 
         return true;
-    }
-
-    /*public ArrayList<Client> getClients(){
-        ArrayList<Client> clientArrayList = new ArrayList<>();
-        Cursor res =  read.rawQuery( "select * from tbcliente" , null );
-        res.moveToFirst();
-
-        while(!res.isAfterLast()){
-            Client client = new Client();
-            client.setIdProd(res.getInt(res.getColumnIndex(COL_IDPROD)));
-            client.setName(res.getString(res.getColumnIndex(COL_NOMEPROD)));
-
-            clientArrayList.add(client);
-            res.moveToNext();
-        }
-
-        return clientArrayList;
     }*/
 
-    public void requestClients() {
+    public void validateLogin(String username, String pass, View view) {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ClientService clientService = retrofit.create(ClientService.class);
-        Call<List<Client>> call = clientService.getAllClients();
+        Call<Client> call = clientService.validateLogin(username, pass);
 
-        call.enqueue(new Callback<List<Client>>() {
+        call.enqueue(new Callback<Client>() {
             @Override
-            public void onResponse(Call<List<Client>> call, Response<List<Client>> response) {
+            public void onResponse(Call<Client> call, Response<Client> response) {
                 if (response.isSuccessful()) {
-                    List<Client> clients = response.body();
-                    for (Client client : clients) {
-                        Log.i("CLIENT", "" + client.getNameCli() + "  " + client.getIdCli());
-//                        insertCli(client);
+                    client = response.body();
+                    if (client != null) {
+                        if (client.getIdCli() > 0){
+                            if (save()) openMain();
+                        }
+                        else
+                            Snackbar.make(view, "Usuário ou senha inválidos", Snackbar.LENGTH_LONG).show();
                     }
+                    progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Client>> call, Throwable t) {
+            public void onFailure(Call<Client> call, Throwable t) {
 
             }
         });
 
+    }
+
+    private boolean save() {
+        try {
+            FileOutputStream fos = new FileOutputStream(context.getFileStreamPath(ARQUIVO_CLIENT));
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(client);
+            oos.close();
+            fos.close();
+        }catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        getInternalClients();
+        return true;
+    }
+
+    private void openMain() {
+        context.startActivity(new Intent(context, MainActivity.class));
+        ((Activity) context).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+        ((Activity) context).finish();
+    }
+
+    private void getInternalClients() {
+        Client client = null;
+        try {
+            FileInputStream fis = new FileInputStream(context.getFileStreamPath(ARQUIVO_CLIENT));
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            client = (Client) ois.readObject();
+            Log.i("dsbgd", client.getNameCli());
+
+            ois.close();
+            fis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -36,15 +36,21 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.adapters.PlaceAutoSuggest;
 import com.samir.TCCApp.classes.Addressess;
+import com.samir.TCCApp.classes.Client;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Locale;
+
+import static com.samir.TCCApp.DAO.ClientDAO.client;
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_ADDRESS;
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_CLIENT;
 
 public class AddressActivity extends FragmentActivity implements OnMapReadyCallback {
     private String ENTER = "\n";
@@ -130,6 +136,8 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
                     public void onClick(DialogInterface dialog, int which) {
 //                        addressess = new Addressess();
                         addressess.setAddress(adr);
+                        if (client == null) client = new Client();
+                        client.setAddressess(addressess);
                         save();
                         finish();
                     }
@@ -270,10 +278,10 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
 
     private void save() {
         try {
-            FileOutputStream fos = new FileOutputStream(this.getFileStreamPath("addressess"));
+            FileOutputStream fos = new FileOutputStream(this.getFileStreamPath(ARQUIVO_CLIENT));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-            oos.writeObject(addressess);
+            oos.writeObject(client);
             oos.close();
             fos.close();
         }catch (IOException e) {

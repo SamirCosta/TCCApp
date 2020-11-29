@@ -20,18 +20,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Addressess;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.samir.TCCApp.DAO.ClientDAO.addressessArrayList;
-import static com.samir.TCCApp.utils.Helper.ARQUIVO_LOGIN;
+import static com.samir.TCCApp.DAO.ClientDAO.client;
 
 public class MainActivity extends AppCompatActivity {
     private CardView btHome, btData, btCupons, btAbout;
@@ -52,36 +49,30 @@ public class MainActivity extends AppCompatActivity {
         ref();
         checkPermissions();
 
-        boolean contains = true;
-        for (Addressess address: addressessArrayList){
-            SharedPreferences sharedPreferences = this.getSharedPreferences(ARQUIVO_LOGIN,0);
-            int id = sharedPreferences.getInt("id", 0);
-            if (id == address.getIdCli()){
-                AddressActivity.addressess = address;
-                contains = false;
-            }
-
+        Addressess addressess = null;
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        FirebaseUser userFace = FirebaseAuth.getInstance().getCurrentUser();
+        if (signInAccount != null) {
+            tvName.setText(signInAccount.getGivenName());
+        }else if (userFace != null) {
+            String name = userFace.getDisplayName();
+            String[] array = name.split(" ");
+            tvName.setText(array[0]);
+        }else if (client != null) {
+            addressess = client.getAddressess();
+            tvName.setText(client.getNameCli());
         }
-
-        Addressess addressess = getInternalAddressess();
-        if (addressess != null && contains) AddressActivity.addressess = addressess;
-        else if(contains) AddressActivity.addressess = new Addressess();
+        if (addressess != null && addressess.getCEP() != null) {
+            AddressActivity.addressess = client.getAddressess();
+            String vir = ",";
+            AddressActivity.addressess.setAddress(addressess.getLogra() + vir + client.getNumEdif() + vir +
+                    addressess.getBairro() + vir + addressess.getCidade() + vir + addressess.getCEP());
+        }
+        else AddressActivity.addressess = new Addressess();
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             page = bundle.getInt("shortcut");
-        }
-
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-        if (signInAccount != null) {
-            tvName.setText(signInAccount.getGivenName());
-        }
-
-        FirebaseUser userFace = FirebaseAuth.getInstance().getCurrentUser();
-        if (userFace != null) {
-            String name = userFace.getDisplayName();
-            String[] array = name.split(" ");
-            tvName.setText(array[0]);
         }
 
         findViewById(R.id.imageViewIc).setOnClickListener(v -> drawerLayout.open());
@@ -200,10 +191,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Addressess getInternalAddressess() {
+    /*private Addressess getInternalAddressess() {
         Addressess addressess = null;
         try {
-            FileInputStream fis = new FileInputStream(getFileStreamPath("addressess"));
+            FileInputStream fis = new FileInputStream(getFileStreamPath(ARQUIVO_ADDRESS));
             ObjectInputStream ois = new ObjectInputStream(fis);
             addressess = (Addressess) ois.readObject();
 
@@ -213,6 +204,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return addressess;
-    }
+    }*/
 
 }

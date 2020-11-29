@@ -24,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.AddressActivity;
 import com.samir.TCCApp.activities.MainActivity;
@@ -57,9 +58,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if(AddressActivity.addressess != null){
+        if (AddressActivity.addressess != null) {
             if (AddressActivity.addressess.getAddress() != null)
-            end.setText(AddressActivity.addressess.getAddress());
+                end.setText(AddressActivity.addressess.getAddress());
         }
         recyclerViewBag.getAdapter().notifyDataSetChanged();
     }
@@ -97,7 +98,7 @@ public class HomeFragment extends Fragment {
                 if (motionLayout.getVisibility() == View.VISIBLE)
                     motionLayout.transitionToStart();
                 else
-                getActivity().finish();
+                    getActivity().finish();
 
             }
         });
@@ -119,7 +120,7 @@ public class HomeFragment extends Fragment {
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
 
                 int dragFlags = ItemTouchHelper.ACTION_STATE_IDLE;
-                int swipeFlags = ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT;
+                int swipeFlags = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
 
                 return makeMovementFlags(dragFlags, swipeFlags);
             }
@@ -148,13 +149,13 @@ public class HomeFragment extends Fragment {
             @Override
             public boolean onFling(int velocityX, int velocityY) {
                 if (Math.abs(velocityY) > 4000) {
-                    velocityY = (int) (4000 * Math.signum((double)velocityY));
+                    velocityY = (int) (4000 * Math.signum((double) velocityY));
                     recyclerViewBag.fling(velocityX, velocityY);
                     return true;
                 }
 
                 if (Math.abs(velocityY) > 2000 && recyclerViewBag.computeVerticalScrollOffset() < 600) {
-                    velocityY = (int) (2000 * Math.signum((double)velocityY));
+                    velocityY = (int) (2000 * Math.signum((double) velocityY));
                     recyclerViewBag.fling(velocityX, velocityY);
                     return true;
                 }
@@ -212,15 +213,15 @@ public class HomeFragment extends Fragment {
         TextView tvName = view.findViewById(R.id.tvNameHome);
 
         GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
-        if (signInAccount != null){
-            tvName.setText(signInAccount.getGivenName());
-        }
-
         FirebaseUser userFace = FirebaseAuth.getInstance().getCurrentUser();
-        if (userFace != null){
+        if (signInAccount != null) {
+            tvName.setText(signInAccount.getGivenName());
+        } else if (userFace != null) {
             String name = userFace.getDisplayName();
             String[] array = name.split(" ");
             tvName.setText(array[0]);
+        } else {
+            tvName.setText(ClientDAO.client.getNameCli());
         }
     }
 
@@ -228,9 +229,9 @@ public class HomeFragment extends Fragment {
 
         view.findViewById(R.id.bag).setOnClickListener(v -> {
             motionLayout.setVisibility(View.VISIBLE);
-            if (motionLayout.getProgress() == 0){
+            if (motionLayout.getProgress() == 0) {
                 motionLayout.transitionToEnd();
-            }else{
+            } else {
                 motionLayout.transitionToStart();
             }
         });
@@ -247,7 +248,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onTransitionCompleted(MotionLayout motionLayout, int i) {
-                if (motionLayout.getProgress() == 0){
+                if (motionLayout.getProgress() == 0) {
                     motionLayout.setVisibility(View.GONE);
                 }
             }
@@ -265,7 +266,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void clearColor() {
-        for (int i=0; i <= bottomNavigationViewEx.getItemCount(); i++){
+        for (int i = 0; i <= bottomNavigationViewEx.getItemCount(); i++) {
             bottomNavigationViewEx.setIconTintList(i, ColorStateList.valueOf(getResources().getColor(R.color.grey)));
         }
     }

@@ -46,13 +46,15 @@
 
         <TextView
             android:id="@+id/tvNameHome"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="112dp"
             android:layout_marginBottom="9dp"
             android:fontFamily="@font/montserrat"
             android:text="Fulano"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="#DF0000"
             android:textSize="22sp" />
 

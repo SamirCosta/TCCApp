@@ -15,11 +15,15 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.MainActivity;
 import com.samir.TCCApp.DAO.UserDAO;
+import com.samir.TCCApp.classes.Client;
 
 import java.util.Arrays;
+
+import static com.samir.TCCApp.activities.SliderIntroActivity.progressBar;
 
 public class SliderPagerAdapter extends PagerAdapter {
     private int[] layouts;
@@ -66,14 +70,14 @@ public class SliderPagerAdapter extends PagerAdapter {
                         editPassword.setError("Campo obrigatório");
                     }
 
-                    /*if (!verify(editUser, editPassword)) {
-                        UserDAO userDAO = new UserDAO(context);
-                        if (userDAO.validateLogin(editUser.getEditText().getText().toString(), editPassword.getEditText().getText().toString())) {
-                            openMain();
-                        }else {
-                            Snackbar.make(view, "Usuário ou senha inválidos", Snackbar.LENGTH_LONG).show();
-                        }
-                    }*/
+                    if (!verify(editUser, editPassword)) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        ClientDAO clientDAO = new ClientDAO(context);
+                        clientDAO.validateLogin(
+                                editUser.getEditText().getText().toString(),
+                                editPassword.getEditText().getText().toString(),
+                                view);
+                    }
 
                 });
             }
@@ -98,10 +102,5 @@ public class SliderPagerAdapter extends PagerAdapter {
         return Arrays.stream(editTexts).anyMatch(e -> e.getEditText().getText().toString().isEmpty());
     }
 
-    private void openMain() {
-        context.startActivity(new Intent(context, MainActivity.class));
-        ((Activity) context).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
-        ((Activity) context).finish();
-    }
 
 }
