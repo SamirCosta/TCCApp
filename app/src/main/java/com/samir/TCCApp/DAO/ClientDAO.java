@@ -37,69 +37,45 @@ import static com.samir.TCCApp.activities.SliderIntroActivity.progressBar;
 import static com.samir.TCCApp.utils.Helper.*;
 
 public class ClientDAO {
-    private SQLiteDatabase write;
-    private SQLiteDatabase read;
     private Retrofit retrofit;
     public static Client client;
 
-    private Context context;
+    private final Context context;
 
     public ClientDAO(Context context) {
-        DatabaseHelper db = new DatabaseHelper(context);
-        write = db.getWritableDatabase();
-        read = db.getReadableDatabase();
         this.context = context;
     }
 
-    public void postClient(Client client) {
+    public void postClient(Client client, View view, Context mContext) {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         ClientService clientService = retrofit.create(ClientService.class);
-        Call<Client> call = clientService.insertClientAPI(client);
+        Call<Boolean> call = clientService.insertClientAPI(client);
 
-        call.enqueue(new Callback<Client>() {
+        call.enqueue(new Callback<Boolean>() {
             @Override
-            public void onResponse(Call<Client> call, Response<Client> response) {
-                Log.i("API", "Cod: " + response.code());
-                if (response.isSuccessful()) {
-//                    Log.i("API", "Cod: " + response.code());
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Log.i("API", "Cod: " + response.code() + response.body());
+                if (response.isSuccessful() && response.body()) {
+                    ClientDAO.client = client;
+                    mContext.startActivity(new Intent(mContext, MainActivity.class));
+                    ((Activity) mContext).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+                    ((Activity) mContext).finish();
+                }else{
+                    Snackbar.make(view, "Usuário já cadastrado", Snackbar.LENGTH_LONG).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Client> call, Throwable t) {
-                Log.i("API", "Cod: ");
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.i("API", "DEU RUIM: " + t.getMessage());
             }
         });
 
     }
-
-    /*public boolean validateRegister(String user, String email) {
-        Cursor res = read.rawQuery("select userName from tbusuario", null);
-        res.moveToFirst();
-
-        while (!res.isAfterLast()) {
-            if (res.getString(res.getColumnIndex(COL_USERNAME)).equals(user)) {
-                return false;
-            }
-            res.moveToNext();
-        }
-
-        Cursor cursor = read.rawQuery("select emailCli from tbcliente", null);
-        cursor.moveToFirst();
-
-        while (!cursor.isAfterLast()) {
-            if (cursor.getString(cursor.getColumnIndex(COL_EMAILCLI)).equals(email)) {
-                return false;
-            }
-            cursor.moveToNext();
-        }
-
-        return true;
-    }*/
 
     public void validateLogin(String username, String pass, View view) {
         retrofit = new Retrofit.Builder()
@@ -154,6 +130,7 @@ public class ClientDAO {
         context.startActivity(new Intent(context, MainActivity.class));
         ((Activity) context).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
         ((Activity) context).finish();
+
     }
 
     private void getInternalClients() {

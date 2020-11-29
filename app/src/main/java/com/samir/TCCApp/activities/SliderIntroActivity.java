@@ -196,6 +196,7 @@ public class SliderIntroActivity extends AppCompatActivity {
             } catch (ApiException e) {
                 Log.w(TAG, "Google sign in failed", e);
                 Toast.makeText(this, "Falha ao fazer login", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
             }
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);

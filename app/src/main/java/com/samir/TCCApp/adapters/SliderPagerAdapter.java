@@ -1,8 +1,6 @@
 package com.samir.TCCApp.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
-import com.samir.TCCApp.activities.MainActivity;
-import com.samir.TCCApp.DAO.UserDAO;
-import com.samir.TCCApp.classes.Client;
 
 import java.util.Arrays;
 
