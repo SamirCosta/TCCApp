@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.samir.TCCApp.DAO.ClientDAO.client;
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_CLIENT;
 
 public class MainActivity extends AppCompatActivity {
     private CardView btHome, btData, btCupons, btAbout;
@@ -80,12 +81,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.viewLogOut).setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();
             LoginManager.getInstance().logOut();
-
-            String ARQUIVO_LOGIN = "ArqLogin";
-            SharedPreferences pref = getSharedPreferences(ARQUIVO_LOGIN, 0);
-            SharedPreferences.Editor editor = pref.edit();
-            editor.clear();
-            editor.apply();
+            this.deleteFile(ARQUIVO_CLIENT);
 
             Intent intent = new Intent(this, SliderIntroActivity.class);
             intent.putExtra("page", 4);

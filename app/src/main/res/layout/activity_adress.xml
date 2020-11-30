@@ -96,10 +96,10 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/btnRegAddress"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="54dp"
         android:layout_gravity="bottom"
         android:backgroundTint="@color/red_light"
-        map:cardCornerRadius="6dp"
+        map:cardCornerRadius="600dp"
         android:clickable="false"
         android:layout_marginBottom="30dp"
         android:layout_marginStart="20dp"

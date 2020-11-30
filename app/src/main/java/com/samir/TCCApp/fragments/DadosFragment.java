@@ -60,7 +60,7 @@ public class DadosFragment extends Fragment {
             editName.setText(signInAccount.getGivenName());
             editEmail.setText(signInAccount.getEmail());
             editFamilyName.setText(signInAccount.getFamilyName());
-        } else {
+        } else if (client != null){
             String name = client.getNameCli();
             String[] array = name.split(" ");
 

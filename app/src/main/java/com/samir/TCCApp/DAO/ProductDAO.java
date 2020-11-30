@@ -24,7 +24,6 @@ public class ProductDAO {
 
     private SQLiteDatabase write;
     private SQLiteDatabase read;
-    private Retrofit retrofit;
 //    private List<Product> products = new ArrayList<>();
 
     public ProductDAO(Context context) {
@@ -41,9 +40,9 @@ public class ProductDAO {
                 null);
     }*/
 
-    public ArrayList<Product> getProducts(){
+    public ArrayList<Product> getProducts(String query){
         ArrayList<Product> productArrayList = new ArrayList<>();
-        Cursor res =  read.rawQuery( "select * from tbproduto", null );
+        Cursor res =  read.rawQuery(query, null );
         res.moveToFirst();
 
         while(!res.isAfterLast()){
@@ -84,11 +83,6 @@ public class ProductDAO {
     }
 
     public void requestProducts(){
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
         ProductService productService = retrofit.create(ProductService.class);
         Call<List<Product>> call = productService.getAllProducts();
 

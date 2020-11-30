@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,8 @@ import static com.samir.TCCApp.fragments.HomeFragment.recyclerViewBag;
 
 public class DetailsActivity extends AppCompatActivity {
     private MotionLayout motionLayout;
-    private ImageView imageView, arrow;
-    private TextView name, desc, val;
+    private ImageView imageView, arrow, more, less;
+    private TextView name, desc, val, qtd;
     private Button btn;
 
     @Override
@@ -48,6 +49,18 @@ public class DetailsActivity extends AppCompatActivity {
             toast.setView(view);
             toast.setDuration(Toast.LENGTH_LONG);
             toast.show();
+        });
+
+        less.setOnClickListener(c -> {
+            int newQtd = Integer.parseInt(qtd.getText().toString()) - 1;
+            if (newQtd > 0)
+                product.setQtd(newQtd);
+            qtd.setText(String.valueOf(product.getQtd()));
+        });
+
+        more.setOnClickListener(c -> {
+            product.setQtd(Integer.parseInt(qtd.getText().toString()) + 1);
+            qtd.setText(String.valueOf(product.getQtd()));
         });
 
         motionLayout.addTransitionListener(new MotionLayout.TransitionListener() {
@@ -82,6 +95,9 @@ public class DetailsActivity extends AppCompatActivity {
         desc = findViewById(R.id.tvDescrText);
         val = findViewById(R.id.tvValProd);
         btn = findViewById(R.id.btnAddBag);
+        more = findViewById(R.id.btnQtdMoreDet);
+        less = findViewById(R.id.btnQtdLessDet);
+        qtd = findViewById(R.id.qtdNum);
     }
 
     public void back(View view){

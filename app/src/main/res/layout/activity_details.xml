@@ -146,7 +146,7 @@
             android:layout_marginTop="24dp"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/editObsDet"
-            app:layout_constraintStart_toEndOf="@+id/btnQtdLess"
+            app:layout_constraintStart_toEndOf="@+id/btnQtdLessDet"
             />
 
         <ImageView
@@ -160,7 +160,7 @@
             />
 
         <ImageView
-            android:id="@+id/btnQtdLess"
+            android:id="@+id/btnQtdLessDet"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_baseline_remove_24"

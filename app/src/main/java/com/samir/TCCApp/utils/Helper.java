@@ -1,28 +1,18 @@
 package com.samir.TCCApp.utils;
 
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class Helper {
 
     public static String BASE_URL = "https://webapitccapp.azurewebsites.net";
     public static String ARQUIVO_CLIENT = "client";
     public static String ARQUIVO_ADDRESS = "addressess";
 
-    public static String TABLE_CLI = "tbcliente";
-    public static String COL_IDCLI = "idCli";
-    public static String COL_CEP = "CEP";
-    public static String COL_CPF = "CPF";
-    public static String COL_NAMECLI = "nameCli";
-    public static String COL_EMAILCLI = "emailCli";
-    public static String COL_CELCLI = "celCli";
-    public static String COL_COMP = "comp";
-    public static String COL_NUMEDIF = "numEdif";
-    public static String COL_QTDPONT = "qtdPonto";
-    public static String COL_IMG = "imagem";
-
-    public static String TABLE_USU = "tbusuario";
-    public static String COL_IDUSU = "idUsu";
-    public static String COL_USERNAME = "userName";
-    public static String COL_PASS = "password";
-    public static String COL_ACESS = "acessType";
+    public static Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 
     public static String TABLE_PROD = "tbproduto";
     public static String COL_IDPROD = "IdProd";

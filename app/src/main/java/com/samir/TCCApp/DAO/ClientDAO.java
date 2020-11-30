@@ -37,9 +37,7 @@ import static com.samir.TCCApp.activities.SliderIntroActivity.progressBar;
 import static com.samir.TCCApp.utils.Helper.*;
 
 public class ClientDAO {
-    private Retrofit retrofit;
     public static Client client;
-
     private final Context context;
 
     public ClientDAO(Context context) {
@@ -47,11 +45,6 @@ public class ClientDAO {
     }
 
     public void postClient(Client client, View view, Context mContext) {
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
         ClientService clientService = retrofit.create(ClientService.class);
         Call<Boolean> call = clientService.insertClientAPI(client);
 
@@ -61,6 +54,7 @@ public class ClientDAO {
                 Log.i("API", "Cod: " + response.code() + response.body());
                 if (response.isSuccessful() && response.body()) {
                     ClientDAO.client = client;
+                    save();
                     mContext.startActivity(new Intent(mContext, MainActivity.class));
                     ((Activity) mContext).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
                     ((Activity) mContext).finish();
@@ -78,11 +72,6 @@ public class ClientDAO {
     }
 
     public void validateLogin(String username, String pass, View view) {
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
         ClientService clientService = retrofit.create(ClientService.class);
         Call<Client> call = clientService.validateLogin(username, pass);
 
