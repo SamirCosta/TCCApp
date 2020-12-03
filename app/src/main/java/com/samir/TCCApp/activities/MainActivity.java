@@ -1,10 +1,12 @@
 package com.samir.TCCApp.activities;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +27,7 @@ import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Addressess;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,18 +54,12 @@ public class MainActivity extends AppCompatActivity {
         checkPermissions();
 
         Addressess addressess = null;
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
-        FirebaseUser userFace = FirebaseAuth.getInstance().getCurrentUser();
-        if (signInAccount != null) {
-            tvName.setText(signInAccount.getGivenName());
-        }else if (userFace != null) {
-            String name = userFace.getDisplayName();
-            String[] array = name.split(" ");
-            tvName.setText(array[0]);
-        }else if (client != null) {
+
+        if (client != null) {
             addressess = client.getAddressess();
             tvName.setText(client.getNameCli());
         }
+
         if (addressess != null && addressess.getCEP() != null) {
             AddressActivity.addressess = client.getAddressess();
             String vir = ",";
@@ -92,6 +89,28 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_certo);
 
         colorItem(tvHome);
+
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+                tvName.setText(client.getNameCli());
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
 
         btHome.setOnClickListener(v -> {
             drawerLayout.close();

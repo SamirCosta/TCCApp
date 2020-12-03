@@ -4,20 +4,11 @@ import java.io.Serializable;
 
 public class Addressess implements Serializable {
 
-    int idCli;
     String address;
     String CEP;
     String Logra;
     String Bairro;
     String Cidade;
-
-    public int getIdCli() {
-        return idCli;
-    }
-
-    public void setIdCli(int idCli) {
-        this.idCli = idCli;
-    }
 
     public String getAddress() {
         return address;

@@ -1,13 +1,7 @@
 package com.samir.TCCApp.activities;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -16,14 +10,19 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -49,8 +48,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.samir.TCCApp.DAO.ClientDAO.client;
-import static com.samir.TCCApp.utils.Helper.ARQUIVO_ADDRESS;
 import static com.samir.TCCApp.utils.Helper.ARQUIVO_CLIENT;
+import static com.samir.TCCApp.utils.Helper.hideKeyBoard;
 
 public class AddressActivity extends FragmentActivity implements OnMapReadyCallback {
     private String ENTER = "\n";
@@ -109,11 +108,7 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
 
             if (event != null && KeyEvent.KEYCODE_ENTER == event.getKeyCode() || actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchOnMap();
-                InputMethodManager inputManager = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputManager != null) {
-                    inputManager.hideSoftInputFromWindow(v.getWindowToken(),
-                            InputMethodManager.HIDE_NOT_ALWAYS);
-                }
+                hideKeyBoard(getApplicationContext(), v);
             }
             return false;
         });
@@ -125,27 +120,22 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
                 builder.setCancelable(false);
                 builder.setTitle("Confirmar endereço");
                 builder.setMessage("Tem certeza que deseja utilizar este endereço?\n\n"
-                        + adr/* + ENTER
+                        + adr /*+ ENTER
                         + addressess.getLogra() + ENTER
                         + addressess.getCEP() + ENTER
                         + addressess.getBairro() + ENTER
-                        + addressess.getCidade() + ENTER
-                        + addressess.getEstado()*/);
-                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                        + addressess.getCidade()*/);
+                builder.setPositiveButton("Sim", (dialog, which) -> {
 //                        addressess = new Addressess();
-                        addressess.setAddress(adr);
-                        if (client == null) client = new Client();
-                        client.setAddressess(addressess);
-                        save();
-                        finish();
-                    }
-                }).setNegativeButton("Não", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    addressess.setAddress(adr);
+                    if (client == null) client = new Client();
+                    client.setAddressess(addressess);
+                    ClientDAO clientDAO = new ClientDAO(getApplicationContext());
+                    clientDAO.updateClient(client, null);
+                    clientDAO.save();
+                    finish();
+                }).setNegativeButton("Não", (dialog, which) -> {
 
-                    }
                 });
                 builder.create();
                 builder.show();
@@ -268,15 +258,20 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
     }
 
     private void setAddressObject(Address address) {
-        addressess.setCEP(address.getPostalCode());
-        addressess.setLogra(address.getThoroughfare());
-        addressess.setBairro(address.getSubLocality());
+        String cep = address.getPostalCode();
+        String logra = address.getThoroughfare();
         String city = address.getLocality();
+
+        if (cep != null) addressess.setCEP(cep.replace("-", ""));
+        if (logra != null) addressess.setLogra(logra);
+        addressess.setBairro(address.getSubLocality());
         if (city == null) addressess.setCidade(address.getSubAdminArea());
         else addressess.setCidade(city);
+
+        client.setNumEdif(Integer.parseInt(address.getSubThoroughfare()));
     }
 
-    private void save() {
+   /* private void save() {
         try {
             FileOutputStream fos = new FileOutputStream(this.getFileStreamPath(ARQUIVO_CLIENT));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -287,7 +282,7 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
         }catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

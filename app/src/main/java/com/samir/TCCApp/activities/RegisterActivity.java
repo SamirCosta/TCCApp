@@ -10,8 +10,13 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Addressess;
@@ -22,10 +27,10 @@ import com.samir.TCCApp.utils.MaskEditUtil;
 import java.util.Arrays;
 
 public class RegisterActivity extends AppCompatActivity {
-    private TextInputLayout editNome, editSobrenome, editEmail, editLayoutCelular, editUserName, editPassword, editConfirmPass;
+    private TextInputLayout editNome, editEmail, editLayoutCelular, editUserName, editPassword, editConfirmPass;
     private TextInputEditText editCelular;
 
-    private String nome, sobrenome, email, cel, userName, password, confirmPass;
+    private String nome, email, cel, userName, password, confirmPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +41,38 @@ public class RegisterActivity extends AppCompatActivity {
         this.getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
+                FirebaseAuth.getInstance().signOut();
+                LoginManager.getInstance().logOut();
 
                 Intent intent = new Intent(RegisterActivity.this, SliderIntroActivity.class);
                 intent.putExtra("page", 4);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
                 finish();
-
             }
         });
 
         editCelular.addTextChangedListener(MaskEditUtil.mask(editCelular, "(##) #####-####"));
 
+        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        FirebaseUser userFace = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (signInAccount != null) {
+            editNome.getEditText().setText(signInAccount.getGivenName() + " " + signInAccount.getFamilyName());
+            editEmail.getEditText().setText(signInAccount.getEmail());
+        }else if (userFace != null) {
+            String name = userFace.getDisplayName();
+            String[] array = name.split(" ");
+            editNome.getEditText().setText(array[0]);
+
+            editEmail.getEditText().setText(userFace.getEmail());
+            editCelular.setText(userFace.getPhoneNumber());
+        }
+
     }
 
     private void ref() {
         editNome = findViewById(R.id.editNameRegister);
-        editSobrenome = findViewById(R.id.editSobrenome);
         editEmail = findViewById(R.id.editEmailRegister);
         editLayoutCelular = findViewById(R.id.editCelRegister);
         editCelular = findViewById(R.id.meditCelRegister);
@@ -63,7 +83,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void openMain(View view) {
         nome = editNome.getEditText().getText().toString();
-        sobrenome = editSobrenome.getEditText().getText().toString();
         email = editEmail.getEditText().getText().toString();
         cel = editLayoutCelular.getEditText().getText().toString();
         userName = editUserName.getEditText().getText().toString();
@@ -72,9 +91,9 @@ public class RegisterActivity extends AppCompatActivity {
         if (nome.isEmpty()) {
             editNome.setError("Campo obrigatório");
         }
-        if (sobrenome.isEmpty()) {
+        /*if (sobrenome.isEmpty()) {
             editSobrenome.setError("Campo obrigatório");
-        }
+        }*/
         if (userName.isEmpty()) {
             editUserName.setError("Campo obrigatório");
         }
@@ -88,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
         validaEmail();
         validaCel();
 
-        if (!verify(nome, sobrenome, email, cel, userName, password, confirmPass)
+        if (!verify(nome, email, cel, userName, password, confirmPass)
                 && validaEmail() && validaCel()) {
             ClientDAO clientDAO = new ClientDAO(getApplicationContext());
 

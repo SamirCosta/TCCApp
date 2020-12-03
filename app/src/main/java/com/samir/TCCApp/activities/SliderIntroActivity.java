@@ -1,13 +1,5 @@
 package com.samir.TCCApp.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -15,18 +7,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
+
 import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -40,19 +33,29 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.adapters.SliderPagerAdapter;
+import com.samir.TCCApp.api.ClientService;
+import com.samir.TCCApp.classes.Client;
 import com.samir.TCCApp.utils.CustomViewPager;
 
 import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.samir.TCCApp.DAO.ClientDAO.client;
+import static com.samir.TCCApp.adapters.SliderPagerAdapter.view;
+import static com.samir.TCCApp.utils.Helper.retrofit;
 
 public class SliderIntroActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
@@ -76,10 +79,12 @@ public class SliderIntroActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        FirebaseUser user = mAuth.getCurrentUser();
+        /*FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
-            openMain();
-        }
+            startActivity(new Intent(this, MainActivity.class));
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+            finish();
+        }*/
 
     }
 
@@ -164,7 +169,9 @@ public class SliderIntroActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    openMain();
+//                    openRegister();
+                    FirebaseUser userFace = FirebaseAuth.getInstance().getCurrentUser();
+                    validateRegisterByEmail(userFace.getEmail());
                 } else {
                     Toast.makeText(SliderIntroActivity.this, "FOI", Toast.LENGTH_SHORT).show();
                 }
@@ -213,7 +220,8 @@ public class SliderIntroActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            openMain();
+                            //openRegister();
+                            validateRegisterByEmail(user.getEmail());
 //                            updateUI(user);
                         } else {
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -276,15 +284,60 @@ public class SliderIntroActivity extends AppCompatActivity {
         }
     };
 
+    public void openRegister() {
+        startActivity(new Intent(this, RegisterActivity.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+    }
+
     public void openMain() {
         startActivity(new Intent(this, MainActivity.class));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
-        finish();
     }
 
     public void register(View view) {
-        startActivity(new Intent(this, RegisterActivity.class));
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+        openRegister();
+    }
+
+    public void validateRegisterByEmail(String email) {
+        ClientService clientService = retrofit.create(ClientService.class);
+        Call<Client> call = clientService.validateRegisterByEmail(email);
+
+        call.enqueue(new Callback<Client>() {
+            @Override
+            public void onResponse(Call<Client> call, Response<Client> response) {
+                /*if (response.isSuccessful()) {
+                    Client has = response.body();
+                    if (has != null) {
+                        if (has) {
+                            openMain();
+                        } else {
+                            openRegister();
+                        }
+                    }else {
+                        Toast.makeText(SliderIntroActivity.this, "ERRO", Toast.LENGTH_SHORT).show();
+                    }
+                }*/
+                ClientDAO clientDAO = new ClientDAO(getApplicationContext());
+                if (response.isSuccessful()) {
+                    client = response.body();
+                    if (client != null) {
+                        if (client.getIdCli() > 0) {
+                            if (clientDAO.save()) openMain();
+                        } else
+                            openRegister();
+                    } else {
+                        openRegister();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Client> call, Throwable t) {
+                Log.i("ERRO", t.getMessage());
+            }
+        });
+
     }
 
 }

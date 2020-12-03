@@ -79,7 +79,7 @@
                 app:layout_constraintTop_toTopOf="@+id/view3" />
 
             <EditText
-                android:id="@+id/textInputLayout"
+                android:id="@+id/editComp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -120,6 +120,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/editFamilyNameLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -233,7 +234,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnUpdate"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_weight="0.01"

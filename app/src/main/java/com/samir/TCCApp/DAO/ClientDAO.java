@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.samir.TCCApp.R;
@@ -58,8 +59,8 @@ public class ClientDAO {
                     mContext.startActivity(new Intent(mContext, MainActivity.class));
                     ((Activity) mContext).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
                     ((Activity) mContext).finish();
-                }else{
-                    Snackbar.make(view, "Usuário já cadastrado", Snackbar.LENGTH_LONG).show();
+                } else {
+                    snackbar(view, "Usuário já cadastrado");
                 }
             }
 
@@ -81,25 +82,51 @@ public class ClientDAO {
                 if (response.isSuccessful()) {
                     client = response.body();
                     if (client != null) {
-                        if (client.getIdCli() > 0){
+                        if (client.getIdCli() > 0) {
                             if (save()) openMain();
-                        }
-                        else
-                            Snackbar.make(view, "Usuário ou senha inválidos", Snackbar.LENGTH_LONG).show();
+                        } else
+                            snackbar(view, "Usuário ou senha inválidos");
+                    } else {
+                        snackbar(view, "Usuário ou senha inválidos");
+                        progressBar.setVisibility(View.GONE);
                     }
-                    progressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onFailure(Call<Client> call, Throwable t) {
-
+                Log.i("ERRO NO ONFAILuRE", t.getMessage());
             }
         });
 
     }
 
-    private boolean save() {
+    public void updateClient(Client client, View view){
+        ClientService clientService = retrofit.create(ClientService.class);
+        Call<Boolean> call = clientService.updateClient(client);
+
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body()){
+                        save();
+                        if (view != null) snackbar(view, "Usuário alterado com sucesso");
+                    }else {
+                        if (view != null) snackbar(view, "Erro ao alterar usuário");
+                        else Toast.makeText(context, "Erro ao salvar endereço", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.i("ERRO", t.getMessage());
+            }
+        });
+    }
+
+    public boolean save() {
         try {
             FileOutputStream fos = new FileOutputStream(context.getFileStreamPath(ARQUIVO_CLIENT));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -107,19 +134,11 @@ public class ClientDAO {
             oos.writeObject(client);
             oos.close();
             fos.close();
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }
-        getInternalClients();
         return true;
-    }
-
-    private void openMain() {
-        context.startActivity(new Intent(context, MainActivity.class));
-        ((Activity) context).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
-        ((Activity) context).finish();
-
     }
 
     private void getInternalClients() {
@@ -135,6 +154,12 @@ public class ClientDAO {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void openMain() {
+        context.startActivity(new Intent(context, MainActivity.class));
+        ((Activity) context).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+        ((Activity) context).finish();
     }
 
 }

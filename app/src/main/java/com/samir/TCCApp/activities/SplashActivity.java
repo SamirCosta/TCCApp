@@ -29,9 +29,6 @@ public class SplashActivity extends AppCompatActivity {
     public MotionLayout motionLayout;
     private Handler handler;
     private Runnable runnable;
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
-//    private SharedPreferences pref;
     private boolean internalClient = false;
     boolean go = false;
 
@@ -75,7 +72,7 @@ public class SplashActivity extends AppCompatActivity {
         });
 
         runnable = () -> {
-            if ((user != null || internalClient) && go) {
+            if (internalClient && go) {
                 if (findShortcut()){
                     open(SplashActivity.this, MainActivity.class);
                 }
@@ -136,9 +133,6 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            mAuth = FirebaseAuth.getInstance();
-            user = mAuth.getCurrentUser();
-
             /*pref = getSharedPreferences(ARQUIVO_LOGIN, 0);
             if (pref.contains("id")) {
                 sharedUser = true;

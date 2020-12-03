@@ -212,7 +212,7 @@ public class HomeFragment extends Fragment {
     private void setName() {
         TextView tvName = view.findViewById(R.id.tvNameHome);
 
-        GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
+        /*GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
         FirebaseUser userFace = FirebaseAuth.getInstance().getCurrentUser();
         if (signInAccount != null) {
             tvName.setText(signInAccount.getGivenName());
@@ -220,9 +220,9 @@ public class HomeFragment extends Fragment {
             String name = userFace.getDisplayName();
             String[] array = name.split(" ");
             tvName.setText(array[0]);
-        } else {
+        } else {*/
             tvName.setText(ClientDAO.client.getNameCli());
-        }
+        //}
     }
 
     private void motionConfig() {

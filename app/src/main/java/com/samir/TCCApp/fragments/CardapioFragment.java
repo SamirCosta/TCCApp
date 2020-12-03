@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RadioGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,11 +28,13 @@ import java.util.ArrayList;
 import static com.samir.TCCApp.activities.MainActivity.productDAO;
 import static com.samir.TCCApp.utils.Helper.COL_CATPROD;
 import static com.samir.TCCApp.utils.Helper.COL_VALPROD;
+import static com.samir.TCCApp.utils.Helper.hideKeyBoard;
 
 public class CardapioFragment extends Fragment{
     private RecyclerView recyclerViewCardapio;
     private MotionLayout motionLayout;
     private CardView filtros, order, pratos, bebidas, sobremesas;
+    private SearchView searchView;
 
     private final int ORD_MENOR = R.id.rbPrecoMenor;
     private final int ORD_MAIOR = R.id.rbPrecoMaior;
@@ -118,6 +121,20 @@ public class CardapioFragment extends Fragment{
             configAdapter(productDAO.getProducts("select * from tbproduto " + qSobremesa));
         });
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                hideKeyBoard(getActivity(), searchView);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                configAdapter(productDAO.getProducts("select * from tbproduto where NomeProd like '" + newText + "%'"));
+                return false;
+            }
+        });
+
         return view;
     }
 
@@ -166,5 +183,6 @@ public class CardapioFragment extends Fragment{
         pratos = view.findViewById(R.id.filterPratos);
         bebidas = view.findViewById(R.id.filterBebidas);
         sobremesas = view.findViewById(R.id.filterSobremesas);
+        searchView = view.findViewById(R.id.searchViewCardapio);
     }
 }
