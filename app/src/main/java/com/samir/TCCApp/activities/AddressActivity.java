@@ -132,7 +132,7 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
                     client.setAddressess(addressess);
                     ClientDAO clientDAO = new ClientDAO(getApplicationContext());
                     clientDAO.updateClient(client, null);
-                    clientDAO.save();
+//                    clientDAO.save();
                     finish();
                 }).setNegativeButton("Não", (dialog, which) -> {
 
@@ -261,14 +261,15 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
         String cep = address.getPostalCode();
         String logra = address.getThoroughfare();
         String city = address.getLocality();
+        String bairro = address.getSubLocality();
 
         if (cep != null) addressess.setCEP(cep.replace("-", ""));
         if (logra != null) addressess.setLogra(logra);
-        addressess.setBairro(address.getSubLocality());
+        if (bairro != null) addressess.setBairro(bairro);
         if (city == null) addressess.setCidade(address.getSubAdminArea());
         else addressess.setCidade(city);
 
-        client.setNumEdif(Integer.parseInt(address.getSubThoroughfare()));
+        if (address.getSubThoroughfare() != null) client.setNumEdif(Integer.parseInt(address.getSubThoroughfare()));
     }
 
    /* private void save() {

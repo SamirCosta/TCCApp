@@ -65,7 +65,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
             tvTotalVal.setVisibility(View.VISIBLE);
 
             for (Product prod : arrayList) {
-                sum += prod.getValorProd();
+                sum += prod.getValorProd() * prod.getQtd();
             }
             tvTotalVal.setText("Total: R$" + new DecimalFormat("0.00").format(sum));
         }

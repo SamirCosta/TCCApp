@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.DetailsActivity;
 import com.samir.TCCApp.classes.Product;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

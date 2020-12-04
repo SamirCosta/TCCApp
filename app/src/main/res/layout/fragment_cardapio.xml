@@ -141,8 +141,6 @@
 
     </HorizontalScrollView>
 
-    <include layout="@layout/filters_motion" />
-
     <SearchView
         android:id="@+id/searchViewCardapio"
         android:layout_width="0dp"
@@ -154,5 +152,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <include layout="@layout/filters_motion" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

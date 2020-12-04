@@ -5,6 +5,7 @@
     <color name="colorAccent">#148800</color>
 
     <color name="red_light">#C10000</color>
+    <color name="filter_red">#FF9191</color>
     <color name="red_light_alpha">#ABC10000</color>
     <color name="grey">#888888</color>
     <color name="transparent_white">#5B000000</color>

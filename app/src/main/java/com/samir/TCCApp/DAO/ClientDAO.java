@@ -141,21 +141,6 @@ public class ClientDAO {
         return true;
     }
 
-    private void getInternalClients() {
-        Client client = null;
-        try {
-            FileInputStream fis = new FileInputStream(context.getFileStreamPath(ARQUIVO_CLIENT));
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            client = (Client) ois.readObject();
-            Log.i("dsbgd", client.getNameCli());
-
-            ois.close();
-            fis.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void openMain() {
         context.startActivity(new Intent(context, MainActivity.class));
         ((Activity) context).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);

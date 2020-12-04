@@ -1,5 +1,6 @@
 package com.samir.TCCApp.activities;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -24,6 +25,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -165,16 +167,24 @@ public class SliderIntroActivity extends AppCompatActivity {
 
     private void handleFacebookToken(AccessToken accessToken) {
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-//                    openRegister();
-                    FirebaseUser userFace = FirebaseAuth.getInstance().getCurrentUser();
-                    validateRegisterByEmail(userFace.getEmail());
-                } else {
-                    Toast.makeText(SliderIntroActivity.this, "FOI", Toast.LENGTH_SHORT).show();
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                if (email != null) validateRegisterByEmail(email);
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SliderIntroActivity.this);
+                    builder.setCancelable(false);
+                    builder.setTitle("Erro ao entrar com Facebook");
+                    builder.setMessage("Sua conta do Facebook não está vinculada a um email");
+                    builder.setPositiveButton("OK", (dialog, which) -> {
+                        LoginManager.getInstance().logOut();
+                        progressBar.setVisibility(View.GONE);
+                    });
+                    builder.create();
+                    builder.show();
                 }
+            } else {
+                Toast.makeText(SliderIntroActivity.this, "FOI", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -305,18 +315,6 @@ public class SliderIntroActivity extends AppCompatActivity {
         call.enqueue(new Callback<Client>() {
             @Override
             public void onResponse(Call<Client> call, Response<Client> response) {
-                /*if (response.isSuccessful()) {
-                    Client has = response.body();
-                    if (has != null) {
-                        if (has) {
-                            openMain();
-                        } else {
-                            openRegister();
-                        }
-                    }else {
-                        Toast.makeText(SliderIntroActivity.this, "ERRO", Toast.LENGTH_SHORT).show();
-                    }
-                }*/
                 ClientDAO clientDAO = new ClientDAO(getApplicationContext());
                 if (response.isSuccessful()) {
                     client = response.body();

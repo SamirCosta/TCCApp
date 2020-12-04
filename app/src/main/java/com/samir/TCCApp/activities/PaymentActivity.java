@@ -85,7 +85,7 @@ public class PaymentActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            final String TOKEN = "AIzaSyACereQpfy-a4qa3rmKyCvSCEJE3vnZWio";
+            final String TOKEN = "AIzaSyDbLJ5Dc7WbXRmjOli9fHsAlPM2Cho9Gh8";
             final String URL_API = "https://maps.googleapis.com/maps/api/directions/json?";
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;

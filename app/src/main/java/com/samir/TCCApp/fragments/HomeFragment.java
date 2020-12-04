@@ -221,6 +221,7 @@ public class HomeFragment extends Fragment {
             String[] array = name.split(" ");
             tvName.setText(array[0]);
         } else {*/
+        if (ClientDAO.client != null)
             tvName.setText(ClientDAO.client.getNameCli());
         //}
     }

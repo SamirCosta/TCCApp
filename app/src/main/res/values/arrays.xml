@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="connecting_colors">
+        <item>#FF6666</item>
+        <item>#910000</item>
+        <item>#FF6666</item>
+    </string-array>
+    <string-array name="ticks_labels" />
+    <string-array name="tick_colors" />
+</resources>

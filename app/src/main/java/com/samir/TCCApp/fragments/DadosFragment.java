@@ -66,7 +66,7 @@ public class DadosFragment extends Fragment {
             client.setUser(client.getUser());
 
             ClientDAO clientDAO = new ClientDAO(getActivity());
-            clientDAO.updateClient(client, view);
+            clientDAO.updateClient(client, v);
         });
 
         /*GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
