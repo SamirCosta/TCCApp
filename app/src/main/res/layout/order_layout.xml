@@ -48,14 +48,6 @@
             android:text="Preço: Menor - Maior" />
 
         <RadioButton
-            android:id="@+id/rbTempo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:textSize="18sp"
-            android:text="Tempo de entrega" />
-
-        <RadioButton
             android:id="@+id/rbMaisVendido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

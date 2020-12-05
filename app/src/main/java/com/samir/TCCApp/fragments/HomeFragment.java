@@ -59,7 +59,8 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         if (AddressActivity.addressess != null) {
-            if (AddressActivity.addressess.getAddress() != null)
+            if (AddressActivity.addressess.getCEP() != null)
+                if (!AddressActivity.addressess.getCEP().equals(""))
                 end.setText(AddressActivity.addressess.getAddress());
         }
         recyclerViewBag.getAdapter().notifyDataSetChanged();

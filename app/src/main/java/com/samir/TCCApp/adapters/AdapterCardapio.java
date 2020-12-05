@@ -3,6 +3,7 @@ package com.samir.TCCApp.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYView
         holder.name.setText(product.getName());
         holder.desc.setText(product.getDescProd());
         holder.imgItem.setImageResource(R.drawable.nachos);
+//        holder.imgItem.setImageBitmap(BitmapFactory.decodeByteArray(product.getImage(), 0, product.getImage().length));
 //        holder.imgItem.setImageResource(product.getImage());
 //        Picasso.get().load("https://i.postimg.cc/R0S148dv/AQTzbaG.jpg").into(holder.imgItem);
 

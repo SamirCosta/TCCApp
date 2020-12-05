@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 public interface ClientService {
 
     @POST("/api/Client/Post")
-    Call<Boolean> insertClientAPI(@Body Client client);
+    Call<Client> insertClientAPI(@Body Client client);
 
     @GET("api/Client/validateLogin")
     Call<Client> validateLogin(@Query("user") String user, @Query("pass") String pass);

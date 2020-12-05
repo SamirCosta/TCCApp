@@ -47,14 +47,14 @@ public class ClientDAO {
 
     public void postClient(Client client, View view, Context mContext) {
         ClientService clientService = retrofit.create(ClientService.class);
-        Call<Boolean> call = clientService.insertClientAPI(client);
+        Call<Client> call = clientService.insertClientAPI(client);
 
-        call.enqueue(new Callback<Boolean>() {
+        call.enqueue(new Callback<Client>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+            public void onResponse(Call<Client> call, Response<Client> response) {
                 Log.i("API", "Cod: " + response.code() + response.body());
-                if (response.isSuccessful() && response.body()) {
-                    ClientDAO.client = client;
+                if (response.isSuccessful() && response.body() != null) {
+                    ClientDAO.client = response.body();
                     save();
                     mContext.startActivity(new Intent(mContext, MainActivity.class));
                     ((Activity) mContext).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
@@ -65,7 +65,7 @@ public class ClientDAO {
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
+            public void onFailure(Call<Client> call, Throwable t) {
                 Log.i("API", "DEU RUIM: " + t.getMessage());
             }
         });
@@ -101,7 +101,7 @@ public class ClientDAO {
 
     }
 
-    public void updateClient(Client client, View view){
+    public void updateClient(Client client, View view, Context context){
         ClientService clientService = retrofit.create(ClientService.class);
         Call<Boolean> call = clientService.updateClient(client);
 
@@ -112,6 +112,7 @@ public class ClientDAO {
                     if (response.body()){
                         save();
                         if (view != null) snackbar(view, "Usuário alterado com sucesso");
+                        else ((Activity) context).finish();
                     }else {
                         if (view != null) snackbar(view, "Erro ao alterar usuário");
                         else Toast.makeText(context, "Erro ao salvar endereço", Toast.LENGTH_SHORT).show();

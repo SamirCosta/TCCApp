@@ -49,7 +49,6 @@ public class CardapioFragment extends Fragment {
 
     private final int ORD_MENOR = R.id.rbPrecoMenor;
     private final int ORD_MAIOR = R.id.rbPrecoMaior;
-    private final int ORD_TEMPO = R.id.rbTempo;
     private final int ORD_POP = R.id.rbMaisVendido;
     private String qPrato = "";
     private String qBebida = "";
@@ -262,9 +261,6 @@ public class CardapioFragment extends Fragment {
                     configAdapter(productDAO.getProducts(String.format("select * from tbproduto %s order by %s ",
                             qPrato + qBebida + qSobremesa, COL_VALPROD)));
 //                    msgToast("Menor -> maior");
-                    break;
-                case ORD_TEMPO:
-                    msgToast("Tempo");
                     break;
                 case ORD_POP:
                     msgToast("Mais vendidos");

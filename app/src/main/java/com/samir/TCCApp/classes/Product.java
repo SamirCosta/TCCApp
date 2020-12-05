@@ -1,5 +1,7 @@
 package com.samir.TCCApp.classes;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 
 public class Product implements Serializable {
@@ -7,18 +9,13 @@ public class Product implements Serializable {
 //            NomeProd;
     private int IdProd;
     private String NomeProd;
-    private int image;
+    private byte[] image;
     private int qtd = 1;
     private String DescProd;
     private float ValorProd;
     private String Observacao;
     private String TipoProd;
     private String CategoriaProd;
-
-    public Product(String name, int image) {
-        this.NomeProd = name;
-        this.image = image;
-    }
 
     public Product(){
 
@@ -28,7 +25,7 @@ public class Product implements Serializable {
         this.NomeProd = name;
     }
 
-    public void setImage(int image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
@@ -44,7 +41,7 @@ public class Product implements Serializable {
         return NomeProd;
     }
 
-    public int getImage() {
+    public byte[] getImage() {
         return image;
     }
 

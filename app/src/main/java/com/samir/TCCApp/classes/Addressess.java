@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 public class Addressess implements Serializable {
 
-    String address;
     String CEP;
     String Logra;
     String Bairro;
     String Cidade;
+    String address;
 
     public String getAddress() {
         return address;

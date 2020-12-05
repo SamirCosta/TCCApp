@@ -128,12 +128,11 @@ public class AddressActivity extends FragmentActivity implements OnMapReadyCallb
                 builder.setPositiveButton("Sim", (dialog, which) -> {
 //                        addressess = new Addressess();
                     addressess.setAddress(adr);
-                    if (client == null) client = new Client();
                     client.setAddressess(addressess);
                     ClientDAO clientDAO = new ClientDAO(getApplicationContext());
-                    clientDAO.updateClient(client, null);
+                    clientDAO.updateClient(client, null, AddressActivity.this);
 //                    clientDAO.save();
-                    finish();
+//                    finish();
                 }).setNegativeButton("Não", (dialog, which) -> {
 
                 });

@@ -17,7 +17,7 @@
             android:layout_height="20dp"
             android:layout_margin="12dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_baseline_check_24" />
+            android:src="@drawable/ic_baseline_check_24_white" />
 
         <TextView
             android:layout_width="wrap_content"

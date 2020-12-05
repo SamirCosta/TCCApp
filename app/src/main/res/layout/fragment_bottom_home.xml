@@ -99,7 +99,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/ubuntu"
-            android:text="Sin tiempo cabron"
+            android:text="Sin tiempo chavo"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 

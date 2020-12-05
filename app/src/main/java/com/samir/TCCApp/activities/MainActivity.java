@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.samir.TCCApp.DAO.ClientDAO.client;
+import static com.samir.TCCApp.fragments.HomeFragment.end;
 import static com.samir.TCCApp.utils.Helper.ARQUIVO_CLIENT;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,6 +48,12 @@ public class MainActivity extends AppCompatActivity {
     };
 
     @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -60,11 +67,12 @@ public class MainActivity extends AppCompatActivity {
             tvName.setText(client.getNameCli());
         }
 
-        if (addressess != null && addressess.getCEP() != null) {
+        if (addressess != null && !addressess.getCEP().equals("")) {
             AddressActivity.addressess = client.getAddressess();
             String vir = ",";
             AddressActivity.addressess.setAddress(addressess.getLogra() + vir + client.getNumEdif() + vir +
                     addressess.getBairro() + vir + addressess.getCidade() + vir + addressess.getCEP());
+//            end.setText(AddressActivity.addressess.getAddress());
         }
         else AddressActivity.addressess = new Addressess();
 

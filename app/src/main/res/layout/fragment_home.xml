@@ -65,11 +65,11 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="60dp"
             android:layout_marginTop="15dp"
-            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="@string/add_end"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
         <ImageView
             android:id="@+id/bag"

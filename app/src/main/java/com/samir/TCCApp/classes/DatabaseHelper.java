@@ -8,7 +8,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "database";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 7);
+        super(context, DATABASE_NAME, null, 9);
     }
 
     @Override
@@ -21,7 +21,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "ValorProd float," +
                 "Observacao text," +
                 "TipoProd text," +
-                "CategoriaProd text)"
+                "CategoriaProd text," +
+                "Imagem blob)"
         );
 
     }

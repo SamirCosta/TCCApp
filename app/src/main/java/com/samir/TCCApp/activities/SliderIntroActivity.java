@@ -297,11 +297,13 @@ public class SliderIntroActivity extends AppCompatActivity {
     public void openRegister() {
         startActivity(new Intent(this, RegisterActivity.class));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+        finish();
     }
 
     public void openMain() {
         startActivity(new Intent(this, MainActivity.class));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+        finish();
     }
 
     public void register(View view) {

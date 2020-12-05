@@ -27,6 +27,7 @@ public class Helper {
     public static String COL_OBSPROD = "Observacao";
     public static String COL_TIPOPROD = "TipoProd";
     public static String COL_CATPROD = "CategoriaProd";
+    public static String COL_IMG = "Imagem";
 
     public static void hideKeyBoard(Context context, View v){
         InputMethodManager inputManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);

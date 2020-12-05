@@ -54,6 +54,7 @@ public class ProductDAO {
             product.setObservacao(res.getString(res.getColumnIndex(COL_OBSPROD)));
             product.setTipoProd(res.getString(res.getColumnIndex(COL_TIPOPROD)));
             product.setCategoriaProd(res.getString(res.getColumnIndex(COL_CATPROD)));
+//            product.setImage(res.getString(res.getColumnIndex(COL_IMG)).getBytes());
 
             productArrayList.add(product);
             res.moveToNext();
@@ -78,6 +79,7 @@ public class ProductDAO {
             contentValues.put(COL_OBSPROD, product.getObservacao());
             contentValues.put(COL_TIPOPROD, product.getTipoProd());
             contentValues.put(COL_CATPROD, product.getCategoriaProd());
+//            contentValues.put(COL_IMG, product.getImage());
             write.insert(TABLE_PROD, null, contentValues);
         }
     }
