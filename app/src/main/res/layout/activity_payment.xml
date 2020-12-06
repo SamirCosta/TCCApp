@@ -216,7 +216,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="-R$50,00"
-                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/view8"
                 app:layout_constraintEnd_toEndOf="@+id/view8"
@@ -232,9 +231,8 @@
                 android:background="@drawable/payment_card_shape"
                 android:elevation="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view8" />
+                app:layout_constraintTop_toBottomOf="@+id/cardView6" />
 
             <TextView
                 android:id="@+id/tvCpf"
@@ -283,7 +281,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_max="400dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewCpf">
+                app:layout_constraintTop_toBottomOf="@+id/view8">
 
                 <View
                     android:id="@+id/view5"
@@ -314,7 +312,7 @@
                 android:backgroundTint="#F4F4F4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView6">
+                app:layout_constraintTop_toBottomOf="@+id/viewCpf">
 
                 <View
                     android:id="@+id/view7"
@@ -332,6 +330,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tvTotalProd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -355,7 +354,7 @@
                     android:layout_gravity="end"
                     android:layout_marginTop="48dp"
                     android:layout_marginEnd="16dp"
-                    android:text="R$50,00"
+                    android:text="R$0,00"
                     android:textColor="@android:color/black"
                     android:textSize="14sp" />
 
@@ -368,6 +367,7 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tvSubTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -397,6 +397,7 @@
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/tvTotalFinal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -406,9 +407,10 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/btnAddBag"
+            android:id="@+id/btnPayFinal"
             android:layout_width="300dp"
             android:layout_height="50dp"
+            android:onClick="pay"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="20dp"
             android:background="@drawable/btnlogin_shape"

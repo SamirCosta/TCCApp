@@ -126,7 +126,6 @@ public class BottomHomeFragment extends Fragment {
         sliderView.setScrollTimeInSec(3);
         sliderView.setSliderAnimationDuration(1500);
         sliderView.startAutoCycle();
-
     }
 
     private void layoutConfig(View mView) {

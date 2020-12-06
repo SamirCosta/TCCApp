@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             page = bundle.getInt("shortcut");
+            page = bundle.getInt("payment");
         }
 
         findViewById(R.id.imageViewIc).setOnClickListener(v -> drawerLayout.open());

@@ -86,15 +86,18 @@ public class HomeFragment extends Fragment {
         });
 
         btn.setOnClickListener(a -> {
-            motionLayout.transitionToStart();
-            startActivity(new Intent(getActivity(), PaymentActivity.class));
+            if (!bagArrayListItem.isEmpty()) {
+                motionLayout.transitionToStart();
+                Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                intent.putExtra("total", tvTotalVal.getText().toString());
+                startActivity(intent);
+            }
         });
 
         if (bagArrayListItem.isEmpty()) {
             tvEmpty.setVisibility(View.VISIBLE);
             emptyBag.setVisibility(View.VISIBLE);
             tvTotalVal.setVisibility(View.GONE);
-//            btn.setClickable(false);
         }
 
         bottomNavigationViewEx.setCurrentItem(MainActivity.page);

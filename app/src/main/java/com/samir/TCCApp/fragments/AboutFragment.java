@@ -1,8 +1,13 @@
 package com.samir.TCCApp.fragments;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -17,96 +22,72 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.samir.TCCApp.R;
+import com.samir.TCCApp.adapters.SliderAdapterExample;
+import com.samir.TCCApp.adapters.SliderItem;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.abs;
 
 public class AboutFragment extends Fragment {
-    ViewPager2 viewPager2;
-    public static ArrayList<Integer> imgs = new ArrayList<>();
-    private BannerAdapter adapter;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    private SliderView sliderView;
+    private List<SliderItem> mSliderItems = new ArrayList<>();
+    private CardView cardLoc;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_about, container, false);
+//        View view = inflater.inflate(R.layout.fragment_about, container, false);
 
-        viewPager2 = view.findViewById(R.id.viewPager);
+        SliderItem sliderItem = new SliderItem(R.drawable.predio);
+        mSliderItems.add(sliderItem);
 
-        imgs.add(R.drawable.predio);
-        imgs.add( R.drawable.predio);
-        imgs.add(R.drawable.predio);
+        sliderItem = new SliderItem(R.drawable.predio);
+        mSliderItems.add(sliderItem);
 
-        adapter = new BannerAdapter(getActivity(), imgs.size());
-        viewPager2.setAdapter(adapter);
+        sliderItem = new SliderItem(R.drawable.predio);
+        mSliderItems.add(sliderItem);
 
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
+        sliderItem = new SliderItem(R.drawable.predio);
+        mSliderItems.add(sliderItem);
 
-                Handler slider = new Handler();
-                Runnable runnable = () -> viewPager2.setCurrentItem(viewPager2.getCurrentItem() + 1);
+        return inflater.inflate(R.layout.fragment_about, container, false);
+    }
 
-                if ((imgs.size() - 2) == position){
-                    imgs.addAll(imgs);
-                    adapter.itemsCount = imgs.size();
-                    adapter.notifyDataSetChanged();
-                }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        cardLoc = view.findViewById(R.id.cardLoc);
 
-                slider.removeCallbacks(runnable);
-                slider.postDelayed(runnable, 3000);
+        cardLoc.setOnClickListener(c -> {
+            double latitude = -23.5571871;
+            double longitude = -46.6486407;
+            String strUri = "http://maps.google.com/maps?q=loc:" +
+                    latitude + "," + longitude;
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                    Uri.parse(strUri));
 
-                super.onPageSelected(position);
-            }
+            intent.setClassName("com.google.android.apps.maps",
+                    "com.google.android.maps.MapsActivity");
+
+            startActivity(intent);
         });
 
-        viewPager2.setOffscreenPageLimit(3);
-        viewPager2.setClipToPadding(false);
-        viewPager2.setClipChildren(false);
-        viewPager2.setUserInputEnabled(false);
-        //viewPager2.endFakeDrag();
-//        viewPager2.beginFakeDrag();
+        sliderView = view.findViewById(R.id.imageSliderAbout);
+        sliderView.setSliderAdapter(new SliderAdapterExample(getActivity(), mSliderItems));
 
-        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        /*compositePageTransformer.addTransformer(new ViewPager2.PageTransformer() {
-            @Override
-            public void transformPage(@NonNull View page, float position) {
-                Log.i("Posição:", ""+position);
-                *//*float ref = 1 - abs(position);
-                page.setScaleY((float) (0.85 + ref * 0.15));*//*
-            }
-        });*/
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.SCALE);
+        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
+        sliderView.setIndicatorSelectedColor(Color.WHITE);
+        sliderView.setIndicatorUnselectedColor(getResources().getColor(R.color.transparent_white));
+        sliderView.setScrollTimeInSec(3);
+        sliderView.setSliderAnimationDuration(1500);
+        sliderView.startAutoCycle();
 
-        compositePageTransformer.addTransformer(new MarginPageTransformer(10));
-        viewPager2.setPageTransformer(compositePageTransformer);
-
-        return view;
     }
-
-    public class BannerAdapter extends FragmentStateAdapter {
-        int itemsCount;
-
-        public BannerAdapter(@NonNull FragmentActivity fragmentActivity, int itemsCount) {
-            super(fragmentActivity);
-            this.itemsCount = itemsCount;
-        }
-
-        @NonNull
-        @Override
-        public Fragment createFragment(int position) {
-            return BannerFragment.getInstance(position);
-        }
-
-        @Override
-        public int getItemCount() {
-            return itemsCount;
-        }
-    }
-
 }

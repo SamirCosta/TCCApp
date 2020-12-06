@@ -3,6 +3,7 @@ package com.samir.TCCApp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,8 +17,14 @@ import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.samir.TCCApp.DAO.ClientDAO;
+import com.samir.TCCApp.DAO.PedidoDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.adapters.BagAdapter;
+import com.samir.TCCApp.api.ClientService;
+import com.samir.TCCApp.api.ProductService;
+import com.samir.TCCApp.classes.Client;
+import com.samir.TCCApp.classes.InsertProd;
 import com.samir.TCCApp.fragments.HomeFragment;
 
 import org.json.JSONArray;
@@ -31,8 +38,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static com.samir.TCCApp.activities.MainActivity.productDAO;
 import static com.samir.TCCApp.utils.Helper.COL_VALPROD;
+import static com.samir.TCCApp.utils.Helper.retrofit;
+import static com.samir.TCCApp.utils.Helper.snackbar;
 
 public class PaymentActivity extends AppCompatActivity {
     private static final int CREDITO = R.id.rbCredito;
@@ -40,17 +53,20 @@ public class PaymentActivity extends AppCompatActivity {
     private static final int DIN = R.id.rbDin;
     private RecyclerView recyclerView;
     //    private ArrayList<Product> arrayListItem = new ArrayList<>();
-    public TextView tvDuration, tvEnd, tvFormPagText;
+    public TextView tvDuration, tvEnd, tvFormPagText, tvTotalFinal, tvTotalProd, tvSubTotal;
     private String END_REST = "Rua Rui barbosa, Centro- Bela Vista/SP";
     private View formaPag;
+    private String previsao, total;
 
     @Override
     protected void onStart() {
         super.onStart();
         if (AddressActivity.addressess != null)
             if (AddressActivity.addressess.getAddress() != null)
-                if (!AddressActivity.addressess.getAddress().equals(""))
+                if (!AddressActivity.addressess.getAddress().equals("")) {
                     tvEnd.setText(AddressActivity.addressess.getAddress());
+                    tvDuration.setText(previsao);
+                }
     }
 
     @Override
@@ -68,23 +84,25 @@ public class PaymentActivity extends AppCompatActivity {
         findViewById(R.id.cardViewMesa).setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            findViewById(R.id.cardViewMesa).setVisibility(View.VISIBLE);
-            TextView textView = findViewById(R.id.mesaPay);
-            textView.setText(bundle.getString("mesa"));
+            if (bundle.getString("mesa") != null) {
+                TextView textView = findViewById(R.id.mesaPay);
+                textView.setText(bundle.getString("mesa"));
+                findViewById(R.id.cardViewMesa).setVisibility(View.VISIBLE);
+            }
+            total = bundle.getString("total");
         }
+
+        tvTotalFinal.setText(total);
+        tvTotalProd.setText(total);
+        tvSubTotal.setText(total);
 
         findViewById(R.id.btnBackPay).setOnClickListener(c -> {
             finish();
         });
 
-        /*for (int i = 0; i < 11; i++) {
-            Product itemCardapio = new Product("Name " + i, R.drawable.taco);
-            arrayListItem.add(itemCardapio);
-        }*/
-
         recyclerView = findViewById(R.id.recyclerItemPay);
         recyclerView.setHasFixedSize(true);
-        BagAdapter bagAdapter = new BagAdapter(HomeFragment.bagArrayListItem, getApplicationContext());
+        BagAdapter bagAdapter = new BagAdapter(HomeFragment.internalBag.getProductArrayList(), getApplicationContext());
         recyclerView.setAdapter(bagAdapter);
 
         formaPag.setOnClickListener(c -> {
@@ -122,10 +140,33 @@ public class PaymentActivity extends AppCompatActivity {
         tvEnd = findViewById(R.id.tvEndPay);
         formaPag = findViewById(R.id.formaPag);
         tvFormPagText = findViewById(R.id.tvFormPagText);
+        tvTotalFinal = findViewById(R.id.tvTotalFinal);
+        tvTotalProd = findViewById(R.id.tvTotalProd);
+        tvSubTotal = findViewById(R.id.tvSubTotal);
     }
 
     public void openEnd(View view) {
         startActivity(new Intent(this, AddressActivity.class));
+    }
+
+    public void pay(View view) {
+        InsertProd insertProd = new InsertProd();
+        insertProd.setIdMesa(0);
+        insertProd.setProducts(HomeFragment.internalBag.getProductArrayList());
+        insertProd.setCodCupom("0");
+        insertProd.setQtdPontos(0);
+        insertProd.setCPF("12145678914");
+
+        if (!tvFormPagText.getText().toString().isEmpty() && !AddressActivity.addressess.getAddress().isEmpty()) {
+            insertProd.setFormPag(tvFormPagText.getText().toString());
+            insertProd.setIdCli(ClientDAO.client.getIdCli());
+
+            PedidoDAO pedidoDAO = new PedidoDAO();
+            pedidoDAO.insertProd(insertProd, PaymentActivity.this);
+        } else {
+            snackbar(view, "Todos os campos devem ser preenchidos");
+        }
+
     }
 
     class DurationTask extends AsyncTask<String, Void, String> {
@@ -193,15 +234,16 @@ public class PaymentActivity extends AppCompatActivity {
                     }
                 }
             }
-
             return duration;
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            if (!s.isEmpty())
-                tvDuration.setText("Previsão: " + s);
+            if (!s.isEmpty()) {
+                previsao = "Previsão: " + s;
+                tvDuration.setText(previsao);
+            }
         }
     }
 
