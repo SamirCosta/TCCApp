@@ -14,6 +14,7 @@ import androidx.core.app.ActivityOptionsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.samir.TCCApp.DAO.ClientDAO;
+import com.samir.TCCApp.DAO.CupomDAO;
 import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Client;
@@ -22,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import static com.samir.TCCApp.DAO.CupomDAO.cupomArrayList;
 import static com.samir.TCCApp.activities.MainActivity.productDAO;
 import static com.samir.TCCApp.utils.Helper.ARQUIVO_CLIENT;
 
@@ -144,6 +146,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             productDAO = new ProductDAO(SplashActivity.this);
+            new CupomDAO().getCupom();
             return null;
         }
 

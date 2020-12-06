@@ -69,6 +69,7 @@ public class DadosFragment extends Fragment {
             editCPF.setText(client.getCPF());
             editCel.setText("" + client.getCelCli());
             editSenha.setText(client.getUser().getPassword());
+            editComp.setText(client.getComp());
         }
 
     }
