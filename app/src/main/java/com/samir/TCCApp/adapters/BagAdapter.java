@@ -1,5 +1,6 @@
-    package com.samir.TCCApp.adapters;
+package com.samir.TCCApp.adapters;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.internal.$Gson$Preconditions;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Product;
 import com.samir.TCCApp.fragments.HomeFragment;
@@ -17,15 +19,19 @@ import com.samir.TCCApp.fragments.HomeFragment;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import static com.samir.TCCApp.fragments.HomeFragment.bagArrayListItem;
 import static com.samir.TCCApp.fragments.HomeFragment.emptyBag;
+import static com.samir.TCCApp.fragments.HomeFragment.internalBag;
 import static com.samir.TCCApp.fragments.HomeFragment.tvEmpty;
 import static com.samir.TCCApp.fragments.HomeFragment.tvTotalVal;
 
 public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
     private ArrayList<Product> arrayList;
+    private Context context;
 
-    public BagAdapter(ArrayList<Product> arrayList) {
+    public BagAdapter(ArrayList<Product> arrayList, Context context) {
         this.arrayList = arrayList;
+        this.context = context;
     }
 
     @NonNull
@@ -45,15 +51,30 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
 
         holder.less.setOnClickListener(c -> {
             int newQtd = Integer.parseInt(holder.qtd.getText().toString()) - 1;
-            Log.i("QTD", "" + newQtd);
-            if (newQtd > 0)
+            if (newQtd > 0){
                 product.setQtd(newQtd);
+                for (int i = 0; i < internalBag.getProductArrayList().size(); i++) {
+                    Product prod = internalBag.getProductArrayList().get(i);
+                    if (prod.getIdProd() == product.getIdProd()) {
+                        prod.setQtd(newQtd);
+                        internalBag.save(internalBag, context);
+                    }
+                }
+            }
             holder.qtd.setText(String.valueOf(product.getQtd()));
             notifyDataSetChanged();
         });
 
         holder.more.setOnClickListener(a -> {
-            product.setQtd(Integer.parseInt(holder.qtd.getText().toString()) + 1);
+            int newQtd = Integer.parseInt(holder.qtd.getText().toString()) + 1;
+            product.setQtd(newQtd);
+            for (int i = 0; i < internalBag.getProductArrayList().size(); i++) {
+                Product prod = internalBag.getProductArrayList().get(i);
+                if (prod.getIdProd() == product.getIdProd()) {
+                    prod.setQtd(newQtd);
+                    internalBag.save(internalBag, context);
+                }
+            }
             holder.qtd.setText(String.valueOf(product.getQtd()));
             notifyDataSetChanged();
         });

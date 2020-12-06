@@ -67,14 +67,14 @@ public class MainActivity extends AppCompatActivity {
             tvName.setText(client.getNameCli());
         }
 
-        if (addressess != null && !addressess.getCEP().equals("")) {
-            AddressActivity.addressess = client.getAddressess();
-            String vir = ",";
-            AddressActivity.addressess.setAddress(addressess.getLogra() + vir + client.getNumEdif() + vir +
-                    addressess.getBairro() + vir + addressess.getCidade() + vir + addressess.getCEP());
-//            end.setText(AddressActivity.addressess.getAddress());
-        }
-        else AddressActivity.addressess = new Addressess();
+        if (addressess != null && addressess.getCEP() != null) {
+            if (!addressess.getCEP().equals("")) {
+                AddressActivity.addressess = client.getAddressess();
+                String vir = ",";
+                AddressActivity.addressess.setAddress(addressess.getLogra() + vir + client.getNumEdif() + vir +
+                        addressess.getBairro() + vir + addressess.getCidade() + vir + addressess.getCEP());
+            }else AddressActivity.addressess = new Addressess();
+        } else AddressActivity.addressess = new Addressess();
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

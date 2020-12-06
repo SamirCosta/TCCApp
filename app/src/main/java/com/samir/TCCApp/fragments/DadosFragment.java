@@ -1,6 +1,7 @@
 package com.samir.TCCApp.fragments;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,17 +13,22 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.AddressActivity;
 import com.samir.TCCApp.utils.MaskEditUtil;
 
+import java.util.Arrays;
+
 import static com.samir.TCCApp.DAO.ClientDAO.client;
 
 public class DadosFragment extends Fragment {
+    private TextInputLayout editEmailUpdateLayout, editPasswUpdateLayout, editNameUpdateLayout;
     private TextInputEditText editName, editEmail, editCPF, editCel, editSenha;
     private TextView tvEnd;
     private EditText editComp;
@@ -45,40 +51,18 @@ public class DadosFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ref(view);
-
+        updateCli();
 
         tvEnd.setOnClickListener(c -> {
             startActivity(new Intent(getActivity(), AddressActivity.class));
         });
 
-        btnUpdate.setOnClickListener(v -> {
-            client.setAddressess(AddressActivity.addressess);
-            client.setCPF(editCPF.getText().toString());
-            client.setNameCli(editName.getText().toString() /*+ " " + editFamilyName.getText().toString()*/);
-            client.setEmailCli(editEmail.getText().toString());
-            client.setCelCli(Long.parseLong(editCel.getText().toString().replace("(", "").replace(")", "")
-                    .replace("-", "").replace(" ", "")));
-            client.setComp(editComp.getText().toString());
-            client.setNumEdif(1);
+        editCPF.addTextChangedListener(MaskEditUtil.mask(editCPF, "###.###.###-##"));
+        editCel.addTextChangedListener(MaskEditUtil.mask(editCel, "(##) #####-####"));
 
-            //User user = new User();
-            client.getUser().setPassword(editSenha.getText().toString());
-            client.setUser(client.getUser());
-
-            ClientDAO clientDAO = new ClientDAO(getActivity());
-            clientDAO.updateClient(client, v, getActivity());
-        });
-
-        /*GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
-        if (signInAccount != null) {
-            editName.setText(signInAccount.getGivenName());
-            editEmail.setText(signInAccount.getEmail());
-            editFamilyName.setText(signInAccount.getFamilyName());
-        } else*/ if (client != null){
+        if (client != null){
             String name = client.getNameCli();
             String[] array = name.split(" ");
-
-//            Log.i("SOBRENOME", client.getNameCli());
 
             editName.setText(array[0]);
             editEmail.setText(client.getEmailCli());
@@ -86,8 +70,42 @@ public class DadosFragment extends Fragment {
             editCel.setText("" + client.getCelCli());
             editSenha.setText(client.getUser().getPassword());
         }
-        editCPF.addTextChangedListener(MaskEditUtil.mask(editCPF, "###.###.###-##"));
-        editCel.addTextChangedListener(MaskEditUtil.mask(editCel, "(##) #####-####"));
+
+    }
+
+    private void updateCli() {
+        btnUpdate.setOnClickListener(v -> {
+            if (editEmail.getText().toString().isEmpty())
+                editEmailUpdateLayout.setError("Campo obrigatório");
+            if (editSenha.getText().toString().isEmpty())
+                editPasswUpdateLayout.setError("Campo obrigatório");
+            if (editName.getText().toString().isEmpty())
+                editNameUpdateLayout.setError("Campo obrigatório");
+
+            if (!verify(editEmail.getText().toString(), editSenha.getText().toString(), editName.getText().toString())) {
+                client.setAddressess(AddressActivity.addressess);
+                client.setCPF(editCPF.getText().toString());
+                client.setNameCli(editName.getText().toString() /*+ " " + editFamilyName.getText().toString()*/);
+                client.setEmailCli(editEmail.getText().toString());
+                client.setCelCli(Long.parseLong(editCel.getText().toString().replace("(", "").replace(")", "")
+                        .replace("-", "").replace(" ", "")));
+                client.setComp(editComp.getText().toString());
+                client.setNumEdif(1);
+
+                //User user = new User();
+                client.getUser().setPassword(editSenha.getText().toString());
+                client.setUser(client.getUser());
+
+                ClientDAO clientDAO = new ClientDAO(getActivity());
+                clientDAO.updateClient(client, v, getActivity());
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static boolean verify(String... data) {
+        return Arrays.stream(data).anyMatch(String::isEmpty);
+//        return Arrays.stream(data).anyMatch(e -> e.getEditText().getText().toString().isEmpty());
     }
 
     private void ref(View view) {
@@ -99,6 +117,9 @@ public class DadosFragment extends Fragment {
         editSenha = view.findViewById(R.id.editPassw);
         btnUpdate = view.findViewById(R.id.btnUpdate);
         editComp = view.findViewById(R.id.editComp);
+        editPasswUpdateLayout = view.findViewById(R.id.editPasswUpdateLayout);
+        editEmailUpdateLayout = view.findViewById(R.id.editEmailUpdateLayout);
+        editNameUpdateLayout = view.findViewById(R.id.editNameUpdateLayout);
     }
 
     @Override

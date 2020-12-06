@@ -17,6 +17,7 @@ import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Product;
 
 import static com.samir.TCCApp.fragments.HomeFragment.bagArrayListItem;
+import static com.samir.TCCApp.fragments.HomeFragment.internalBag;
 import static com.samir.TCCApp.fragments.HomeFragment.recyclerViewBag;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -39,15 +40,34 @@ public class DetailsActivity extends AppCompatActivity {
 //        imageView.setImageResource(product.getImage());
 
         btn.setOnClickListener(c -> {
-            bagArrayListItem.add(product);
-            recyclerViewBag.getAdapter().notifyDataSetChanged();
+//            bagArrayListItem.add(product);
+            if (internalBag.getProductArrayList().size() == 0) {
+                internalBag.setProductArrayList(product, internalBag, getApplicationContext());
+                recyclerViewBag.getAdapter().notifyDataSetChanged();
+            } else {
+                boolean contain = false;
+                for (int i = 0; i < internalBag.getProductArrayList().size(); i++) {
+                    Product prod = internalBag.getProductArrayList().get(i);
+                    if (prod.getIdProd() == product.getIdProd()) {
+                        prod.setQtd(prod.getQtd() + Integer.parseInt(qtd.getText().toString()));
+                        internalBag.save(internalBag, getApplicationContext());
+                        contain = true;
+                        break;
+                    }
+                }
+                if (!contain) {
+                    internalBag.setProductArrayList(product, internalBag, getApplicationContext());
+                }
+                recyclerViewBag.getAdapter().notifyDataSetChanged();
+            }
+
             ViewGroup viewGroup = findViewById(R.id.container_toast);
             View view = getLayoutInflater().inflate(R.layout.bag_toast, viewGroup);
 
             Toast toast = new Toast(DetailsActivity.this);
             toast.setGravity(Gravity.CENTER_HORIZONTAL, 0, 720);
             toast.setView(view);
-            toast.setDuration(Toast.LENGTH_LONG);
+            toast.setDuration(Toast.LENGTH_SHORT);
             toast.show();
         });
 
@@ -71,7 +91,7 @@ public class DetailsActivity extends AppCompatActivity {
 
             @Override
             public void onTransitionChange(MotionLayout motionLayout, int i, int i1, float v) {
-                arrow.setAlpha(v*(-1)+1);
+                arrow.setAlpha(v * (-1) + 1);
             }
 
             @Override
@@ -100,7 +120,7 @@ public class DetailsActivity extends AppCompatActivity {
         qtd = findViewById(R.id.qtdNum);
     }
 
-    public void back(View view){
+    public void back(View view) {
         onBackPressed();
     }
 

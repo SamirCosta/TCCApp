@@ -30,9 +30,15 @@ import com.samir.TCCApp.activities.AddressActivity;
 import com.samir.TCCApp.activities.MainActivity;
 import com.samir.TCCApp.activities.PaymentActivity;
 import com.samir.TCCApp.adapters.BagAdapter;
+import com.samir.TCCApp.classes.InternalBag;
 import com.samir.TCCApp.classes.Product;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_CLIENT;
 
 public class HomeFragment extends Fragment {
     public static BottomNavigationViewEx bottomNavigationViewEx;
@@ -45,25 +51,23 @@ public class HomeFragment extends Fragment {
     public static ArrayList<Product> bagArrayListItem;
     public static RecyclerView recyclerViewBag;
 
+    public static InternalBag internalBag;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bagArrayListItem = new ArrayList<>();
-        /*for(int i = 0; i < 11; i++){
-            Product product = new Product("Name " + i, R.drawable.taco);
-            arrayListItem.add(product);
-        }*/
+        internalBag = new InternalBag(getActivity());
+        bagArrayListItem = internalBag.getProductArrayList() != null ? internalBag.getProductArrayList() : new ArrayList<>();
     }
 
     @Override
     public void onStart() {
         super.onStart();
         if (AddressActivity.addressess != null) {
-            if (AddressActivity.addressess.getCEP() != null)
-                if (!AddressActivity.addressess.getCEP().equals(""))
+            if (AddressActivity.addressess.getAddress() != null)
+                if (!AddressActivity.addressess.getAddress().equals(""))
                 end.setText(AddressActivity.addressess.getAddress());
         }
-        recyclerViewBag.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -82,6 +86,7 @@ public class HomeFragment extends Fragment {
         });
 
         btn.setOnClickListener(a -> {
+            motionLayout.transitionToStart();
             startActivity(new Intent(getActivity(), PaymentActivity.class));
         });
 
@@ -89,6 +94,7 @@ public class HomeFragment extends Fragment {
             tvEmpty.setVisibility(View.VISIBLE);
             emptyBag.setVisibility(View.VISIBLE);
             tvTotalVal.setVisibility(View.GONE);
+//            btn.setClickable(false);
         }
 
         bottomNavigationViewEx.setCurrentItem(MainActivity.page);
@@ -113,7 +119,7 @@ public class HomeFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewBag.setLayoutManager(layoutManager);
         recyclerViewBag.setHasFixedSize(true);
-        BagAdapter bagAdapter = new BagAdapter(bagArrayListItem);
+        BagAdapter bagAdapter = new BagAdapter(bagArrayListItem, getActivity());
         recyclerViewBag.setAdapter(bagAdapter);
 
         ItemTouchHelper.Callback itemTouch = new ItemTouchHelper.Callback() {
@@ -133,7 +139,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                bagArrayListItem.remove(viewHolder.getAdapterPosition());
+                internalBag.removeInternalTracks(viewHolder.getAdapterPosition(), internalBag, getActivity());
+//                bagArrayListItem.remove(viewHolder.getAdapterPosition());
 //                recyclerViewBag.getAdapter().notifyItemRemoved(viewHolder.getAdapterPosition());
                 recyclerViewBag.getAdapter().notifyDataSetChanged();
                 if (bagArrayListItem.isEmpty()) {

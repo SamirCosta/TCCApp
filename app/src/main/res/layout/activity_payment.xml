@@ -126,8 +126,17 @@
                 app:layout_constraintStart_toStartOf="@+id/view3"
                 app:layout_constraintTop_toBottomOf="@+id/tvEndPay" />
 
+            <TextView
+                android:id="@+id/tvPrev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toStartOf="@+id/view3"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+
             <View
-                android:id="@+id/view4"
+                android:id="@+id/formaPag"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginStart="16dp"
@@ -148,9 +157,20 @@
                 android:text="Forma de pagamento"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/view4"
-                app:layout_constraintStart_toStartOf="@+id/view4"
-                app:layout_constraintTop_toTopOf="@+id/view4" />
+                app:layout_constraintBottom_toBottomOf="@+id/formaPag"
+                app:layout_constraintStart_toStartOf="@+id/formaPag"
+                app:layout_constraintTop_toTopOf="@+id/formaPag" />
+
+            <TextView
+                android:id="@+id/tvFormPagText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text=""
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/formaPag"
+                app:layout_constraintEnd_toEndOf="@+id/formaPag"
+                app:layout_constraintTop_toTopOf="@+id/formaPag" />
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -159,9 +179,9 @@
                 android:layout_marginStart="1dp"
                 android:layout_marginTop="3dp"
                 android:rotation="270"
-                app:layout_constraintBottom_toBottomOf="@+id/view4"
+                app:layout_constraintBottom_toBottomOf="@+id/formaPag"
                 app:layout_constraintStart_toEndOf="@+id/textView11"
-                app:layout_constraintTop_toTopOf="@+id/view4"
+                app:layout_constraintTop_toTopOf="@+id/formaPag"
                 app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
 
             <View
@@ -176,7 +196,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view4" />
+                app:layout_constraintTop_toBottomOf="@+id/formaPag" />
 
             <TextView
                 android:id="@+id/textView18"
@@ -189,6 +209,66 @@
                 app:layout_constraintBottom_toBottomOf="@+id/view8"
                 app:layout_constraintStart_toStartOf="@+id/view8"
                 app:layout_constraintTop_toTopOf="@+id/view8" />
+
+            <TextView
+                android:id="@+id/tvCuponTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="-R$50,00"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/view8"
+                app:layout_constraintEnd_toEndOf="@+id/view8"
+                app:layout_constraintTop_toTopOf="@+id/view8" />
+
+            <View
+                android:id="@+id/viewCpf"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/payment_card_shape"
+                android:elevation="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view8" />
+
+            <TextView
+                android:id="@+id/tvCpf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="24dp"
+                android:text="CPF na nota (opcional)"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewCpf"
+                app:layout_constraintStart_toStartOf="@+id/viewCpf"
+                app:layout_constraintTop_toTopOf="@+id/viewCpf" />
+
+            <TextView
+                android:id="@+id/tvCpfNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="466.273.898.-94"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewCpf"
+                app:layout_constraintStart_toStartOf="@+id/viewCpf"
+                app:layout_constraintTop_toTopOf="@+id/viewCpf" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewCpf"
+                app:layout_constraintEnd_toEndOf="@+id/viewCpf"
+                app:layout_constraintTop_toTopOf="@+id/viewCpf" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView6"
@@ -203,7 +283,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_max="400dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view8">
+                app:layout_constraintTop_toBottomOf="@+id/viewCpf">
 
                 <View
                     android:id="@+id/view5"
@@ -298,15 +378,6 @@
                     android:textSize="14sp" />
 
             </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tvPrev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintStart_toStartOf="@+id/view3"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

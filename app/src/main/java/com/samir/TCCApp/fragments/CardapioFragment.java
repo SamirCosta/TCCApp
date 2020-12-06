@@ -16,6 +16,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.fragment.app.Fragment;
@@ -28,6 +30,7 @@ import com.samir.TCCApp.adapters.AdapterCardapio;
 import com.samir.TCCApp.classes.Product;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static com.samir.TCCApp.activities.MainActivity.productDAO;
 import static com.samir.TCCApp.utils.Helper.COL_VALPROD;
@@ -55,14 +58,14 @@ public class CardapioFragment extends Fragment {
     private String qSobremesa = "";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_cardapio, container, false);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cardapio, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         ref(view);
         configFilterDialog();
 
@@ -162,7 +165,7 @@ public class CardapioFragment extends Fragment {
                 }
                 configAdapter(productDAO.getProducts("select * from tbproduto " + query));
             }else if(minValue != null && maxValue != null){
-                    configAdapter(productDAO.getProducts("select * from tbproduto where " + valueQuery));
+                configAdapter(productDAO.getProducts("select * from tbproduto where " + valueQuery));
             } else{
                 configAdapter(productDAO.getProducts("select * from tbproduto "));
             }
@@ -186,16 +189,16 @@ public class CardapioFragment extends Fragment {
 
             }
         });
-
-        return view;
     }
 
     private void configFilterDialog() {
         arrayListFilter = new ArrayList<>();
         for (Product product : productDAO.getProducts("select * from tbproduto")) {
-            for (String s : arrayListFilter) {
+            for (Iterator<String> i = arrayListFilter.iterator(); i.hasNext();) {
+                String s = i.next();
                 if (s.equals(product.getTipoProd())) {
-                    arrayListFilter.remove(arrayListFilter.indexOf(s));
+                    i.remove();
+//                    arrayListFilter.remove(arrayListFilter.indexOf(s));
                 }
             }
             arrayListFilter.add(product.getTipoProd());
@@ -255,23 +258,17 @@ public class CardapioFragment extends Fragment {
                 case ORD_MAIOR:
                     configAdapter(productDAO.getProducts(String.format("select * from tbproduto %s order by %s desc ",
                             qPrato + qBebida + qSobremesa, COL_VALPROD)));
-//                    msgToast("Maior -> menor");
                     break;
                 case ORD_MENOR:
                     configAdapter(productDAO.getProducts(String.format("select * from tbproduto %s order by %s ",
                             qPrato + qBebida + qSobremesa, COL_VALPROD)));
-//                    msgToast("Menor -> maior");
                     break;
                 case ORD_POP:
-                    msgToast("Mais vendidos");
+
                     break;
             }
 
         });
-    }
-
-    private void msgToast(String s) {
-        Toast.makeText(getActivity(), s, Toast.LENGTH_LONG).show();
     }
 
     private void ref(View view) {

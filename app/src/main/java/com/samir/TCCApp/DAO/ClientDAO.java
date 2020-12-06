@@ -55,10 +55,11 @@ public class ClientDAO {
                 Log.i("API", "Cod: " + response.code() + response.body());
                 if (response.isSuccessful() && response.body() != null) {
                     ClientDAO.client = response.body();
-                    save();
-                    mContext.startActivity(new Intent(mContext, MainActivity.class));
-                    ((Activity) mContext).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
-                    ((Activity) mContext).finish();
+                    if (save()){
+                        mContext.startActivity(new Intent(mContext, MainActivity.class));
+                        ((Activity) mContext).overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+                        ((Activity) mContext).finish();
+                    }
                 } else {
                     snackbar(view, "Usuário já cadastrado");
                 }
@@ -101,7 +102,7 @@ public class ClientDAO {
 
     }
 
-    public void updateClient(Client client, View view, Context context){
+    public void updateClient(Client client, View view, Context context) {
         ClientService clientService = retrofit.create(ClientService.class);
         Call<Boolean> call = clientService.updateClient(client);
 
@@ -109,13 +110,15 @@ public class ClientDAO {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    if (response.body()){
-                        save();
-                        if (view != null) snackbar(view, "Usuário alterado com sucesso");
-                        else ((Activity) context).finish();
-                    }else {
+                    if (response.body()) {
+                        if (save()) {
+                            if (view != null) snackbar(view, "Usuário alterado com sucesso");
+                            else ((Activity) context).finish();
+                        }
+                    } else {
                         if (view != null) snackbar(view, "Erro ao alterar usuário");
-                        else Toast.makeText(context, "Erro ao salvar endereço", Toast.LENGTH_SHORT).show();
+                        else
+                            Toast.makeText(context, "Erro ao salvar endereço", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

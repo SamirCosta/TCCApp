@@ -3,12 +3,17 @@ package com.samir.TCCApp.activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.samir.TCCApp.R;
@@ -26,20 +31,26 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static com.samir.TCCApp.activities.MainActivity.productDAO;
+import static com.samir.TCCApp.utils.Helper.COL_VALPROD;
+
 public class PaymentActivity extends AppCompatActivity {
+    private static final int CREDITO = R.id.rbCredito;
+    private static final int DEBITO = R.id.rbDebito;
+    private static final int DIN = R.id.rbDin;
     private RecyclerView recyclerView;
-//    private ArrayList<Product> arrayListItem = new ArrayList<>();
-    public TextView tvDuration, tvEnd;
+    //    private ArrayList<Product> arrayListItem = new ArrayList<>();
+    public TextView tvDuration, tvEnd, tvFormPagText;
+    private String END_REST = "Rua Rui barbosa, Centro- Bela Vista/SP";
+    private View formaPag;
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (AddressActivity.addressess != null) {
-            tvEnd.setText(AddressActivity.addressess.getAddress());
-
-            DurationTask durationTask = new DurationTask();
-            durationTask.execute(AddressActivity.addressess.getAddress(), "Rua Rui barbosa, Centro- Bela Vista/SP");
-        }
+        if (AddressActivity.addressess != null)
+            if (AddressActivity.addressess.getAddress() != null)
+                if (!AddressActivity.addressess.getAddress().equals(""))
+                    tvEnd.setText(AddressActivity.addressess.getAddress());
     }
 
     @Override
@@ -48,9 +59,15 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
         ref();
 
+        if (AddressActivity.addressess != null) {
+            if (AddressActivity.addressess.getAddress() != null)
+                if (!AddressActivity.addressess.getAddress().equals(""))
+                    new DurationTask().execute(AddressActivity.addressess.getAddress(), END_REST);
+        }
+
         findViewById(R.id.cardViewMesa).setVisibility(View.GONE);
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             findViewById(R.id.cardViewMesa).setVisibility(View.VISIBLE);
             TextView textView = findViewById(R.id.mesaPay);
             textView.setText(bundle.getString("mesa"));
@@ -67,17 +84,47 @@ public class PaymentActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerItemPay);
         recyclerView.setHasFixedSize(true);
-        BagAdapter bagAdapter = new BagAdapter(HomeFragment.bagArrayListItem);
+        BagAdapter bagAdapter = new BagAdapter(HomeFragment.bagArrayListItem, getApplicationContext());
         recyclerView.setAdapter(bagAdapter);
 
+        formaPag.setOnClickListener(c -> {
+            Dialog dialog = new Dialog(PaymentActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.form_pag_dialog);
+            dialogActions(dialog);
+            dialog.show();
+        });
+
+    }
+
+    private void dialogActions(Dialog dialog) {
+        TextView tvOK = dialog.findViewById(R.id.btnOkPag);
+        RadioGroup radioGroup = dialog.findViewById(R.id.radioGroupPag);
+        tvOK.setOnClickListener(c -> {
+            dialog.cancel();
+            switch (radioGroup.getCheckedRadioButtonId()) {
+                case CREDITO:
+                    tvFormPagText.setText("Crédito");
+                    break;
+                case DEBITO:
+                    tvFormPagText.setText("Débito");
+                    break;
+                case DIN:
+                    tvFormPagText.setText("Dinheiro");
+                    break;
+            }
+        });
     }
 
     private void ref() {
         tvDuration = findViewById(R.id.tvPrev);
         tvEnd = findViewById(R.id.tvEndPay);
+        formaPag = findViewById(R.id.formaPag);
+        tvFormPagText = findViewById(R.id.tvFormPagText);
     }
 
-    public void openEnd(View view){
+    public void openEnd(View view) {
         startActivity(new Intent(this, AddressActivity.class));
     }
 
@@ -153,7 +200,8 @@ public class PaymentActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            tvDuration.setText("Previsão: " + s);
+            if (!s.isEmpty())
+                tvDuration.setText("Previsão: " + s);
         }
     }
 
