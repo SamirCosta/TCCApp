@@ -22,6 +22,9 @@ public interface ClientService {
     Call<Client> validateLogin(@Query("user") String user, @Query("pass") String pass);
 //?user={user}&pass={pass}
 
+    @GET("api/Client/verifyCad")
+    Call<Boolean> verifyCad(@Query("email") String email, @Query("user") String user);
+
     @GET("api/Client/validateRegisterByEmail")
     Call<Client> validateRegisterByEmail(@Query("email") String email);
 

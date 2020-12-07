@@ -15,10 +15,12 @@ import android.widget.Toast;
 
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Product;
+import com.squareup.picasso.Picasso;
 
 import static com.samir.TCCApp.fragments.HomeFragment.bagArrayListItem;
 import static com.samir.TCCApp.fragments.HomeFragment.internalBag;
 import static com.samir.TCCApp.fragments.HomeFragment.recyclerViewBag;
+import static com.samir.TCCApp.utils.Helper.BASE_URL;
 
 public class DetailsActivity extends AppCompatActivity {
     private MotionLayout motionLayout;
@@ -36,7 +38,8 @@ public class DetailsActivity extends AppCompatActivity {
         name.setText(product.getName());
         desc.setText(product.getDescProd());
         val.setText("R$" + product.getValorProd());
-        imageView.setImageResource(R.drawable.nachos);
+//        imageView.setImageResource(R.drawable.burrito_camarones_puerto);
+        Picasso.get().load(BASE_URL + product.getImagem()).into(imageView);
 //        imageView.setImageResource(product.getImage());
 
         btn.setOnClickListener(c -> {

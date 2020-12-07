@@ -22,6 +22,9 @@ public class CuponsAdapter extends RecyclerView.Adapter<CuponsAdapter.MyViewHold
     private List<Cupom> arrayList;
     private Context context;
 
+    String desconto;
+    String date;
+
     public CuponsAdapter(List<Cupom> arrayList, Context context) {
         this.arrayList = arrayList;
         this.context = context;
@@ -37,23 +40,35 @@ public class CuponsAdapter extends RecyclerView.Adapter<CuponsAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Cupom cupom = arrayList.get(position);
+        desconto = new DecimalFormat("0").format(cupom.getDesconto() * 100) + "%";
+        date = cupom.getDataTerm().split(" ")[0];
+
         holder.tvCod.setText(cupom.getCodCupom());
-        holder.tvDesc.setText(new DecimalFormat("0").format(cupom.getDesconto() * 100) + "%");
-        String[] date = cupom.getDataTerm().split("T")[0].split("-");
-        holder.tvDate.setText("*Válido até: " + date[2] + "/" + date[1] + "/" + date[0]);
+        holder.tvDesc.setText(desconto);
+        holder.tvDate.setText("*Válido até: " + date);
 
         holder.itemView.setOnClickListener(c -> {
             Dialog dialog = new Dialog(context);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.setContentView(R.layout.cupom_dialog);
-            dialogActions(dialog);
+            dialogActions(dialog, cupom);
             dialog.show();
         });
     }
 
-    private void dialogActions(Dialog dialog) {
+    private void dialogActions(Dialog dialog, Cupom cupom) {
+        TextView tvCodCupomDialog = dialog.findViewById(R.id.tvCodCupomDialog);
+        TextView tvDateCupomDesc = dialog.findViewById(R.id.tvDateCupomDesc);
+        TextView tvDescDescrCupom = dialog.findViewById(R.id.tvDescDescrCupom);
+        TextView tvDescriCupom = dialog.findViewById(R.id.tvDescriCupom);
 
+        tvCodCupomDialog.setText(cupom.getCodCupom());
+        tvDateCupomDesc.setText("*Válido até:\n" + date);
+        tvDescDescrCupom.setText(desconto);
+
+        if (cupom.getDescri() == null) tvDescriCupom.setVisibility(View.GONE);
+        else tvDescriCupom.setText(cupom.getDescri());
     }
 
     @Override

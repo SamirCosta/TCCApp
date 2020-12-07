@@ -30,7 +30,6 @@
             android:background="#F4F4F4">
             <!--        android:background="#32E4E4E4"-->
 
-
             <TextView
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
@@ -72,8 +71,10 @@
 
             </androidx.cardview.widget.CardView>
 
+<!--            aaaaaaaaaaaaaaaaa-->
+
             <View
-                android:id="@+id/view3"
+                android:id="@+id/viewEndPay"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
                 android:layout_marginStart="16dp"
@@ -86,14 +87,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/cardViewMesa" />
 
             <ImageView
-                android:id="@+id/imgView"
+                android:id="@+id/imgViewEndPay"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
                 android:src="@drawable/ic_baseline_place_24"
-                app:layout_constraintStart_toStartOf="@+id/view3"
-                app:layout_constraintTop_toTopOf="@+id/view3" />
+                app:layout_constraintStart_toStartOf="@+id/viewEndPay"
+                app:layout_constraintTop_toTopOf="@+id/viewEndPay" />
 
             <TextView
                 android:id="@+id/tvEndPay"
@@ -109,21 +110,21 @@
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:onClick="openEnd"
-                app:layout_constraintEnd_toEndOf="@+id/view3"
+                app:layout_constraintEnd_toEndOf="@+id/viewEndPay"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imgView"
-                app:layout_constraintTop_toTopOf="@+id/view3" />
+                app:layout_constraintStart_toEndOf="@+id/imgViewEndPay"
+                app:layout_constraintTop_toTopOf="@+id/viewEndPay" />
 
             <EditText
-                android:id="@+id/textInputLayout"
+                android:id="@+id/editCompPay"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="150dp"
                 android:hint="Complemento"
-                app:layout_constraintEnd_toEndOf="@+id/view3"
-                app:layout_constraintStart_toStartOf="@+id/view3"
+                app:layout_constraintEnd_toEndOf="@+id/viewEndPay"
+                app:layout_constraintStart_toStartOf="@+id/viewEndPay"
                 app:layout_constraintTop_toBottomOf="@+id/tvEndPay" />
 
             <TextView
@@ -132,8 +133,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
-                app:layout_constraintStart_toStartOf="@+id/view3"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
+                app:layout_constraintStart_toStartOf="@+id/viewEndPay"
+                app:layout_constraintTop_toBottomOf="@+id/editCompPay" />
+
+<!--            aaaaaaaaaaaaaaa-->
 
             <View
                 android:id="@+id/formaPag"
@@ -147,7 +150,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view3" />
+                app:layout_constraintTop_toBottomOf="@+id/viewEndPay" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -260,7 +263,7 @@
                 app:layout_constraintTop_toTopOf="@+id/viewCpf" />
 
             <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switch1"
+                android:id="@+id/switchPay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"

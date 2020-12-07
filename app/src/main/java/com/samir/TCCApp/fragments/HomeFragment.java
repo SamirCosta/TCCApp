@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -19,10 +20,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
@@ -33,12 +30,7 @@ import com.samir.TCCApp.adapters.BagAdapter;
 import com.samir.TCCApp.classes.InternalBag;
 import com.samir.TCCApp.classes.Product;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-
-import static com.samir.TCCApp.utils.Helper.ARQUIVO_CLIENT;
 
 public class HomeFragment extends Fragment {
     public static BottomNavigationViewEx bottomNavigationViewEx;
@@ -50,6 +42,7 @@ public class HomeFragment extends Fragment {
     public static ImageView emptyBag;
     public static ArrayList<Product> bagArrayListItem;
     public static RecyclerView recyclerViewBag;
+    public static float sum = 0;
 
     public static InternalBag internalBag;
 
@@ -63,6 +56,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        configRecycler();
         if (AddressActivity.addressess != null) {
             if (AddressActivity.addressess.getAddress() != null)
                 if (!AddressActivity.addressess.getAddress().equals(""))
@@ -75,7 +69,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         ref(view);
-        configRecycler();
+
         motionConfig();
         setName();
         bottomConfig();
@@ -86,11 +80,13 @@ public class HomeFragment extends Fragment {
         });
 
         btn.setOnClickListener(a -> {
-            if (!bagArrayListItem.isEmpty()) {
+            if (!internalBag.getProductArrayList().isEmpty()) {
                 motionLayout.transitionToStart();
                 Intent intent = new Intent(getActivity(), PaymentActivity.class);
-                intent.putExtra("total", tvTotalVal.getText().toString());
+                intent.putExtra("total", sum);
                 startActivity(intent);
+            }else{
+                Toast.makeText(getActivity(), "Sacola vazia", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -122,7 +118,7 @@ public class HomeFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewBag.setLayoutManager(layoutManager);
         recyclerViewBag.setHasFixedSize(true);
-        BagAdapter bagAdapter = new BagAdapter(bagArrayListItem, getActivity());
+        BagAdapter bagAdapter = new BagAdapter(internalBag.getProductArrayList(), getActivity());
         recyclerViewBag.setAdapter(bagAdapter);
 
         ItemTouchHelper.Callback itemTouch = new ItemTouchHelper.Callback() {

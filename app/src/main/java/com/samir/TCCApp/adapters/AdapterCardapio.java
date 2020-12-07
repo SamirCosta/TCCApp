@@ -3,7 +3,6 @@ package com.samir.TCCApp.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.activities.DetailsActivity;
 import com.samir.TCCApp.classes.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import static com.samir.TCCApp.utils.Helper.BASE_URL;
 
 public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYViewHolder> {
     private ArrayList<Product> arrayList;
@@ -44,10 +46,10 @@ public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYView
         Product product = arrayList.get(position);
         holder.name.setText(product.getName());
         holder.desc.setText(product.getDescProd());
-        holder.imgItem.setImageResource(R.drawable.nachos);
+        holder.imgItem.setImageResource(R.drawable.burrito_camarones_puerto);
 //        holder.imgItem.setImageBitmap(BitmapFactory.decodeByteArray(product.getImage(), 0, product.getImage().length));
 //        holder.imgItem.setImageResource(product.getImage());
-//        Picasso.get().load("https://i.postimg.cc/R0S148dv/AQTzbaG.jpg").into(holder.imgItem);
+        Picasso.get().load(BASE_URL + product.getImagem()).into(holder.imgItem);
 
         holder.item.setOnClickListener(v -> {
             Intent intent = new Intent(context, DetailsActivity.class);

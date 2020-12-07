@@ -195,7 +195,7 @@ public class BottomHomeFragment extends Fragment {
 
             numberPicker = view.findViewById(R.id.numberPicker);
             numberPicker.setMinValue(1);
-            numberPicker.setMaxValue(7);
+            numberPicker.setMaxValue(5);
 
             mBuilder.setPositiveButton("OK", (dialog, which) -> {
                 textView.setText(String.valueOf(numberPicker.getValue()));

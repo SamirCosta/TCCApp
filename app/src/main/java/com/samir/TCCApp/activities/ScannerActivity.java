@@ -13,7 +13,7 @@ import com.samir.TCCApp.R;
 import java.util.ArrayList;
 
 public class ScannerActivity extends AppCompatActivity {
-    private ArrayList<String> mesas = new ArrayList<>();
+    public static ArrayList<String> mesas = new ArrayList<>();
     CodeScanner codeScanner;
     CodeScannerView codeScannerView;
     TextView textView;
@@ -26,7 +26,7 @@ public class ScannerActivity extends AppCompatActivity {
         codeScannerView = findViewById(R.id.scanner_view);
         codeScanner = new CodeScanner(this, codeScannerView);
 
-        for (int i = 1; i <= 30; i++) {
+        for (int i = 1; i <= 20; i++) {
             mesas.add("Mesa " + i);
         }
 
@@ -38,8 +38,11 @@ public class ScannerActivity extends AppCompatActivity {
                     if (resu.equals(mesas.get(i))) {
                         Intent intent = new Intent(this, PaymentActivity.class);
                         intent.putExtra("mesa", resu);
+                        intent.putExtra("indexMesa", i);
                         startActivity(intent);
-                    } else {
+                        finish();
+                        break;
+                    } else if(i == mesas.size() - 1){
                         textView = findViewById(R.id.tvMesa);
                         textView.setText("Código inválido");
                     }

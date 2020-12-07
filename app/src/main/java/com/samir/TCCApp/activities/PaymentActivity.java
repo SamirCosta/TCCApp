@@ -1,6 +1,7 @@
 package com.samir.TCCApp.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
@@ -14,6 +15,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -43,6 +47,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.samir.TCCApp.activities.MainActivity.productDAO;
+import static com.samir.TCCApp.fragments.HomeFragment.sum;
 import static com.samir.TCCApp.utils.Helper.COL_VALPROD;
 import static com.samir.TCCApp.utils.Helper.retrofit;
 import static com.samir.TCCApp.utils.Helper.snackbar;
@@ -53,10 +58,13 @@ public class PaymentActivity extends AppCompatActivity {
     private static final int DIN = R.id.rbDin;
     private RecyclerView recyclerView;
     //    private ArrayList<Product> arrayListItem = new ArrayList<>();
-    public TextView tvDuration, tvEnd, tvFormPagText, tvTotalFinal, tvTotalProd, tvSubTotal;
+    public static TextView tvDuration, tvEnd, tvFormPagText, tvTotalFinal, tvTotalProd, tvSubTotal;
     private String END_REST = "Rua Rui barbosa, Centro- Bela Vista/SP";
-    private View formaPag;
-    private String previsao, total;
+    private View formaPag, viewEndPay;
+    private ImageView imgViewEndPay;
+    private String previsao;
+    private InsertProd insertProd;
+    private EditText editCompPay;
 
     @Override
     protected void onStart() {
@@ -64,6 +72,7 @@ public class PaymentActivity extends AppCompatActivity {
         if (AddressActivity.addressess != null)
             if (AddressActivity.addressess.getAddress() != null)
                 if (!AddressActivity.addressess.getAddress().equals("")) {
+                    new DurationTask().execute(AddressActivity.addressess.getAddress(), END_REST);
                     tvEnd.setText(AddressActivity.addressess.getAddress());
                     tvDuration.setText(previsao);
                 }
@@ -74,6 +83,11 @@ public class PaymentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
         ref();
+        insertProd = new InsertProd();
+
+        editCompPay.setText(ClientDAO.client.getComp());
+        TextView tvCPF = findViewById(R.id.tvCpfNum);
+        tvCPF.setText(ClientDAO.client.getCPF());
 
         if (AddressActivity.addressess != null) {
             if (AddressActivity.addressess.getAddress() != null)
@@ -87,14 +101,15 @@ public class PaymentActivity extends AppCompatActivity {
             if (bundle.getString("mesa") != null) {
                 TextView textView = findViewById(R.id.mesaPay);
                 textView.setText(bundle.getString("mesa"));
+                insertProd.setIdMesa(bundle.getInt("indexMesa"));
                 findViewById(R.id.cardViewMesa).setVisibility(View.VISIBLE);
+                setEndVisibility();
             }
-            total = bundle.getString("total");
         }
 
-        tvTotalFinal.setText(total);
-        tvTotalProd.setText(total);
-        tvSubTotal.setText(total);
+        tvTotalFinal.setText("Total: R$" + sum);
+        tvTotalProd.setText("R$" + sum);
+        tvSubTotal.setText("R$" + sum);
 
         findViewById(R.id.btnBackPay).setOnClickListener(c -> {
             finish();
@@ -114,6 +129,23 @@ public class PaymentActivity extends AppCompatActivity {
             dialog.show();
         });
 
+        SwitchCompat switchPay = findViewById(R.id.switchPay);
+        switchPay.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                insertProd.setCPF(ClientDAO.client.getCPF());
+            }else {
+                insertProd.setCPF("");
+            }
+        });
+
+    }
+
+    private void setEndVisibility() {
+        viewEndPay.setVisibility(View.GONE);
+        imgViewEndPay.setVisibility(View.GONE);
+        editCompPay.setVisibility(View.GONE);
+        tvEnd.setVisibility(View.GONE);
+        tvDuration.setVisibility(View.GONE);
     }
 
     private void dialogActions(Dialog dialog) {
@@ -143,6 +175,9 @@ public class PaymentActivity extends AppCompatActivity {
         tvTotalFinal = findViewById(R.id.tvTotalFinal);
         tvTotalProd = findViewById(R.id.tvTotalProd);
         tvSubTotal = findViewById(R.id.tvSubTotal);
+        editCompPay = findViewById(R.id.editCompPay);
+        viewEndPay = findViewById(R.id.viewEndPay);
+        imgViewEndPay = findViewById(R.id.imgViewEndPay);
     }
 
     public void openEnd(View view) {
@@ -150,12 +185,10 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     public void pay(View view) {
-        InsertProd insertProd = new InsertProd();
         insertProd.setIdMesa(0);
         insertProd.setProducts(HomeFragment.internalBag.getProductArrayList());
-        insertProd.setCodCupom("0");
+        insertProd.setCodCupom("");
         insertProd.setQtdPontos(0);
-        insertProd.setCPF("12145678914");
 
         if (!tvFormPagText.getText().toString().isEmpty() && !AddressActivity.addressess.getAddress().isEmpty()) {
             insertProd.setFormPag(tvFormPagText.getText().toString());

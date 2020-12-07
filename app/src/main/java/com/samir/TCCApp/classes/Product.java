@@ -9,8 +9,8 @@ public class Product implements Serializable {
 //            NomeProd;
     private int IdProd;
     private String NomeProd;
-    private byte[] image;
-    private int qtd = 1;
+    private String Imagem;
+    private int QtdProd = 1;
     private String DescProd;
     private float ValorProd;
     private String Observacao;
@@ -21,28 +21,28 @@ public class Product implements Serializable {
 
     }
 
+    public String getImagem() {
+        return Imagem;
+    }
+
+    public void setImagem(String imagem) {
+        Imagem = imagem;
+    }
+
     public void setName(String name) {
         this.NomeProd = name;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
     public int getQtd() {
-        return qtd;
+        return QtdProd;
     }
 
     public void setQtd(int qtd) {
-        this.qtd = qtd;
+        this.QtdProd = qtd;
     }
 
     public String getName() {
         return NomeProd;
-    }
-
-    public byte[] getImage() {
-        return image;
     }
 
     public int getIdProd() {

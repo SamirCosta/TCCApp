@@ -43,16 +43,16 @@ public class AboutFragment extends Fragment {
                              Bundle savedInstanceState) {
 //        View view = inflater.inflate(R.layout.fragment_about, container, false);
 
-        SliderItem sliderItem = new SliderItem(R.drawable.predio);
+        SliderItem sliderItem = new SliderItem(R.drawable.img_about1);
         mSliderItems.add(sliderItem);
 
-        sliderItem = new SliderItem(R.drawable.predio);
+        sliderItem = new SliderItem(R.drawable.img_about2);
         mSliderItems.add(sliderItem);
 
-        sliderItem = new SliderItem(R.drawable.predio);
+        sliderItem = new SliderItem(R.drawable.img_about3);
         mSliderItems.add(sliderItem);
 
-        sliderItem = new SliderItem(R.drawable.predio);
+        sliderItem = new SliderItem(R.drawable.img_about4);
         mSliderItems.add(sliderItem);
 
         return inflater.inflate(R.layout.fragment_about, container, false);

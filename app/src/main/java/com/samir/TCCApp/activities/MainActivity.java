@@ -33,6 +33,7 @@ import java.util.List;
 
 import static com.samir.TCCApp.DAO.ClientDAO.client;
 import static com.samir.TCCApp.fragments.HomeFragment.end;
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_BAG;
 import static com.samir.TCCApp.utils.Helper.ARQUIVO_CLIENT;
 
 public class MainActivity extends AppCompatActivity {
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
             LoginManager.getInstance().logOut();
             this.deleteFile(ARQUIVO_CLIENT);
+            this.deleteFile(ARQUIVO_BAG);
 
             Intent intent = new Intent(this, SliderIntroActivity.class);
             intent.putExtra("page", 4);

@@ -10,6 +10,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_BAG;
+
 public class InternalBag implements Serializable {
 
     ArrayList<Product> productArrayList;
@@ -35,7 +37,7 @@ public class InternalBag implements Serializable {
     public static ArrayList<Product> getInternalProducts(Context context) {
         ArrayList<Product> list = new ArrayList<>();
         try {
-            FileInputStream fis = new FileInputStream(context.getFileStreamPath("streamFile"));
+            FileInputStream fis = new FileInputStream(context.getFileStreamPath(ARQUIVO_BAG));
             ObjectInputStream ois = new ObjectInputStream(fis);
             InternalBag internalBag = (InternalBag) ois.readObject();
             list = internalBag.getProductArrayList();
@@ -50,7 +52,7 @@ public class InternalBag implements Serializable {
 
     public void save(InternalBag internalBag, Context context) {
         try {
-            FileOutputStream fos = new FileOutputStream(context.getFileStreamPath("streamFile"));
+            FileOutputStream fos = new FileOutputStream(context.getFileStreamPath(ARQUIVO_BAG));
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
             oos.writeObject(internalBag);

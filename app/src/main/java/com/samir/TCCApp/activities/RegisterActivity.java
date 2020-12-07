@@ -1,8 +1,11 @@
 package com.samir.TCCApp.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
@@ -19,12 +22,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
+import com.samir.TCCApp.api.ClientService;
 import com.samir.TCCApp.classes.Addressess;
 import com.samir.TCCApp.classes.Client;
 import com.samir.TCCApp.classes.User;
 import com.samir.TCCApp.utils.MaskEditUtil;
 
 import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.samir.TCCApp.utils.Helper.retrofit;
+import static com.samir.TCCApp.utils.Helper.snackbar;
 
 public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout editNome, editEmail, editLayoutCelular, editUserName, editPassword, editConfirmPass;
@@ -104,12 +115,17 @@ public class RegisterActivity extends AppCompatActivity {
             editConfirmPass.setError("Campo obrigatório");
         }
 
+        boolean pass = true;
+        if (!confirmPass.equals(password)) {
+            editConfirmPass.setError("As senhas devem ser iguais");
+            pass = false;
+        }
+
         validaEmail();
         validaCel();
 
         if (!verify(nome, email, cel, userName, password, confirmPass)
-                && validaEmail() && validaCel()) {
-            ClientDAO clientDAO = new ClientDAO(getApplicationContext());
+                && validaEmail() && validaCel() && pass) {
 
             User user = new User();
             user.setUserName(userName);
@@ -124,8 +140,36 @@ public class RegisterActivity extends AppCompatActivity {
             client.setCelCli(Long.parseLong(cel.replace("(", "").replace(")", "")
                     .replace("-", "").replace(" ", "")));
 
-            clientDAO.postClient(client, view, RegisterActivity.this);
+            verifyCad(client, view);
         }
+    }
+
+    private void verifyCad(Client client, View view) {
+        ClientService clientService = retrofit.create(ClientService.class);
+        Call<Boolean> call = clientService.verifyCad(client.getEmailCli(), client.getUser().getUserName());
+
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                Log.i("API", "Cod: " + response.code() + response.body());
+                if (response.isSuccessful() && response.body() != null) {
+                    if (response.body()){
+                        Intent intent = new Intent(RegisterActivity.this, SMSActivity.class);
+                        intent.putExtra("smsCli", client);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+                    }else {
+                        snackbar(view, "Usuário já cadastrado");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                Log.i("API", "DEU RUIM: " + t.getMessage());
+            }
+        });
+
     }
 
     private boolean validaCel() {

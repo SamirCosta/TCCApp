@@ -61,7 +61,7 @@ public class ClientDAO {
                         ((Activity) mContext).finish();
                     }
                 } else {
-                    snackbar(view, "Usuário já cadastrado");
+                    snackbar(view, "Erro ao cadastrar usuário");
                 }
             }
 
