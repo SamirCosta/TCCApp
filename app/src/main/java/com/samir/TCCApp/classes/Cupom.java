@@ -1,6 +1,4 @@
-package com.samir.TCCApp.adapters;
-
-import java.util.Date;
+package com.samir.TCCApp.classes;
 
 public class Cupom {
 

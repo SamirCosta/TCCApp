@@ -158,6 +158,7 @@ public class RegisterActivity extends AppCompatActivity {
                         intent.putExtra("smsCli", client);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_in_right);
+                        finish();
                     }else {
                         snackbar(view, "Usuário já cadastrado");
                     }

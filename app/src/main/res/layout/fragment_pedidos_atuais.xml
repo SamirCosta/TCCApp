@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.PedidosAtuaisFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerPedidosAtu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="ATUAIS" />
+        tools:listitem="@layout/pedido_item_adapter"
+         />
+
+    <TextView
+        android:id="@+id/tvEmptyPedAtu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/poppins"
+        android:text="Você ainda não \n possui pedidos"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="22sp" />
+
+    <ImageView
+        android:id="@+id/imgEmptyPedAtu"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/empty_ped" />
 
 </FrameLayout>

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.samir.TCCApp.R;
+import com.samir.TCCApp.classes.Cupom;
 
 import java.text.DecimalFormat;
 import java.util.List;

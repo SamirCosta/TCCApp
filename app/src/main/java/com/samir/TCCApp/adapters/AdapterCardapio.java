@@ -46,9 +46,6 @@ public class AdapterCardapio extends RecyclerView.Adapter<AdapterCardapio.MYView
         Product product = arrayList.get(position);
         holder.name.setText(product.getName());
         holder.desc.setText(product.getDescProd());
-        holder.imgItem.setImageResource(R.drawable.burrito_camarones_puerto);
-//        holder.imgItem.setImageBitmap(BitmapFactory.decodeByteArray(product.getImage(), 0, product.getImage().length));
-//        holder.imgItem.setImageResource(product.getImage());
         Picasso.get().load(BASE_URL + product.getImagem()).into(holder.imgItem);
 
         holder.item.setOnClickListener(v -> {

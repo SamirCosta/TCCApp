@@ -1,10 +1,9 @@
 package com.samir.TCCApp.activities;
 
 import android.Manifest;
-import android.app.ActivityManager;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -18,21 +17,18 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.DAO.ProductDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Addressess;
+import com.samir.TCCApp.classes.InternalPed;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.samir.TCCApp.DAO.ClientDAO.client;
-import static com.samir.TCCApp.fragments.HomeFragment.end;
+import static com.samir.TCCApp.DAO.ProductDAO.pedidoViews;
+import static com.samir.TCCApp.fragments.PedidosAtuaisFragment.recyclerPedAtu;
 import static com.samir.TCCApp.utils.Helper.ARQUIVO_BAG;
 import static com.samir.TCCApp.utils.Helper.ARQUIVO_CLIENT;
 
@@ -51,13 +47,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        if (recyclerPedAtu != null)recyclerPedAtu.getAdapter().notifyDataSetChanged();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        pedidoViews = new InternalPed(this);
+        new Load().execute();
         ref();
         checkPermissions();
 
@@ -214,6 +212,23 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int p : grantResults) {
             if (p == PackageManager.PERMISSION_DENIED) finish();
+        }
+    }
+
+    private class Load extends AsyncTask<Void, Void, Void> {
+
+        /*@Override
+        protected void onPreExecute() {super.onPreExecute();}*/
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            new ProductDAO(MainActivity.this).getPeds(String.valueOf(client.getIdCli()), false, MainActivity.this);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
         }
     }
 

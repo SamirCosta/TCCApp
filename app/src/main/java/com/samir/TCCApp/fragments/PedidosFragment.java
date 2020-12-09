@@ -47,6 +47,7 @@ public class PedidosFragment extends Fragment {
         );
         viewPager.setAdapter(adapter);
         smartTabLayout.setViewPager(viewPager);
+        viewPager.setCurrentItem(1);
 
     }
 }

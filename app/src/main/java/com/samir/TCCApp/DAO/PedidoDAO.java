@@ -1,11 +1,8 @@
 package com.samir.TCCApp.DAO;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
-import com.samir.TCCApp.activities.MainActivity;
 import com.samir.TCCApp.api.ProductService;
 import com.samir.TCCApp.classes.InsertProd;
 
@@ -13,7 +10,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.samir.TCCApp.utils.Helper.ARQUIVO_BAG;
 import static com.samir.TCCApp.utils.Helper.retrofit;
 
 public class PedidoDAO {
@@ -29,11 +25,7 @@ public class PedidoDAO {
                 if (response.isSuccessful() && response.body() != null) {
                     boolean b = response.body();
                     if (b) {
-                        context.deleteFile(ARQUIVO_BAG);
-                        Intent intent = new Intent(context, MainActivity.class);
-                        intent.putExtra("payment", 2);
-                        ((Activity) context).startActivity(intent);
-                        ((Activity) context).finish();
+                        new ProductDAO(context).getPeds(String.valueOf(insertProd.getIdCli()), true, context);
                     }
                 }
             }

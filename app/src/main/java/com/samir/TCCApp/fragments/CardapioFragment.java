@@ -141,7 +141,7 @@ public class CardapioFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                configAdapter(productDAO.getProducts("select * from tbproduto where NomeProd like '" + newText + "%'"));
+                configAdapter(productDAO.getProducts("select * from tbproduto where NomeProd like '%" + newText + "%'"));
                 return false;
             }
         });

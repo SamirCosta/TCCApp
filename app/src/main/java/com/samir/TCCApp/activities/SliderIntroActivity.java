@@ -169,7 +169,9 @@ public class SliderIntroActivity extends AppCompatActivity {
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
-                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+//                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                String email = null;
+                if (mAuth.getCurrentUser() != null) email = mAuth.getCurrentUser().getEmail();
                 if (email != null) validateRegisterByEmail(email);
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SliderIntroActivity.this);
@@ -184,7 +186,7 @@ public class SliderIntroActivity extends AppCompatActivity {
                     builder.show();
                 }
             } else {
-                Toast.makeText(SliderIntroActivity.this, "FOI", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SliderIntroActivity.this, "Erro", Toast.LENGTH_SHORT).show();
             }
         });
     }

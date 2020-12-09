@@ -1,7 +1,6 @@
 package com.samir.TCCApp.api;
 
-import com.samir.TCCApp.adapters.Cupom;
-import com.samir.TCCApp.classes.Client;
+import com.samir.TCCApp.classes.Cupom;
 
 import java.util.List;
 

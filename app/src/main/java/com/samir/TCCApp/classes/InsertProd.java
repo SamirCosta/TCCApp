@@ -4,7 +4,7 @@ import java.util.List;
 
 public class InsertProd {
 
-    int idMesa;
+    int idMesa = 0;
     int idCli;
     List<Product> products;
     String FormPag;

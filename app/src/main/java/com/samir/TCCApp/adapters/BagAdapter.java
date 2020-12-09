@@ -15,6 +15,7 @@ import com.google.gson.internal.$Gson$Preconditions;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Product;
 import com.samir.TCCApp.fragments.HomeFragment;
+import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import static com.samir.TCCApp.fragments.HomeFragment.internalBag;
 import static com.samir.TCCApp.fragments.HomeFragment.sum;
 import static com.samir.TCCApp.fragments.HomeFragment.tvEmpty;
 import static com.samir.TCCApp.fragments.HomeFragment.tvTotalVal;
+import static com.samir.TCCApp.utils.Helper.BASE_URL;
 
 public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
     private ArrayList<Product> arrayList;
@@ -49,7 +51,7 @@ public class BagAdapter extends RecyclerView.Adapter<BagAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Product product = arrayList.get(position);
         holder.item.setText(product.getName());
-        holder.imageView.setImageResource(R.drawable.nachos);
+        Picasso.get().load(BASE_URL + product.getImagem()).into(holder.imageView);
         holder.qtd.setText(String.valueOf(product.getQtd()));
         holder.val.setText("R$" + product.getValorProd());
 

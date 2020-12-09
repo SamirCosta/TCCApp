@@ -37,6 +37,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.samir.TCCApp.fragments.HomeFragment.internalBag;
+
 public class BottomHomeFragment extends Fragment {
     private SliderView sliderView;
     private List<SliderItem> mSliderItems = new ArrayList<>();
@@ -85,7 +87,13 @@ public class BottomHomeFragment extends Fragment {
             builder.setCancelable(true);
             builder.setTitle("Peça no restaurante");
             builder.setMessage("Este pedido é baseado nos itens da sacola, deseja continuar?");
-            builder.setPositiveButton("Sim", (dialog, which) -> getActivity().startActivity(new Intent(getActivity(), ScannerActivity.class)))
+            builder.setPositiveButton("Sim", (dialog, which) -> {
+                if (internalBag.getProductArrayList().size() > 0) {
+                    getActivity().startActivity(new Intent(getActivity(), ScannerActivity.class));
+                } else {
+                    Toast.makeText(getActivity(), "Sacola vazia", Toast.LENGTH_SHORT).show();
+                }
+            })
                     .setNegativeButton("Ir para o cardápio", (dialog, which) -> HomeFragment.bottomNavigationViewEx.setCurrentItem(1));
             builder.create();
             builder.show();
@@ -100,9 +108,14 @@ public class BottomHomeFragment extends Fragment {
 
                 if (!selected.equals("Localização da mesa") && !textView.getText().toString().equals("Quantidade de lugares")
                         && date.getText().toString() != null && time.getText().toString() != null) {
-
-                    getActivity().startActivity(new Intent(getActivity(), PaymentActivity.class));
-                }else {
+                    if (internalBag.getProductArrayList().size() > 0) {
+                        Intent intent = new Intent(getActivity(), PaymentActivity.class);
+                        intent.putExtra("sched", true);
+                        getActivity().startActivity(intent);
+                    }else {
+                        Toast.makeText(getActivity(), "Sacola vazia", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
                     Toast.makeText(getActivity(), "Preencha todos os campos", Toast.LENGTH_SHORT).show();
                 }
 

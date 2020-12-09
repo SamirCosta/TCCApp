@@ -135,10 +135,6 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            /*pref = getSharedPreferences(ARQUIVO_LOGIN, 0);
-            if (pref.contains("id")) {
-                sharedUser = true;
-            }*/
 
             if (getInternalClients() != null) {
                 ClientDAO.client = getInternalClients();
@@ -147,6 +143,7 @@ public class SplashActivity extends AppCompatActivity {
 
             productDAO = new ProductDAO(SplashActivity.this);
             new CupomDAO().getCupom();
+
             return null;
         }
 

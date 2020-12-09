@@ -85,7 +85,7 @@ public class DadosFragment extends Fragment {
 
             if (!verify(editEmail.getText().toString(), editSenha.getText().toString(), editName.getText().toString())) {
                 client.setAddressess(AddressActivity.addressess);
-                client.setCPF(editCPF.getText().toString());
+                client.setCPF(editCPF.getText().toString().replace(".", "").replace("-", ""));
                 client.setNameCli(editName.getText().toString() /*+ " " + editFamilyName.getText().toString()*/);
                 client.setEmailCli(editEmail.getText().toString());
                 client.setCelCli(Long.parseLong(editCel.getText().toString().replace("(", "").replace(")", "")

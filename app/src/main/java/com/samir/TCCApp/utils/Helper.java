@@ -14,6 +14,7 @@ public class Helper {
     public static String BASE_URL = "https://webapitcc.azurewebsites.net";
     public static String ARQUIVO_CLIENT = "client";
     public static String ARQUIVO_BAG = "bag";
+    public static String ARQUIVO_PED = "ped";
 
     public static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)

@@ -2,7 +2,7 @@ package com.samir.TCCApp.DAO;
 
 import android.util.Log;
 
-import com.samir.TCCApp.adapters.Cupom;
+import com.samir.TCCApp.classes.Cupom;
 import com.samir.TCCApp.api.CupomService;
 
 import java.util.ArrayList;

@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment {
         });
 
         btn.setOnClickListener(a -> {
-            if (!internalBag.getProductArrayList().isEmpty()) {
+            if (internalBag.getProductArrayList().size() > 0) {
                 motionLayout.transitionToStart();
                 Intent intent = new Intent(getActivity(), PaymentActivity.class);
                 intent.putExtra("total", sum);
@@ -218,19 +218,8 @@ public class HomeFragment extends Fragment {
 
     private void setName() {
         TextView tvName = view.findViewById(R.id.tvNameHome);
-
-        /*GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(getActivity());
-        FirebaseUser userFace = FirebaseAuth.getInstance().getCurrentUser();
-        if (signInAccount != null) {
-            tvName.setText(signInAccount.getGivenName());
-        } else if (userFace != null) {
-            String name = userFace.getDisplayName();
-            String[] array = name.split(" ");
-            tvName.setText(array[0]);
-        } else {*/
         if (ClientDAO.client != null)
             tvName.setText(ClientDAO.client.getNameCli());
-        //}
     }
 
     private void motionConfig() {

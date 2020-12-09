@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,15 +21,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.DAO.PedidoDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.adapters.BagAdapter;
+import com.samir.TCCApp.adapters.CuponsAdapter;
 import com.samir.TCCApp.api.ClientService;
 import com.samir.TCCApp.api.ProductService;
 import com.samir.TCCApp.classes.Client;
 import com.samir.TCCApp.classes.InsertProd;
+import com.samir.TCCApp.classes.PedidoView;
 import com.samir.TCCApp.fragments.HomeFragment;
 
 import org.json.JSONArray;
@@ -41,13 +45,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.samir.TCCApp.DAO.ClientDAO.client;
+import static com.samir.TCCApp.DAO.ProductDAO.pedidoViews;
 import static com.samir.TCCApp.activities.MainActivity.productDAO;
 import static com.samir.TCCApp.fragments.HomeFragment.sum;
+import static com.samir.TCCApp.fragments.PedidosAtuaisFragment.recyclerPedAtu;
+import static com.samir.TCCApp.utils.Helper.ARQUIVO_BAG;
 import static com.samir.TCCApp.utils.Helper.COL_VALPROD;
 import static com.samir.TCCApp.utils.Helper.retrofit;
 import static com.samir.TCCApp.utils.Helper.snackbar;
@@ -85,9 +96,9 @@ public class PaymentActivity extends AppCompatActivity {
         ref();
         insertProd = new InsertProd();
 
-        editCompPay.setText(ClientDAO.client.getComp());
+        editCompPay.setText(client.getComp());
         TextView tvCPF = findViewById(R.id.tvCpfNum);
-        tvCPF.setText(ClientDAO.client.getCPF());
+        tvCPF.setText(client.getCPF());
 
         if (AddressActivity.addressess != null) {
             if (AddressActivity.addressess.getAddress() != null)
@@ -101,15 +112,19 @@ public class PaymentActivity extends AppCompatActivity {
             if (bundle.getString("mesa") != null) {
                 TextView textView = findViewById(R.id.mesaPay);
                 textView.setText(bundle.getString("mesa"));
-                insertProd.setIdMesa(bundle.getInt("indexMesa"));
+                insertProd.setIdMesa(bundle.getInt("indexMesa") + 1);
                 findViewById(R.id.cardViewMesa).setVisibility(View.VISIBLE);
+                setEndVisibility();
+            }
+            if (bundle.getBoolean("sched")){
                 setEndVisibility();
             }
         }
 
-        tvTotalFinal.setText("Total: R$" + sum);
-        tvTotalProd.setText("R$" + sum);
-        tvSubTotal.setText("R$" + sum);
+        String val = new DecimalFormat("0.0").format(sum);
+        tvTotalFinal.setText("Total: R$" + val);
+        tvTotalProd.setText("R$" + val);
+        tvSubTotal.setText("R$" + val);
 
         findViewById(R.id.btnBackPay).setOnClickListener(c -> {
             finish();
@@ -129,11 +144,26 @@ public class PaymentActivity extends AppCompatActivity {
             dialog.show();
         });
 
+       /* findViewById(R.id.view8).setOnClickListener(c -> {
+            Dialog dialog = new Dialog(PaymentActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.cupom_dialog_choose);
+            dialogCupomActions(dialog);
+            dialog.show();
+        });*/
+
         SwitchCompat switchPay = findViewById(R.id.switchPay);
         switchPay.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                insertProd.setCPF(ClientDAO.client.getCPF());
-            }else {
+                if (!client.getCPF().equals(""))
+                    insertProd.setCPF(client.getCPF());
+                else {
+                    Toast.makeText(this, "Você não possui CPF cadastrado", Toast.LENGTH_LONG).show();
+                    switchPay.toggle();
+                    insertProd.setCPF("");
+                }
+            } else {
                 insertProd.setCPF("");
             }
         });
@@ -185,22 +215,63 @@ public class PaymentActivity extends AppCompatActivity {
     }
 
     public void pay(View view) {
-        insertProd.setIdMesa(0);
-        insertProd.setProducts(HomeFragment.internalBag.getProductArrayList());
+        /*insertProd.setProducts(HomeFragment.internalBag.getProductArrayList());
         insertProd.setCodCupom("");
-        insertProd.setQtdPontos(0);
+        insertProd.setQtdPontos(0);*/
 
-        if (!tvFormPagText.getText().toString().isEmpty() && !AddressActivity.addressess.getAddress().isEmpty()) {
-            insertProd.setFormPag(tvFormPagText.getText().toString());
-            insertProd.setIdCli(ClientDAO.client.getIdCli());
-
-            PedidoDAO pedidoDAO = new PedidoDAO();
-            pedidoDAO.insertProd(insertProd, PaymentActivity.this);
+        if (!tvFormPagText.getText().toString().isEmpty()) {
+            if (insertProd.getIdMesa() > 0) {
+                insertPedMesa();
+            } else if (AddressActivity.addressess.getAddress() != null) {
+                if (AddressActivity.addressess.getAddress() != null)
+                    if (!AddressActivity.addressess.getAddress().equals(""))
+                        insertPedMesa();
+            } else {
+                snackbar(view, "Todos os campos devem ser preenchidos");
+            }
         } else {
             snackbar(view, "Todos os campos devem ser preenchidos");
         }
 
+        /*if (!tvFormPagText.getText().toString().isEmpty()) {
+            insertProd.setFormPag(tvFormPagText.getText().toString());
+            insertProd.setIdCli(client.getIdCli());
+            if (!AddressActivity.addressess.getAddress().isEmpty()) {
+                if (insertProd.getIdMesa() > 0) {
+                    insertPedMesa();
+                } else {
+                    insert();
+                }
+            } else {
+                snackbar(view, "Todos os campos devem ser preenchidos");
+            }
+        } else {
+            snackbar(view, "Todos os campos devem ser preenchidos");
+        }*/
+
     }
+
+    private void insertPedMesa() {
+        PedidoView pedidoView = new PedidoView();
+        pedidoView.setLogra(client.getAddressess().getLogra());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            pedidoView.setDataPed(DateTimeFormatter.ofPattern("dd/MM/uuuu").format(LocalDateTime.now()));
+        }
+        pedidoView.setProdutos(HomeFragment.internalBag.getProductArrayList());
+        pedidoViews.setPedidoViews(pedidoView, pedidoViews, PaymentActivity.this);
+//        recyclerPedAtu.getAdapter().notifyDataSetChanged();
+        this.deleteFile(ARQUIVO_BAG);
+        sum = 0;
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("payment", 2);
+        startActivity(intent);
+        finish();
+    }
+
+    /*private void insert() {
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        pedidoDAO.insertProd(insertProd, PaymentActivity.this);
+    }*/
 
     class DurationTask extends AsyncTask<String, Void, String> {
 
