@@ -60,7 +60,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/ubuntu"
-            android:text="Mi casa es su casa"
+            android:text="@string/mi_casa_es_su_casa"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
@@ -71,7 +71,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/roboto"
-            android:text="Peça e receba em sua casa"
+            android:text="@string/pe_a_e_receba_em_sua_casa"
             android:textColor="@android:color/white"
             android:textSize="15sp" />
 
@@ -99,7 +99,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/ubuntu"
-            android:text="Sin tiempo chavo"
+            android:text="@string/sin_tiempo_chavo"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
@@ -110,7 +110,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/roboto"
-            android:text="Peça antes de chegar em nosso restaurante"
+            android:text="@string/peca_antes"
             android:textColor="#4C4C4C"
             android:textSize="14sp" />
 
@@ -138,7 +138,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginBottom="15dp"
             android:fontFamily="@font/ubuntu"
-            android:text="¿Estas acá?"
+            android:text="@string/estas_aca"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 
@@ -149,7 +149,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/roboto"
-            android:text="Peça se estiver em um dos nossos restaurantes"
+            android:text="@string/peca_restaurante"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
 

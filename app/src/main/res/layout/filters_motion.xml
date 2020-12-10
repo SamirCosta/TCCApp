@@ -35,7 +35,7 @@
             android:layout_marginStart="13dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/poppins_semibold"
-            android:text="FILTROS"
+            android:text="@string/filtros"
             android:textColor="@color/colorAccent"
             android:textSize="24sp" />
 
@@ -47,14 +47,14 @@
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_semibold"
-            android:text="APLICAR"
+            android:text="@string/aplicar"
             android:textColor="@color/colorAccent"
             android:textSize="17sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Faixa de preço:"
+            android:text="@string/faixa_de_pre_o"
             android:textSize="18sp"
             android:textColor="@android:color/black"
             android:layout_marginStart="16dp"

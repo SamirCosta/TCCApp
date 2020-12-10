@@ -101,7 +101,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="45dp"
             android:fontFamily="@font/ubuntu"
-            android:text="Home"
+            android:text="@string/home"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -137,7 +137,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="45dp"
             android:fontFamily="@font/ubuntu"
-            android:text="Meu perfil"
+            android:text="@string/meu_perfil"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -173,7 +173,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="45dp"
             android:fontFamily="@font/ubuntu"
-            android:text="Cupons"
+            android:text="@string/cupons"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -209,7 +209,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="45dp"
             android:fontFamily="@font/ubuntu"
-            android:text="Sobre"
+            android:text="@string/sobre"
             android:textColor="@android:color/black"
             android:textSize="16sp" />
 
@@ -230,7 +230,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="Log out"
+        android:text="@string/log_out"
         android:textAlignment="center"
         android:textColor="@color/red_light"
         app:layout_constraintBottom_toBottomOf="parent"

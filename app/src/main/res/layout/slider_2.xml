@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="Delivery"
+        android:text="@string/delivery"
         android:textColor="#EFEFEF"
         android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/textView15"
@@ -44,44 +44,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-    <!--<androidx.cardview.widget.CardView
-        android:id="@+id/cardDelivery"
-        android:layout_width="match_parent"
-        android:layout_height="85dp"
-        android:layout_marginBottom="100dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:backgroundTint="@color/red_light_alpha"
-        android:backgroundTintMode="src_over"
-        android:elevation="12dp"
-        android:layout_gravity="bottom"
-        app:cardCornerRadius="6dp"
-        app:cardElevation="12dp"
-        app:cardMaxElevation="12dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="15dp"
-            android:layout_marginBottom="15dp"
-            android:fontFamily="@font/ubuntu"
-            android:text="Mi casa es su casa"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="12dp"
-            android:fontFamily="@font/roboto"
-            android:text="Peça e receba em sua casa"
-            android:textColor="@android:color/white"
-            android:textSize="15sp" />
-
-    </androidx.cardview.widget.CardView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

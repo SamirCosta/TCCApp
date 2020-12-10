@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            page = bundle.getInt("shortcut");
-            page = bundle.getInt("payment");
+            if(bundle.getInt("shortcut") != 0)page = bundle.getInt("shortcut");
+            else page = bundle.getInt("payment");
         }
 
         findViewById(R.id.imageViewIc).setOnClickListener(v -> drawerLayout.open());

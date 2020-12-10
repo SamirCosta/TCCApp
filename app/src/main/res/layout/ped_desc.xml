@@ -32,7 +32,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="70dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Endereço"
+            android:text="@string/endereco"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp" />
 
@@ -53,7 +53,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="160dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Produtos"
+            android:text="@string/produtos"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp" />
 

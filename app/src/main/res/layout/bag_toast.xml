@@ -27,7 +27,7 @@
             android:layout_marginBottom="12dp"
             android:layout_gravity="center_vertical"
             android:fontFamily="@font/roboto"
-            android:text="Item adicionado na sacola"
+            android:text="@string/item_add"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 

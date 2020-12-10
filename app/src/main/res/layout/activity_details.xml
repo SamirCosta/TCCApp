@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:fontFamily="@font/poppins"
-            android:text="Descrição"
+            android:text="@string/descri"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +97,7 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:background="@drawable/btnlogin_shape"
-            android:text="Adicionar na sacola"
+            android:text="@string/adicionar_na_sacola"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="18sp"
@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:imeOptions="actionDone"
-                android:hint="Observações" />
+                android:hint="@string/observacao" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView

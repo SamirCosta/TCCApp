@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
-            android:text="SACOLA VAZIA"
+            android:text="@string/sacola_vazia"
             android:fontFamily="@font/poppins_semibold"
             android:textColor="@color/colorAccent"
             android:textSize="20sp"
@@ -58,7 +58,7 @@
             android:layout_marginStart="13dp"
             android:layout_marginTop="13dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="SACOLA"
+            android:text="@string/sacola"
             android:textColor="@color/colorAccent"
             android:textSize="19sp" />
 
@@ -93,7 +93,7 @@
             android:layout_gravity="bottom"
             android:layout_marginBottom="56dp"
             android:background="#FF4242"
-            android:text="Finalizar compra"
+            android:text="@string/finalizar_compra"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 

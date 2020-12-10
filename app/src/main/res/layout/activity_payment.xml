@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:fontFamily="@font/poppins"
-                android:text="Seu pedido"
+                android:text="@string/seu_pedido"
                 android:textSize="40sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -122,7 +122,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="150dp"
-                android:hint="Complemento"
+                android:hint="@string/complemento"
                 app:layout_constraintEnd_toEndOf="@+id/viewEndPay"
                 app:layout_constraintStart_toStartOf="@+id/viewEndPay"
                 app:layout_constraintTop_toBottomOf="@+id/tvEndPay" />
@@ -157,7 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Forma de pagamento"
+                android:text="@string/forma_de_pagamento"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/formaPag"
@@ -246,7 +246,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="24dp"
-                android:text="CPF na nota (opcional)"
+                android:text="@string/cpf_na_nota_opcional"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="@+id/viewCpf"
@@ -332,7 +332,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Produtos"
+                    android:text="@string/produtos"
                     android:textSize="16sp" />
 
                 <TextView
@@ -351,7 +351,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="48dp"
-                    android:text="Descontos"
+                    android:text="@string/descontos"
                     android:textSize="16sp" />
 
                 <TextView
@@ -369,7 +369,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="80dp"
-                    android:text="Subtotal"
+                    android:text="@string/subtotal"
                     android:textSize="16sp" />
 
                 <TextView
@@ -398,7 +398,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Valor total"
+            android:text="@string/valor_total"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
@@ -420,7 +420,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginBottom="20dp"
             android:background="@drawable/btnlogin_shape"
-            android:text="Finalizar pedido"
+            android:text="@string/finalizar_pedido"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="18sp"

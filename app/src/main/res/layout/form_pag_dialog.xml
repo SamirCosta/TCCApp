@@ -10,7 +10,7 @@
         android:id="@+id/titleDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tipo de pagamento"
+        android:text="@string/tipo_de_pagamento"
         android:textSize="18sp"
         android:textColor="@color/colorAccent"
         android:textAllCaps="true"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:textSize="18sp"
-            android:text="Cartão de crédito" />
+            android:text="@string/cartao_de_credito" />
 
         <RadioButton
             android:id="@+id/rbDebito"
@@ -45,21 +45,21 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:textSize="18sp"
-            android:text="Cartão de débito" />
+            android:text="@string/cartao_de_debito" />
 
         <RadioButton
             android:id="@+id/rbDin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="Dinheiro" />
+            android:text="@string/dinheiro" />
     </RadioGroup>
 
     <TextView
         android:id="@+id/btnOkPag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK"
+        android:text="@string/ok"
         app:layout_constraintTop_toBottomOf="@id/radioGroupPag"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

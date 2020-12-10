@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins"
-        android:text="Peça aqui"
+        android:text="@string/peca_aqui"
         android:textColor="#EFEFEF"
         android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/textView20"

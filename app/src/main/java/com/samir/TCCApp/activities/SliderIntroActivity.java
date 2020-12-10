@@ -171,7 +171,10 @@ public class SliderIntroActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
 //                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
                 String email = null;
-                if (mAuth.getCurrentUser() != null) email = mAuth.getCurrentUser().getEmail();
+                FirebaseAuth au = FirebaseAuth.getInstance();
+                FirebaseUser fv = mAuth.getCurrentUser();
+                email = task.getResult().getUser().getEmail();
+//                email = mAuth.getCurrentUser().getEmail();
                 if (email != null) validateRegisterByEmail(email);
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SliderIntroActivity.this);

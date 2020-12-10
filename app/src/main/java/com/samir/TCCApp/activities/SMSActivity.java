@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.samir.TCCApp.DAO.ClientDAO;
 import com.samir.TCCApp.R;
 import com.samir.TCCApp.classes.Client;
+import com.samir.TCCApp.utils.Helper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,6 +79,7 @@ public class SMSActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (!editNumVer4.getText().toString().equals("") && !verify(editNumVer, editNumVer2, editNumVer3, editNumVer4)){
                     findViewById(R.id.progressBarVerCel).setVisibility(View.VISIBLE);
+                    Helper.hideKeyBoard(getApplicationContext(), findViewById(android.R.id.content));
                     openMain();
                 }
             }
